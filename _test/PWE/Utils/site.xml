@@ -1,0 +1,17 @@
+
+<url module="HTMLPage" keywords="test keywords" src='testNA.html' template="test.tpl">
+    <url link='nofile' src='none.txt'/>
+    <url module="HTMLPage" link='ok' src='test.html'/>
+    <url module="HTMLPage" link='menuTest' template="pwe.tpl" src='test.html'>
+        <url module="HTMLPage" link='menu_2_1' src='test.html'>
+        </url>
+        <url module="HTMLPage" link='menu_2_2' src='test.html'>
+            <url module="HTMLPage" link='menu_3_1' src='test.html'>
+            </url>
+            <url module="HTMLPage" link='menu_3_2' src='test.html'>
+            </url>
+        </url>
+        <url module="HTMLPage" link='menu_2_3' src='test.html'>
+        </url>
+    </url>
+</url>

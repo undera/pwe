@@ -1,0 +1,6 @@
+../../.htaccess usr/share/php/pwe/
+../../*.php usr/share/php/pwe/
+../../*.TXT usr/share/php/pwe/
+../../*.ico usr/share/php/pwe/
+../../PWE usr/share/php/pwe/
+

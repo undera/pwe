@@ -1,0 +1,11 @@
+Source: php5-pwe-framework-libs
+Maintainer: Andrey Pohilko <apc@apc.kg>
+Build-Depends: debhelper (>=5)
+Standards-Version: 3.7.2
+
+Package: php5-pwe-framework-libs
+Architecture: all
+Depends: php5, php-pear, php5-mysql, php5-gd, php-pear,
+    libmemcached-dev, build-essential
+Conflicts: smarty3
+Description: External libraries for Pluggable Web Engine Framework

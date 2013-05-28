@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<url class="PWE\Modules\HTMLPage\HTMLPage">
+    <url link="htmltest" class="PWE\Modules\HTMLPage\HTMLPage" src="test.html"/>
+    <url link="notready" class="PWE\Modules\HTMLPage\HTMLPage" src="test1.html"/>
+    <url link="nothtml" class="PWE\Modules\HTMLPage\HTMLPage" src="test1.xml"/>
+</url>

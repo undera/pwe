@@ -1,0 +1,1 @@
+{block name="content"}{PWE->getContent}{/block}

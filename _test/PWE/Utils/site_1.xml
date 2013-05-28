@@ -1,0 +1,20 @@
+
+<url module="SubPagesList">
+    <url link='none' module="SubPagesList" />
+    <url module="HTMLPage" format="list" link='list' >
+        <url module="HTMLPage" link='menu_2_1' src='test.html'/>
+        <url module="HTMLPage" link='menu_2_2' src='test.html'/>
+        <url module="HTMLPage" link='menu_2_3' src='test.html'/>
+    </url>
+    <url module="HTMLPage" format="table" columns="3" link='table' >
+        <url module="HTMLPage" link='menu_2_1' src='test.html'/>
+        <url module="HTMLPage" link='menu_2_2' src='test.html'/>
+        <url module="HTMLPage" link='menu_2_3' src='test.html'/>
+        <url module="HTMLPage" link='menu_2_1' src='test.html'/>
+        <url module="HTMLPage" link='menu_2_2' src='test.html'/>
+        <url module="HTMLPage" link='menu_2_3' src='test.html'/>
+        <url module="HTMLPage" link='menu_2_1' src='test.html'/>
+        <url module="HTMLPage" link='menu_2_2' src='test.html'/>
+        <url module="HTMLPage" link='menu_2_3' src='test.html'/>
+    </url>
+</url>

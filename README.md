@@ -1,4 +1,5 @@
-pwe
+Pluggable Web Engine
 ===
 
-Pluggable Web Engine: lightweight PHP framework
+Lightweight PHP framework, used to run http://loadosophia.org
+

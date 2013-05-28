@@ -1,0 +1,58 @@
+php5-pwe-framework (2.2.0) precise; urgency=low
+
+  * add cmdline mode to index.php
+  * add client port/pid to logging
+  * try to keep XML files consistent
+
+ -- Andrey Pohilko (undera) <undera@yandex-team.ru>  Sun, 26 May 2013 23:08:16 +0400
+
+php5-pwe-framework (2.1.3) precise; urgency=low
+
+  * use upgraded Doctrine
+
+ -- Andrey Pohilko (undera) <undera@yandex-team.ru>  Tue, 06 Nov 2012 20:42:22 +0400
+
+php5-pwe-framework (2.1.2) precise; urgency=low
+
+  * rename base exception class for http
+  * merge accept and accept limit
+  * minor refactoring
+
+ -- Andrey Pohilko (undera) <undera@yandex-team.ru>  Thu, 01 Nov 2012 17:16:40 +0400
+
+php5-pwe-framework (2.1.1) precise; urgency=low
+
+  * added more 2xx code constants
+
+ -- Andrey Pohilko (undera) <undera@yandex-team.ru>  Wed, 25 Jul 2012 14:08:14 +0400
+
+php5-pwe-framework (2.1.0) precise; urgency=low
+
+  * add php scripts to DB upgrade
+
+ -- Andrey Pohilko (undera) <undera@yandex-team.ru>  Thu, 19 Jul 2012 23:34:30 +0400
+
+php5-pwe-framework (2.0.3) quantal; urgency=low
+
+  * allow modules manager to have registry file passed to condstructor
+
+ -- Andrey Pohilko (undera) <undera@yandex-team.ru>  Sat, 30 Jun 2012 02:03:13 +0400
+
+php5-pwe-framework (2.0.2) quantal; urgency=low
+
+  * fix empty template warning
+  * fix wrong subdirectory mode detection
+
+ -- Andrey Pohilko (undera) <undera@yandex-team.ru>  Fri, 08 Jun 2012 17:26:30 +0400
+
+php5-pwe-framework (2.0.1) oneiric; urgency=low
+
+  * Fix overwriting amcharts in deb
+
+ -- Andrey Pohilko (undera) <undera@yandex-team.ru>  Sat, 18 Feb 2012 15:39:56 +0400
+
+php5-pwe-framework (2.0) stable; urgency=low
+
+  * Begin debian packaging
+
+ -- Andrey Pohilko (APC) <apc@apc.kg>  Sat, 04 Feb 2012 19:06:33 +0400

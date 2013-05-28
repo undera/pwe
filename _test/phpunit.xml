@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit>
+    <logging>
+        <log type="coverage-html" target="../build/coverage" title="PWE"
+       charset="UTF-8" yui="true" highlight="true"
+             lowUpperBound="35" highLowerBound="70"/>
+        <log type="coverage-clover" target="../build/logs/clover.xml"/>
+        <log type="junit" target="../build/logs/junit.xml" logIncompleteSkipped="true"/>
+    </logging>
+
+    <filter>
+        <whitelist>
+            <directory>../PWE</directory>
+        </whitelist>
+        
+    </filter>
+    
+</phpunit>
