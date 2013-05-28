@@ -1,4 +1,7 @@
 /lib/
 /nbproject/
 /build/
-/PWE/Lib/AmCharts/amcharts_2.9.3/
+/PWE/Lib/AmCharts/amcharts_*/
+debhelper.log
+substvars
+debian/dirs
