@@ -4,4 +4,4 @@
 /PWE/Lib/AmCharts/amcharts_*/
 debhelper.log
 substvars
-debian/dirs
+dirs
