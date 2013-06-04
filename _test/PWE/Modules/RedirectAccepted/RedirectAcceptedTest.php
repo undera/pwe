@@ -39,7 +39,7 @@ class RedirectAcceptedTest extends \PHPUnit_Framework_TestCase {
     public function testProcess() {
         $this->object->getPWE()->setStructFile(dirname(__FILE__) . '/redirect.xml');
         $this->object->getPWE()->setURL('/param/');
-        $_GET['getparam']='test';
+        $_GET['getparam'] = 'test';
         try {
             $this->object->process();
             $this->fail();

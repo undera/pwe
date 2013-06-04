@@ -20,6 +20,7 @@ class PWEModuleTest extends \PHPUnit_Framework_TestCase {
      * This method is called before a test is executed.
      */
     protected function setUp() {
+        
     }
 
     /**
@@ -32,7 +33,7 @@ class PWEModuleTest extends \PHPUnit_Framework_TestCase {
 
     public function test_getBaseLink() {
         $pwe = new \PWE\Core\UnitTestPWECore();
-        $pwe->setStructFile(dirname(__FILE__).'/modulestruct.xml');
+        $pwe->setStructFile(dirname(__FILE__) . '/modulestruct.xml');
         $pwe->setURL('/accept/');
         $this->object = new PWEModuleImpl($pwe);
         $this->assertEquals(".", $this->object->getBaseLink());
@@ -40,11 +41,12 @@ class PWEModuleTest extends \PHPUnit_Framework_TestCase {
 
     public function test_getBaseLink2() {
         $pwe = new \PWE\Core\UnitTestPWECore();
-        $pwe->setStructFile(dirname(__FILE__).'/modulestruct.xml');
+        $pwe->setStructFile(dirname(__FILE__) . '/modulestruct.xml');
         $pwe->setURL('/accept/123/');
         $this->object = new PWEModuleImpl($pwe);
         $this->assertEquals("./..", $this->object->getBaseLink());
     }
+
 }
 
 class PWEModuleImpl extends PWEModule {

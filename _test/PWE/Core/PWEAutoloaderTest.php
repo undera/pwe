@@ -60,10 +60,11 @@ class PWEAutoloaderTest extends \PHPUnit_Framework_TestCase {
         PWEAutoloader::doIt("PWE\Core\PWEAutoloader");
         PWEAutoloader::doIt("PWE\Core\PWEAutoloader");
     }
-    
+
     public function testWithUnderScores() {
         PWEAutoloader::doIt("OpenID_Discover");
     }
+
 }
 
 ?>

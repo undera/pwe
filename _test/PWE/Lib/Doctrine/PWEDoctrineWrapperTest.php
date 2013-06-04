@@ -21,7 +21,7 @@ class PWEDoctrineWrapperTest extends \PHPUnit_Framework_TestCase {
      */
     protected function setUp() {
         $pwe = new \PWE\Core\UnitTestPWECore();
-        $db_config = array('driverClass' => '\PWE\Lib\Doctrine\PWEDoctrineEmulator', 'charset'=>'utf8');
+        $db_config = array('driverClass' => '\PWE\Lib\Doctrine\PWEDoctrineEmulator', 'charset' => 'utf8');
         $db_settings['connection'][0]['!a'] = $db_config;
         /**
          * @var \PWE\Modules\TestPWEModulesManager

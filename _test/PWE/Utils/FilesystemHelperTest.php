@@ -43,7 +43,6 @@ class FilesystemHelperTest extends \PHPUnit_Framework_TestCase {
         FilesystemHelper::fsys_kbytes(100000);
         FilesystemHelper::fsys_filesize(__FILE__);
         FilesystemHelper::fsys_filesize(dirname(__FILE__));
-        
     }
 
 }

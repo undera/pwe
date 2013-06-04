@@ -35,7 +35,7 @@ class PWEXMLFunctionsTest extends \PHPUnit_Framework_TestCase {
      * @todo Implement testFindNodeWithAttributeValue().
      */
     public function testFindNodeWithAttributeValue() {
-        $nodes = array('!a'=>array());
+        $nodes = array('!a' => array());
         PWEXMLFunctions:: findNodeWithAttributeValue($nodes, 'test', 'test');
     }
 

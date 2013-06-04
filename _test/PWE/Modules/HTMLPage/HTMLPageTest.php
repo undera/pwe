@@ -46,6 +46,7 @@ class HTMLPageTest extends \PHPUnit_Framework_TestCase {
             
         }
     }
+
     public function testGetVisitorOutput_UnderConstr3() {
         $this->PWE->setURL("/nothtml/");
         $this->object = new HTMLPage($this->PWE);
