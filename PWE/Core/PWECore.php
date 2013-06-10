@@ -214,16 +214,17 @@ class PWECore extends AbstractPWECore implements SmartyAssociative {
 
         $this->setDisplayTemplate($this->structureNode['!i']['template']);
 
+        $params = $this->URL->getParamsAsArray(true);
+
         // если работаем с параметрами - убеждаемся что их количество допустимо
         if (isset($this->structureNode['!i']['accept'])) {
-            if (sizeof($this->URL->getParamsAsArray()) > $this->structureNode['!i']['accept']) {
+            if (sizeof($params) > $this->structureNode['!i']['accept']) {
                 PWELogger::warn("Defined accept limit " . $this->structureNode['!i']['accept'] . " has been exceeded: " . sizeof($this->URL->getParamsAsArray()));
                 throw new HTTP4xxException('URI parameters count exceeded', HTTP4xxException::BAD_REQUEST);
             }
-        }
-        // иначе ругаемся
-        else {
-            if (sizeof($this->URL->getParamsAsArray())) {
+        } else {
+            // иначе ругаемся
+            if (sizeof($params)) {
                 throw new HTTP4xxException("Requested page not found", HTTP4xxException::NOT_FOUND);
             }
         }
