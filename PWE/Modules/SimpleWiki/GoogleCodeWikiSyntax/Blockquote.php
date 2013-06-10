@@ -7,7 +7,7 @@ namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
  */
 class Blockquote extends \WikiRenderer\Block {
 	public $type = 'bq';
-	protected $regexp = "/^(\>+)(.*)/";
+	protected $regexp = "/^(\ +)(.*)/";
 
 	public function open() {
 		$this->_previousTag = $this->_detectMatch[1];

@@ -1,0 +1,635 @@
+#summary The reference to the wiki syntax for Google Code projects
+#labels Restrict-AddWikiComment-Commit
+= Wiki Syntax =
+<wiki:toc max_depth="2" /> 
+
+= Introduction =
+
+Each wiki page is stored in a .wiki file under the /wiki directory in
+a project's repository.  Each file's name is the same as the wiki page
+name.  And, each wiki file consists of optional pragma lines followed
+by the content of the page.
+
+= Pragmas =
+
+Optional pragma lines provide metadata about the page and how it should be
+displayed. These lines are only processed if they appear at the top of
+the file.  Each pragma line begins with a pound-sign (#) and the
+pragma name, followed by a value.
+
+|| *Pragma*   || *Value*  ||
+|| #summary   || One-line summary of the page ||
+|| #labels    || Comma-separated list of labels (filled in automatically via the web UI) ||
+|| #sidebar   || See [http://code.google.com/p/support/wiki/WikiSyntax#Side_navigation Side navigation] ||
+
+= Wiki-style markup =
+
+== Paragraphs ==
+
+Use one or more blank lines to separate paragraphs. 
+
+== Typeface ==
+
+||* Name/Sample*   || * Markup *       ||
+||  _italic_       || `_italic_`       ||
+||  *bold*         || `*bold*`         ||
+||  `code`         || {{{`code`}}}     ||
+||  {{{code}}}     || `{{{code}}}`     ||
+||  ^super^script  || `^super^script`  ||
+||  ,,sub,,script  || `,,sub,,script`  ||
+|| ~~strikeout~~   || `~~strikeout~~`  ||
+
+You can mix these typefaces in some ways:
+
+||       *Markup*                    ||        *Result*                 ||
+|| `_*bold* in italics_`             || _*bold* in italics_             ||
+|| `*_italics_ in bold*`             || *_italics_ in bold*             ||
+|| `*~~strike~~ works too*`          || *~~strike~~ works too*          ||
+|| `~~as well as _this_ way round~~` || ~~as well as _this_ way round~~ ||
+
+== Code ==
+
+If you have a multiline code block that you want to display verbatim,
+use the multiline code delimiter:
+
+{{{
+{{{
+def fib(n):
+  if n == 0 or n == 1:
+    return n
+  else:
+    # This recursion is not good for large numbers.
+    return fib(n-1) + fib(n-2)
+}}}
+}}}
+
+Which results in:
+
+{{{
+def fib(n):
+  if n == 0 or n == 1:
+    return n
+  else:
+    # This recursion is not good for large numbers.
+    return fib(n-1) + fib(n-2)
+}}}
+
+For more control over the syntax higlighting, the `<code>` tag allows you to specify a file extension:
+
+{{{
+<code language="xml">
+<hello target="world"/>
+</code>
+}}}
+
+To disable highlighting entirely, use the `<pre>` tag.
+
+== Headings ==
+
+{{{
+= Heading =
+== Subheading ==
+=== Level 3 ===
+==== Level 4 ====
+===== Level 5 =====
+====== Level 6 ======
+}}}
+
+== Dividers ==
+
+Four or more dashes on a line by themselves results in a horizontal rule.
+
+
+== Lists ==
+
+Google Code wikis support both bulleted and numbered lists. A list
+must be indented at least one space to be recognized as such. You can
+also nest lists one within the other by appropriate use of indenting:
+
+{{{
+The following is:
+  * A list
+  * Of bulleted items
+    # This is a numbered sublist
+    # Which is done by indenting further
+  * And back to the main bulleted list
+
+ * This is also a list
+ * With a single leading space
+ * Notice that it is rendered
+  # At the same levels
+  # As the above lists.
+ * Despite the different indentation levels.
+}}}
+
+The following is:
+  * A list
+  * Of bulleted items
+    # This is a numbered sublist
+    # Which is done by indenting further
+  * And back to the main bulleted list
+
+ * This is also a list
+ * With a single leading space
+ * Notice that it is rendered
+  # At the same levels
+  # As the above lists.
+ * Despite the different indentation levels.
+
+== Quoting ==
+
+Block quotes place emphasis on a particular extract of text in your
+page. Block quotes are created by indenting a paragraph by at least
+one space:
+
+{{{
+Someone once said:
+
+  This sentence will be quoted in the future as the canonical example
+  of a quote that is so important that it should be visually separate
+  from the rest of the text in which it appears.
+}}}
+
+Someone once said:
+
+  This sentence will be quoted in the future as the canonical example
+  of a quote that is so important that it should be visually separate
+  from the rest of the text in which it appears.
+
+== Links ==
+
+Links are central to the wiki principle, as they create the web of
+content. Google Code wiki permits both internal (within the wiki) and
+external links, and in some cases automatically creates a link when it
+recognizes either a !WikiWord or an URL.
+
+=== Internal wiki links ===
+
+Internal links within a wiki are created using the syntax below. If
+you add a wiki link to a page that does not exist, the link will
+appear with a !LittleLink[WikiSyntax ?] to project committers and
+owners. Clicking that link will take you to the page creation form
+where you can enter content for that page.
+
+If you are not logged in, wiki links that point to non-existent pages
+will appear as plain text, without the link to the page creation
+form. When you create the target page,
+the link will become a normal hyperlink for all viewers of
+the page.
+
+{{{
+WikiSyntax is identified and linked automatically
+
+Wikipage is not identified, so if you have a page named [Wikipage] you
+need to link it explicitly.
+
+If the WikiSyntax page is actually about reindeers, you can provide a
+description, so that people know you are actually linking to a page on
+[WikiSyntax reindeer flotillas].
+
+If you want to mention !WikiSyntax without it being autolinked, use an
+exclamation mark to prevent linking.
+}}}
+
+WikiSyntax is identified and linked automatically
+
+Wikipage is not identified, so if you have a page named [Wikipage] you
+need to link it explicitly.
+
+If the WikiSyntax page is actually about reindeers, you can provide a
+description, so that people know you are actually linking to a page on
+[WikiSyntax reindeer flotillas].
+
+If you want to mention !WikiSyntax without it being autolinked, use an
+exclamation mark to prevent linking.
+
+=== Links to anchors within a page ===
+
+Each heading defines a HTML anchor with the same name as the heading, but with spaces replaced by underscores. You can
+create a link to a specific heading on a page like this:
+
+{{{
+[WikiSyntax#Wiki-style_markup]
+}}}
+
+And it will render as: [WikiSyntax#Wiki-style_markup].
+
+=== Links to issues and revisions ===
+
+You can easily link to issues and revisions using the following syntax.
+
+  * `issue 123` will be autolinked to issue number 123 in the current project.  You can include a `#` or not.  If the issue has been closed, the link will appear as a cross-out rather than an underline.  Hovering your mouse over such a link shows the issue summary.
+
+  * `issue PROJECTNAME:122` will be autolinked to that issue number in the specified project.  This is useful when your project depends on work being done in related projects.
+
+  * `r123` will be autolinked to the revision detail page for that revision in the current project.
+
+There is currently no way to disable this type of autolinking. See issue 996.
+
+{{{
+For example: Please add a comment on issue 123 rather than adding more review comments to r456. 
+}}}
+
+Renders as: Please add a comment on issue 123 rather than adding more review comments to r456.
+
+
+=== Links to external pages ===
+
+You can of course link to external pages from your own wiki pages,
+using a syntax similar to that for internal links:
+
+{{{
+Plain URLs such as http://www.google.com/ or ftp://ftp.kernel.org/ are
+automatically made into links.
+
+You can also provide some descriptive text. For example, the following
+link points to the [http://www.google.com Google home page].
+
+If your link points to an image, it will get inserted as an image tag
+into the page:
+
+http://code.google.com/images/code_sm.png
+
+You can also make the image into a link, by setting the image URL as
+the description of the URL you want to link:
+
+[http://code.google.com/ http://code.google.com/images/code_sm.png]
+}}}
+
+Plain URLs such as http://www.google.com/ or ftp://ftp.kernel.org/ are
+automatically made into links.
+
+You can also provide some descriptive text. For example, the following
+link points to the [http://www.google.com Google home page].
+
+You can also make the image into a link, by setting the image URL as
+the description of the URL you want to link:
+
+{{{
+[http://code.google.com/ http://code.google.com/images/code_sm.png]
+}}}
+
+[http://code.google.com/ http://code.google.com/images/code_sm.png]
+
+
+=== Links to images ===
+
+If your link points to an image (that is, if it ends in `.png`,
+`.gif`, `.jpg` or `.jpeg`), it will get inserted as an image into the
+page:
+
+{{{
+http://code.google.com/images/code_sm.png
+}}}
+
+http://code.google.com/images/code_sm.png
+
+If the image is produced by a server-side script, you may need to add a nonsense query string parameter to the end so that the URL ends with a supported image filename extension.
+
+{{{
+http://chart.apis.google.com/chart?chs=200x125&chd=t:48.14,33.79,19.77|83.18,18.73,12.04&cht=bvg&nonsense=something_that_ends_with.png
+}}}
+
+http://chart.apis.google.com/chart?chs=200x125&chd=t:48.14,33.79,19.77|83.18,18.73,12.04&cht=bvg&nonsense=something_that_ends_with.png
+
+== Tables ==
+
+Tables are created by entering the content of each cell separated by
+{{{||}}} delimiters. You can insert other inline wiki syntax in table
+cells, including typeface formatting and links.
+
+{{{
+|| *Year* || *Temperature (low)* || *Temperature (high)* ||
+|| 1900 || -10 || 25 ||
+|| 1910 || -15 || 30 ||
+|| 1920 || -10 || 32 ||
+|| 1930 || _N/A_ || _N/A_ ||
+|| 1940 || -2 || 40 ||
+}}}
+
+|| *Year* || *Temperature (low)* || *Temperature (high)* ||
+|| 1900 || -10 || 25 ||
+|| 1910 || -15 || 30 ||
+|| 1920 || -10 || 32 ||
+|| 1930 || _N/A_ || _N/A_ ||
+|| 1940 || -2 || 40 ||
+
+
+
+
+
+
+
+
+= HTML support =
+To aid in the presentation of a wiki page there is some support for HTML. HTML tags are only supported in wiki pages, not in page comments.
+
+HTML syntax can be used in conjunction with wiki syntax, but it is recommended against doing so where possible.<wiki:comment>Also, avoid blank lines between list items.</wiki:comment>
+
+The following HTML tags and attributes are currently supported:
+
+<table border=1>
+<thead><th>HTML Tag</th><th>Supported Attributes</th></thead>
+<tbody>
+<tr><td>a</td><td>title dir lang href</td></tr>
+<tr><td>b</td><td>title dir lang</td></tr>
+<tr><td>br</td><td>title dir lang</td></tr>
+<tr><td>blockquote</td><td>title dir lang</td></tr>
+<tr><td>code</td><td>title dir lang language `[1]`</td></tr>      
+<tr><td>dd</td><td>title dir lang</td></tr>
+<tr><td>div</td><td>title dir lang</td></tr>
+<tr><td>dl</td><td>title dir lang</td></tr>      
+<tr><td>dt</td><td>title dir lang</td></tr>      
+<tr><td>em</td><td>title dir lang</td></tr>      
+<tr><td>font</td><td>title dir lang face size color</td></tr>      
+<tr><td>h1</td><td>title dir lang</td></tr>      
+<tr><td>h2</td><td>title dir lang</td></tr>      
+<tr><td>h3</td><td>title dir lang</td></tr>      
+<tr><td>h4</td><td>title dir lang</td></tr>      
+<tr><td>h5</td><td>title dir lang</td></tr>      
+<tr><td>i</td><td>title dir lang</td></tr>      
+<tr><td>img</td><td>title dir lang src alt border height width align</td></tr>  
+<tr><td>li</td><td>title dir lang</td></tr>      
+<tr><td>ol</td><td>title dir lang type start</td></tr>    
+<tr><td>p</td><td>title dir lang align</td></tr>     
+<tr><td>pre</td><td>title dir lang</td></tr>      
+<tr><td>q</td><td>title dir lang</td></tr>      
+<tr><td>s</td><td>title dir lang</td></tr>      
+<tr><td>span</td><td>title dir lang</td></tr>      <tr><td>strike</td><td>title dir lang</td></tr>      <tr><td>strong</td><td>title dir lang</td></tr>      
+<tr><td>sub</td><td>title dir lang</td></tr>      
+<tr><td>sup</td><td>title dir lang</td></tr>  
+<tr><td>table</td><td>title dir lang align valign cellspacing cellpadding border width height</td></tr>  
+<tr><td>tbody</td><td>title dir lang align valign cellspacing cellpadding border width height</td></tr>  
+<tr><td>td</td><td>title dir lang align valign cellspacing cellpadding border width height</td></tr>  
+<tr><td>tfoot</td><td>title dir lang align valign cellspacing cellpadding border width height</td></tr>  
+<tr><td>th</td><td>title dir lang align valign cellspacing cellpadding border width height</td></tr>  
+<tr><td>thead</td><td>title dir lang align valign cellspacing cellpadding border width height colspan rowspan</td></tr>
+<tr><td>tr</td><td>title dir lang align valign cellspacing cellpadding border width height colspan rowspan</td></tr>
+<tr><td>tt</td><td>title dir lang</td></tr>      
+<tr><td>u</td><td>title dir lang</td></tr>      
+<tr><td>ul</td><td>title dir lang type</td></tr>     
+<tr><td>var</td><td>title dir lang</td></tr>      </tbody>
+</table>
+
+`[1]` The language attribute of the code tag is the file extension of the language used in the code block. It is used as a hint for the syntax highlighter.
+
+== Escaping HTML Tags ==
+
+When you want to display html tags directly on your wiki page (as opposed to rendered), you will need to escape each HTML tag. 
+
+HTML tags can be escaped as shown in the table below:
+<table border="1">
+<thead><th>Markup</th><th>Result</th></thead>
+<tbody>
+<tr><td> {{{`<hr>`}}}</td><td>`<hr>`</td></tr>
+<tr><td> `{{{<hr>}}}`</td><td>{{{<hr>}}}</td></tr>
+</tbody>
+</table>
+
+<br/>
+
+= Comments =
+
+The wiki supports embedded comments to help explain the contents of a wiki page. Anything inside the comment block is removed from the rendered page, but is visible when editing or viewing the source for that page.
+
+{{{
+<wiki:comment>
+This text will be removed from the rendered page.
+</wiki:comment>
+}}}
+
+= +1 Button =
+
+Use `<g:plusone></g:plusone>` to add a [http://www.google.com/+1/button/ +1 button] to the page. Example:
+
+{{{
+<g:plusone size="medium"></g:plusone>
+}}}
+
+<g:plusone size="medium"></g:plusone>
+
+The count, size, and href parameters are supported; see http://code.google.com/apis/+1button/ for documentation.
+
+= Gadgets =
+
+You can embed [http://www.google.com/ig/directory?synd=open Gadgets] on your wiki pages with the following syntax:
+
+{{{
+<wiki:gadget url="http://example.com/gadget.xml" height="200" border="0" /> 
+}}}
+
+Valid attributes are:
+ * `url`: the URL of the gadget
+ * `width`: the width of the gadget
+ * `height`: the height of the gadget
+ * `title`: a title to display above the gadget
+ * `border`: "0" or "1", whether to draw a border around the gadget
+ * `up_*`: Gadget user preference parameters
+ * `caja`: "0" or "1", whether to use Caja to render the gadget.  [http://code.google.com/p/google-caja Caja] helps protect users from malicious or accidental errors in third party gadgets.
+
+WorkingWithGoogleGadgets describes how to create gadgets for Google Code. It also provides  a few helpful suggestions that can make it easier to publish gadgets and to integrate with other Google products such as iGoogle.
+
+InterestingDeveloperGadgets shows some sample gadgets you may want to include on your project pages.
+
+= Videos =
+
+You can embed videos with the following syntax:
+
+{{{
+<wiki:video url="http://www.youtube.com/watch?v=3LkNlTNHZzE"/>
+}}}
+
+Valid attributes are:
+ * `url`: the URL of the video
+ * `width`: the width of the embedded video
+ * `height`: the height of the embedded video
+
+Right now we support videos from YouTube,. Other video sites may be embeddable via a gadget, as described above.
+
+= Navigation =
+== Table of Contents ==
+
+An inline table of contents can be generated from page headers on a wiki page. Add the following syntax to a page in the location the table of contents should be displayed:
+
+{{{
+<wiki:toc max_depth="1" />
+}}}
+
+Valid attributes are:
+ * `max_depth`: the maximum header depth to display in the table of contents
+
+== Side navigation ==
+
+You can specify the sidebar for a wiki page by selecting another wiki page that defines your side navigation. The [http://code.google.com/p/guava-libraries/wiki/GuavaExplained?tm=6 Guava project] uses the sidebar extensively across its wiki.
+
+One way of adding a sidebar is by setting the #sidebar pragma, as shown below. Alternatively, the sidebar pragma can be left blank if no side navigation is desired. 
+
+|| #sidebar !TableOfContents ||
+
+The side navigation that is defined should be in the format of a simple list, as shown below. 
+
+{{{
+  * [Articles HOWTO articles]
+    * [ArticlesXSS Web security]
+    * [ArticlesDom DOM manipulation]
+    * [ArticlesStyle CSS and style]
+    * [ArticlesTips Tips and tricks]
+  * [DOMReference DOM reference]
+  * [HTMLElements HTML reference]
+  * [CSSReference CSS reference]
+}}}
+
+A default sidebar page can also be specified for all wiki pages by project owners through the Wiki settings in the Administer tab. If a #sidebar pragma is also specified, it will take precedence on the page.
+
+= Localizing Wiki Content = 
+
+Along with the default language for the wiki, which can be set through the Wiki settings in the Administer tab, additional languages are also supported. If more than one language is available, based on a user's language preference (e.g. browser language), the wiki will try to serve the page for the appropriate language. If no wiki page exists for that language, it will fall back to the default language. Comments, however, are shared amongst all translations of a wiki page.
+
+New translations for a page cannot be added through the web interface and have to be added through the Subversion repository. 
+
+To add a translation of a page, first checkout the wiki from Subversion: <br/>
+`svn checkout https://`<b>yourproject</b>`.googlecode.com/svn/wiki/` <b>yourdirectory</b> `-username` <b>yourusername</b>
+
+Then create a new directory under /wiki/ using the two letter ISO-639 code as the name of that directory. Place all translated files in the new directory and submit those changes to the Subversion repository. 
+
+The following is an example of a valid wiki directory:
+{{{
+wiki/
+   ja/
+      ProjectHistory.wiki
+      StyleGuide.wiki
+   zh-Hans/
+      ProjectHistory.wiki
+      StyleGuide.wiki
+   zh-Hant/
+      ProjectHistory.wiki
+      StyleGuide.wiki
+   ProjectHistory.wiki
+   StyleGuide.wiki
+}}}
+
+Once the files have been submitted to the project's subversion repository, they can now be edited through the wiki's web editor. The process is the same for Mercurial or Git projects, except that the wiki lives in the root directory (not wiki/) of `https://wiki.`<b>yourproject</b>`.googlecode.com/hg/` or `https://wiki.`<b>yourproject</b>`.googlecode.com/git/`.
+
+Note: The wiki accepts a subset of ISO-639 two letter language codes, where a few of the codes (such as zh_Hans) contain locale-specific codes. Such locale-specific codes should use a hyphen (zh-Hans) separator. A few example language codes have been specified in the table below.
+
+<table border=1>
+<tbody><tr>
+<th style="padding: 4px 4px 4px 8px;" scope="col"> Language (Locale)</th>
+<th style="padding: 4px 4px 4px 8px;" scope="col"> Directory Name
+</th>
+</tr>
+<tr>
+<td>Arabic</td>
+<td>ar</td>
+</tr>
+<tr>
+<td>Bulgarian</td>
+<td>bg</td>
+</tr>
+<tr>
+<td>Chinese (China)</td>
+<td>zh-Hans</td>
+</tr>
+<tr>
+<td>Chinese (Taiwan)</td>
+<td>zh-Hant</td>
+</tr>
+<tr>
+<td>Croatian</td>
+<td>hr</td>
+</tr>
+<tr>
+<td>Czech</td>
+<td>cs</td>
+</tr>
+<tr>
+<td>Danish</td>
+<td>da</td>
+</tr>
+<tr>
+<td>Dutch</td>
+<td>nl</td>
+</tr>
+<tr>
+<td>English (United Kingdom)</td>
+<td>en-GB</td>
+</tr>
+<tr>
+<td>English (United States)</td>
+<td>en-US</td>
+</tr>
+<tr>
+<td>Finnish</td>
+<td>fi</td>
+</tr>
+<tr>
+<td>French</td>
+<td>fr</td>
+</tr>
+<tr>
+<td>German</td>
+<td>de</td>
+</tr>
+<tr>
+<td>Greek</td>
+<td>el</td>
+</tr>
+<tr>
+<td>Hebrew</td>
+<td>he</td>
+</tr>
+<tr>
+<td>Hungarian</td>
+<td>hu</td>
+</tr>
+<tr>
+<td>Italian</td>
+<td>it</td>
+</tr>
+<tr>
+<td>Japanese</td>
+<td>ja</td>
+</tr>
+<tr>
+<td>Korean</td>
+<td>ko</td>
+</tr>
+<tr>
+<td>Norwegian</td>
+<td>no</td>
+</tr>
+<tr>
+<td>Polish</td>
+<td>pl</td>
+</tr>
+<tr>
+<td>Portuguese (Brazil)</td>
+<td>pt-BR</td>
+</tr>
+<tr>
+<td>Romanian</td>
+<td>ro</td>
+</tr>
+<tr>
+<td>Russian</td>
+<td>ru</td>
+</tr>
+<tr>
+<td>Slovak</td>
+<td>sk</td>
+</tr>
+<tr>
+<td>Spanish</td>
+<td>es</td>
+</tr>
+<tr>
+<td>Swedish</td>
+<td>sv</td>
+</tr>
+<tr>
+<td>Turkish</td>
+<td>tr</td>
+</tr>
+</tbody></table>
+
+_The content on this page created by Google is licensed under the [http://creativecommons.org/licenses/by/3.0/ Creative Commons Attribution 3.0 License].  User-generated content is not included in this license._

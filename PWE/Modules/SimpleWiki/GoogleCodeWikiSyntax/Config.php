@@ -2,16 +2,7 @@
 
 namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
 
-/**
- * SkrivMarkup configuration object.
- * This object is based on the WikiRenderer project created by Laurent Jouanneau.
- *
- * @author	Amaury Bouchard <amaury@amaury.net>
- * @copyright	© 2012-2013, Amaury Bouchard
- * @package	SkrivMarkup
- * @see		WikiRenderer
- */
-class Config extends Config {
+class Config extends \WikiRenderer\Config {
 
     /** ??? */
     public $defaultTextLineContainer = '\WikiRenderer\HtmlTextLine';
@@ -100,7 +91,7 @@ class Config extends Config {
      * 		- bool		ext-date		Activate the <<date>> extension. (default: true)
      * @param	\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Config	parentConfig	Parent configuration object, for recursive calls.
      */
-    public function __construct(array $param = null, \PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Config $parentConfig = null) {
+    public function __construct(array $param = null, Config $parentConfig = null) {
         // creation of the default parameters array
         $randomId = base_convert(rand(0, 50000), 10, 36);
         $this->_params = array(
@@ -192,7 +183,7 @@ class Config extends Config {
      * @return	\Skriv\Markup\\Html\Config	The new configuration object.
      */
     public function subConstruct() {
-        return (new Config2($this->_params, $this));
+        return (new Config($this->_params, $this));
     }
 
     /*     * ************** PARAMETERS MANAGEMENT ************* */
@@ -248,11 +239,6 @@ class Config extends Config {
      * @return	string	The text that will be parsed.
      */
     public function onStart($text) {
-        // process of smileys and other special characters
-        if ($this->getParam('convertSmileys'))
-            $text = Smiley::convertSmileys($text);
-        if ($this->getParam('convertSymbols'))
-            $text = Smiley::convertSymbols($text);
         // if a specific pre-parse function was defined, it is called
         $func = $this->getParam('preParseFunction');
         if (isset($func))
