@@ -2,9 +2,8 @@
 
 namespace PWE\Core;
 
-use \RuntimeException;
 use PWE\Core\PWELogger;
-use PWE\Utils\PWEXML;
+use RuntimeException;
 
 abstract class PWEAutoloader {
 
@@ -144,7 +143,7 @@ abstract class PWEAutoloader {
         $paths = self::$sourceRoots;
 
         while ($dir = array_shift($paths)) {
-            PWELogger::debug("Looking in $dir");
+            //PWELogger::debug("Looking in $dir");
             if (self::load2Variants($name, $dir))
                 return true;
 
@@ -161,7 +160,7 @@ abstract class PWEAutoloader {
     }
 
     private static function loadClassFromPath($name, $path) {
-        PWELogger::debug("Searching class $name in $path");
+        //PWELogger::debug("Searching class $name in $path");
         if (self::$core) {
             $srcs = self::$sourceRoots;
 

@@ -3,18 +3,18 @@
 namespace PWE\Modules\HTMLPage;
 
 use PWE\Core\PWECore;
-use PWE\Modules\PWEModule;
-use PWE\Modules\Outputable;
 use PWE\Core\PWELogger;
 use PWE\Core\PWEURL;
 use PWE\Exceptions\HTTP4xxException;
+use PWE\Modules\Outputable;
+use PWE\Modules\PWEModule;
 use PWE\Modules\Setupable;
 
 class HTMLPage extends PWEModule implements Outputable, Setupable {
 
     // функция проверки ХТМности имени файла
     private function isHTMfile($f) {
-        $file_parts=explode('.', $f);
+        $file_parts = explode('.', $f);
         $tmp = strtolower(end($file_parts));
         return in_array($tmp, array('htm', 'html'));
     }
@@ -39,7 +39,6 @@ class HTMLPage extends PWEModule implements Outputable, Setupable {
             PWELogger::debug("HTML File: $src");
             // показываем его
             $smarty = $this->PWE->getSmarty();
-            $node = $this->PWE->getNode();
             $smarty->assign('content', file_get_contents($src));
             $smarty->setTemplateFile(dirname(__FILE__) . "/HTMLPage.tpl");
             $this->PWE->addContent($smarty);
@@ -57,7 +56,7 @@ class HTMLPage extends PWEModule implements Outputable, Setupable {
 
     public static function setup(PWECore $pwe, array &$registerData) {
         if (!is_dir(self::getHTMLDirectory($pwe))) {
-            PWELogger::info("Creating HTML directory: ".self::getHTMLDirectory($pwe));
+            PWELogger::info("Creating HTML directory: " . self::getHTMLDirectory($pwe));
             mkdir(self::getHTMLDirectory($pwe), null, true);
         }
     }

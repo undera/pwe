@@ -2,7 +2,8 @@
 
 namespace PWE\Core;
 
-use PWE\Modules\UnitTestModulesManager;
+use PWE\Modules\PWEModulesManager;
+use PWE\Modules\TestPWEModulesManager;
 use PWE\Utils\FilesystemHelper;
 
 /**
@@ -25,7 +26,7 @@ class UnitTestPWECore extends PWECore {
         $this->setDataDirectory($tmp);
         $this->setXMLDirectory($tmp);
         $this->setTempDirectory($tmp);
-        $this->createModulesManager(new \PWE\Modules\TestPWEModulesManager($this));
+        $this->createModulesManager(new TestPWEModulesManager($this));
 
         $this->setStructFile(dirname(__FILE__) . "/../../dummyStruct.xml");
     }

@@ -170,7 +170,7 @@ class PWECore extends AbstractPWECore implements SmartyAssociative {
 
     /**
      *
-     * @param <type> $structureNode
+     * @param array $structureNode
      * @return PWEModule
      */
     public function getModuleInstance($structureNode) {

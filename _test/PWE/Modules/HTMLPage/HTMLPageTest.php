@@ -3,6 +3,7 @@
 namespace PWE\Modules\HTMLPage;
 
 use PWE\Core\UnitTestPWECore;
+use PWE\Exceptions\HTTP4xxException;
 
 require_once dirname(__FILE__) . '/../../../PWEUnitTests.php';
 
@@ -30,7 +31,7 @@ class HTMLPageTest extends \PHPUnit_Framework_TestCase {
         try {
             $this->object->process();
             $this->fail();
-        } catch (\PWE\Exceptions\HTTP4xxException $e) {
+        } catch (HTTP4xxException $e) {
             
         }
     }
@@ -42,7 +43,7 @@ class HTMLPageTest extends \PHPUnit_Framework_TestCase {
         try {
             $this->object->process();
             $this->fail();
-        } catch (\PWE\Exceptions\HTTP4xxException $e) {
+        } catch (HTTP4xxException $e) {
             
         }
     }
@@ -54,7 +55,7 @@ class HTMLPageTest extends \PHPUnit_Framework_TestCase {
         try {
             $this->object->process();
             $this->fail();
-        } catch (\PWE\Exceptions\HTTP4xxException $e) {
+        } catch (HTTP4xxException $e) {
             
         }
     }
