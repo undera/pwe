@@ -1,6 +1,6 @@
 <?php
 
-namespace Skriv\Markup\Html;
+namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
 
 /** Extension for date manipulation. */
 class ExtDate extends \WikiRenderer\TagXhtml {

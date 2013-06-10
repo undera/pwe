@@ -1,13 +1,14 @@
 <?php
 
-namespace Skriv\Markup\Html;
+namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
 
-/**
- * Gestion du texte en gras.
- */
-class Strong extends \WikiRenderer\TagXhtml {
-	protected $name = 'strong';
-	public $beginTag = '**';
-	public $endTag = '**';
+use WikiRenderer\TagXhtml;
+
+class Strong extends TagXhtml {
+
+    protected $name = 'strong';
+    public $beginTag = '**';
+    public $endTag = '**';
+
 }
 

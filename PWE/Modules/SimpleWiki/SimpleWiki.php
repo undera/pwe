@@ -8,7 +8,6 @@ use PWE\Exceptions\HTTP5xxException;
 use PWE\Lib\Smarty\SmartyWrapper;
 use PWE\Modules\Outputable;
 use PWE\Modules\PWEModule;
-use WikiRenderer\Markup\DokuHtml\Config;
 use WikiRenderer\Renderer;
 
 class SimpleWiki extends PWEModule implements Outputable {
@@ -29,7 +28,7 @@ class SimpleWiki extends PWEModule implements Outputable {
             PWELogger::error("Not found wiki file: $file");
             throw new HTTP4xxException("Wiki page not found", HTTP4xxException::NOT_FOUND);
         }
-        
+
         $smarty = new SmartyWrapper($this->PWE);
         $smarty->setTemplateFile(dirname(__FILE__) . '/wiki.tpl');
         $smarty->assign('content', $this->renderPage($file));
@@ -37,7 +36,7 @@ class SimpleWiki extends PWEModule implements Outputable {
     }
 
     public function renderPage($page) {
-        $w = new Renderer(new Config());
+        $w = new Renderer(new \PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Config());
         $text = file_get_contents($page);
         $res = $w->render($text);
         return $res;

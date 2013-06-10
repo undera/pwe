@@ -1,6 +1,6 @@
 <?php
 
-namespace Skriv\Markup\Html;
+namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
 
 /**
  * traite les signes de types table

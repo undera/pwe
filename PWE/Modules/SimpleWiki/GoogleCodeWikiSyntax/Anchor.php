@@ -1,6 +1,6 @@
 <?php
 
-namespace Skriv\Markup\Html;
+namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
 
 class Anchor extends \WikiRenderer\TagXhtml {
 	protected $name = 'anchor';

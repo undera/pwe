@@ -1,6 +1,6 @@
 <?php
 
-namespace Skriv\Markup\Html;
+namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
 
 /** Management of paragraph blocks of text. */
 class Paragraph extends \WikiRenderer\Block {

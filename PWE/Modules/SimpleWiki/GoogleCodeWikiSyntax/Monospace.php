@@ -1,6 +1,6 @@
 <?php
 
-namespace Skriv\Markup\Html;
+namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
 
 /** Gestion de texte monospace. */
 class Monospace extends \WikiRenderer\TagXhtml {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Skriv\Markup\Html;
+namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
 
 /** Gestion des paragraphes avec style CSS. */
 class StyledBlock extends \WikiRenderer\Block {

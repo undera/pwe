@@ -1,8 +1,8 @@
 <?php
 
-namespace Skriv\Markup\Html;
+namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
 
-class Abbr extends \WikiRenderer\TagXhtml {
+class Abbr extends TagXhtml {
 	protected $name = 'abbr';
 	public $beginTag = '??';
 	public $endTag = '??';
