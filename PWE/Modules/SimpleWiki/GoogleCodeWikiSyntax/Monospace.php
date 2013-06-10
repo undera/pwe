@@ -2,16 +2,18 @@
 
 namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
 
-/** Gestion de texte monospace. */
-class Monospace extends \WikiRenderer\TagXhtml {
-	protected $name = 'tt';
-	public $beginTag = '##';
-	public $endTag = '##';
+use WikiRenderer\TagXhtml;
 
-	/*
-	public function isOtherTagAllowed() {
-		return false;
-	}
-	*/
+class Monospace extends TagXhtml {
+
+    protected $name = 'tt';
+    public $beginTag = '##';
+    public $endTag = '##';
+
+    /*
+      public function isOtherTagAllowed() {
+      return false;
+      }
+     */
 }
 

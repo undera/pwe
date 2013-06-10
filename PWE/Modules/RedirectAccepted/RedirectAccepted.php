@@ -2,16 +2,11 @@
 
 namespace PWE\Modules\RedirectAccepted;
 
-use PWE\Modules\PWEModule;
-use PWE\Modules\Outputable;
-
-use PWE\Exceptions\HTTP4xxException;
 use PWE\Exceptions\HTTP3xxException;
-/**
- * Description of RedirectAccepted
- *
- * @author undera
- */
+use PWE\Exceptions\HTTP4xxException;
+use PWE\Modules\Outputable;
+use PWE\Modules\PWEModule;
+
 class RedirectAccepted extends PWEModule implements Outputable {
 
     public function process() {

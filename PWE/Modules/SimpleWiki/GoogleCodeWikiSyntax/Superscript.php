@@ -7,7 +7,7 @@ namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
  */
 class Superscript extends \WikiRenderer\TagXhtml {
 	protected $name = 'sup';
-	public $beginTag = '^^';
-	public $endTag = '^^';
+	public $beginTag = '^';
+	public $endTag = '^';
 }
 

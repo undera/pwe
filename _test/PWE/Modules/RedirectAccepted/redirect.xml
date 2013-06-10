@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
 
-<url base="/" accept="1">
+<url base="/redir/" accept="1">
 <!--    <url link="test" ></url> -->
 </url>

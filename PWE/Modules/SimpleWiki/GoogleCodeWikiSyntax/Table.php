@@ -8,7 +8,7 @@ class Table extends Block {
 
     public $type = 'table';
     protected $regexp = "/^(!!|\|\|) ?(.*)/";
-    protected $_openTag = '<table class="bordered">';
+    protected $_openTag = '<table class="bordered" border="1" cellspacing="0" cellpadding="3">';
     protected $_closeTag = '</table>';
     protected $_colcount = 0;
 

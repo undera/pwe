@@ -48,7 +48,8 @@ class PWEURLTest extends \PHPUnit_Framework_TestCase {
     public function testGetProposedRedirect_incorrectURI() {
         try {
             $obj = new PWEURL('/service/?refresh=:/');
-            //throw new Exception("400 expected"); hmmmmm... what to do?
+            // FIXME: hmmmmm... what to do?
+            //throw new Exception("400 expected"); 
         } catch (HTTP4xxException $e) {
             $this->assertEquals(HTTP4xxException::BAD_REQUEST, $e->getCode());
         }

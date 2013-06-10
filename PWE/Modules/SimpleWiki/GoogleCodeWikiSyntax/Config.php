@@ -2,6 +2,9 @@
 
 namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
 
+/**
+ * took it from Skriv https://github.com/Amaury/SkrivMarkup
+ */
 class Config extends \WikiRenderer\Config {
 
     /** ??? */
@@ -12,7 +15,7 @@ class Config extends \WikiRenderer\Config {
         '\WikiRenderer\HtmlTextLine' => array(
             '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Strong', // **strong**
             '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Em', // ''em''
-            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Strikeout', // --strikeout--
+            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Strikeout', // ~~strikeout~~
             '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Underline', // __underline__
             '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Monospace', // ##monospace##
             '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Superscript', // ^^superscript^^
@@ -21,7 +24,7 @@ class Config extends \WikiRenderer\Config {
             '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Link', // [[link|url]]		[[url]]
             '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Image', // {{image|url}}	{{url}}
             '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Footnote', // ((footnote))		((label|footnote))
-            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Anchor', // ~~anchor~~
+            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Anchor', // ~#anchor#~
         )
     );
 
@@ -239,6 +242,12 @@ class Config extends \WikiRenderer\Config {
      * @return	string	The text that will be parsed.
      */
     public function onStart($text) {
+        // process of smileys and other special characters
+        if ($this->getParam('convertSmileys'))
+            $text = Smiley::convertSmileys($text);
+        if ($this->getParam('convertSymbols'))
+            $text = Smiley::convertSymbols($text);
+
         // if a specific pre-parse function was defined, it is called
         $func = $this->getParam('preParseFunction');
         if (isset($func))

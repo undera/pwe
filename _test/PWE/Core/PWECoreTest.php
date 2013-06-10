@@ -2,13 +2,15 @@
 
 namespace PWE\Core;
 
-use PWE\Modules\PWEModule;
-use PWE\Modules\Outputable;
-use PWE\Modules\MenuGenerator;
+use BadFunctionCallException;
+use InvalidArgumentException;
 use PWE\Exceptions\HTTP3xxException;
 use PWE\Exceptions\HTTP4xxException;
-use \PWEUnitTests;
+use PWE\Modules\MenuGenerator;
+use PWE\Modules\Outputable;
+use PWE\Modules\PWEModule;
 use PWE\Modules\PWEModulesManager;
+use PWEUnitTests;
 
 require_once dirname(__FILE__) . '/../../PWEUnitTests.php';
 
@@ -27,7 +29,7 @@ class PWECoreTest extends \PHPUnit_Framework_TestCase {
     public function testSetURL_RootJTFC() {
         try {
             $this->object->setURL('/');
-            throw new Exception("Exception expected");
+            throw new \Exception("Exception expected");
         } catch (HTTP3xxException $e) {
             
         }
@@ -107,7 +109,7 @@ class PWECoreTest extends \PHPUnit_Framework_TestCase {
             $arr = array();
             $this->object->getModuleInstance($arr);
             $this->fail();
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             
         }
     }
@@ -160,7 +162,7 @@ class PWECoreEmul extends PWECore {
     public function getModulesManager() {
         try {
             return parent::getModulesManager();
-        } catch (\BadFunctionCallException $e) {
+        } catch (BadFunctionCallException $e) {
             return null;
         }
     }
