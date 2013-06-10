@@ -2,9 +2,10 @@
 
 namespace PWE\Core;
 
-use PWE\Exceptions\HTTP3xxException;
-use PWE\Exceptions\HTTP4xxException;
 use PWE\Lib\Smarty\SmartyAssociative;
+use PWE\Exceptions\HTTP4xxException;
+use PWE\Exceptions\HTTP3xxException;
+use \Exception;
 
 class PWEURL implements SmartyAssociative {
 
@@ -28,11 +29,22 @@ class PWEURL implements SmartyAssociative {
         $this->URLArray = explode('/', $this->URL);
 
         // 1.2. Переадресация некорректных URL
-        if (in_array('..', $this->URLArray) || in_array('.', $this->URLArray) || strstr($this->URL, '//')) {
+        if (in_array('..', $this->URLArray)
+                || in_array('.', $this->URLArray)
+                || strstr($this->URL, '//')) {
             $goto = str_replace('/../', '/', $this->URL);
             $goto = str_replace('/.', '', $goto);
             $goto = str_replace('//', '/', $goto);
             throw new HTTP3xxException($goto, HTTP3xxException::PERMANENT);
+        }
+
+        // 1.3. Переадресация запросов без завершающего слэша, но не файловых
+        if (strlen(end($this->URLArray))) { // без слэша
+            if (!strstr(end($this->URLArray), '.')) { // не файловые
+                throw new HTTP3xxException($this->URL . '/', HTTP3xxException::PERMANENT);
+            }
+        } else {
+            array_pop($this->URLArray); // пустой последний элемент для нас - лишний в запросах на диру
         }
     }
 
@@ -64,13 +76,8 @@ class PWEURL implements SmartyAssociative {
         }
     }
 
-    public function getFullAsArray($stripLastEmpty = true) {
-        $params = $this->URLArray;
-        if ($stripLastEmpty && !strlen(end($params))) {
-            array_pop($params);
-        }
-
-        return $params;
+    public function getFullAsArray() {
+        return $this->URLArray;
     }
 
     /**
@@ -81,26 +88,16 @@ class PWEURL implements SmartyAssociative {
         return sizeof($this->URLArray);
     }
 
-    public function getMatchedAsArray($stripLastEmpty = true) {
-        $params = $this->URLArrayMatched;
-        if ($stripLastEmpty && !strlen(end($params))) {
-            array_pop($params);
-        }
-
-        return $params;
+    public function getMatchedAsArray() {
+        return $this->URLArrayMatched;
     }
 
     public function getMatchedCount() {
         return sizeof($this->URLArrayMatched);
     }
 
-    public function getParamsAsArray($stripLastEmpty = true) {
-        $params = $this->URLArrayParams;
-        if ($stripLastEmpty && !strlen(end($params))) {
-            array_pop($params);
-        }
-
-        return $params;
+    public function getParamsAsArray() {
+        return $this->URLArrayParams;
     }
 
     public function getParamsCount() {
