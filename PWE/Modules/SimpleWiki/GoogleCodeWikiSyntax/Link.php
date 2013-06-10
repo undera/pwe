@@ -25,11 +25,16 @@ class Link extends TagXhtml {
             list($href, $label, $targetBlank, $nofollow) = $this->config->processLink($href, $this->name);
             $this->contents[0] = implode($this->separators[0], array_slice($this->contents, 1));
         }
+
+        if (!strstr($href, ':')) {
+            $href = '../' . $href;
+        }
+
         $this->wikiContentArr[1] = $href;
 
         $ext = strtolower(end(explode('.', $href)));
         if (in_array($ext, self::$img_exts)) {
-            return '<img src="'.$href.'" alt="'.$this->contents[0].'"/>';
+            return '<img src="' . $href . '" alt="' . $this->contents[0] . '"/>';
         } else {
             // management of the target
             $targetBlank = isset($targetBlank) ? $targetBlank : $this->config->getParam('targetBlank');
