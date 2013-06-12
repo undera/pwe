@@ -43,7 +43,7 @@ class Paragraph extends \WikiRenderer\Block {
     protected function _renderInlineTag($string) {
         $string = $this->engine->inlineParser->parse($string);
         // handling of carriage-returns inside paragraphs
-        $string = (!$this->_firstLine) ? "<br />$string" : $string;
+        $string = (!$this->_firstLine) ? " $string" : $string;
         $this->_firstLine = false;
         return ($string);
     }
