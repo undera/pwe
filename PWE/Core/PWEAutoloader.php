@@ -44,16 +44,14 @@ abstract class PWEAutoloader {
     public static function addSourceRoot($path) {
         $path = realpath($path);
         if (!is_dir($path)) {
-            throw new RuntimeException("Path not exists: " . $path);
+            PWELogger::warn("Path not exists: " . $path);
+        } else {
+            self::$sourceRoots[] = $path;
         }
-        self::$sourceRoots[] = $path;
     }
 
     public static function doIt($name) {
-        $res = self::autoloadClassFromCache($name)
-                || self::seekAll($name)
-                || self::seekIncludes($name)
-                || self::seekBacktraces($name);
+        $res = self::autoloadClassFromCache($name) || self::seekAll($name) || self::seekIncludes($name) || self::seekBacktraces($name);
         if (!$res || (!class_exists($name) && !interface_exists($name))) {
             PWELogger::warning("Class not found: " . $name);
             return false;
