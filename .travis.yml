@@ -4,4 +4,5 @@ php:
 before_script: 
   - git clone https://github.com/laurentj/wikirenderer.git lib/wikirenderer
   - git clone https://github.com/baldurrensch/Smarty.git lib/smarty
+  - git clone https://github.com/doctrine/dbal.git lib/doctrine
 script: phpunit _test

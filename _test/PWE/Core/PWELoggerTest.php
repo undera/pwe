@@ -2,6 +2,8 @@
 
 namespace PWE\Core;
 
+use ExceptionExpected;
+
 require_once dirname(__FILE__) . '/../../PWEUnitTests.php';
 
 class PWELoggerTest extends \PHPUnit_Framework_TestCase {
@@ -43,8 +45,8 @@ class PWELoggerTest extends \PHPUnit_Framework_TestCase {
 
     public function testError_exc() {
         PWELogger::setStdErr("php://stdout");
-        PWELogger::error("Errors are bad", new \ExceptionExpected());
-        PWELogger::debug(new \ExceptionExpected());
+        PWELogger::error("Errors are bad", new ExceptionExpected());
+        PWELogger::debug(new ExceptionExpected());
     }
 
 }
