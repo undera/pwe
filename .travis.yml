@@ -1,6 +1,7 @@
 language: php
 php:
-  - 5.4
   - 5.3
-before_script: git clone https://github.com/laurentj/wikirenderer.git lib/wikirenderer
+before_script: 
+  - git clone https://github.com/laurentj/wikirenderer.git lib/wikirenderer
+  - git clone https://github.com/baldurrensch/Smarty.git lib/smarty
 script: phpunit _test
