@@ -277,7 +277,7 @@
 
         <!-- FOOTER -->
         <tr>
-            <td>
+            <td class="footer">
                 {block name="footer"}
                 <table style='float:right;' border='0' cellspacing='0' cellpadding='0'>
                     <tr>

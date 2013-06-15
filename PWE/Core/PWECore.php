@@ -306,7 +306,7 @@ class PWECore extends AbstractPWECore implements SmartyAssociative {
     }
 
     public function addContent(SmartyWrapper $smarty) {
-        $this->htmlContent = $smarty->fetchAll();
+        $this->htmlContent.= $smarty->fetchAll();
         PWELogger::debug("Content[" . strlen($this->htmlContent) . "]: " . substr($this->htmlContent, 0, 64) . '...');
     }
 
