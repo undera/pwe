@@ -22,7 +22,7 @@ case "$1" in
         echo install/upgrade Doctrine
         pear channel-discover pear.symfony.com || pear channel-update pear.symfony.com 
         pear channel-discover pear.doctrine-project.org || pear channel-update pear.doctrine-project.org 
-        pear install --soft --onlyreqdeps doctrine/DoctrineDBAL-2.3.3 || pear upgrade doctrine/DoctrineDBAL-2.3.3
+        pear install --soft --onlyreqdeps doctrine/DoctrineDBAL || pear upgrade doctrine/DoctrineDBAL
 
         echo install/upgrade phpseclib
         pear channel-discover phpseclib.sourceforge.net || pear channel-update phpseclib.sourceforge.net
