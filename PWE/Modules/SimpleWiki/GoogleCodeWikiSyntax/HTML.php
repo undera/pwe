@@ -10,7 +10,7 @@ class HTML extends Tag {
     public $beginTag = '<';
     public $endTag = '>';
     protected $attribute = array('$$',);
-    public static $available_tags = array('i', 'b', 'font', 'sup');
+    public static $available_tags = array('i', 'b', 'font', 'sup', 'p');
 
     public function getContent() {
         $tag = str_replace('/', '', strtolower(reset(explode(' ', $this->contents[0]))));

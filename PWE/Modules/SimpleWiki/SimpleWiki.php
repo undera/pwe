@@ -21,13 +21,13 @@ class SimpleWiki extends PWEModule implements Outputable {
         }
 
         $args = $this->PWE->getURL()->getParamsAsArray();
-        if (!$args) {
+        if ($args[0]=='Main') {
             $files = new GlobIterator($node['!i']['wiki_dir'] . '/*.wiki');
             $text = "";
             foreach ($files as $file) {
                 $f = end(explode('/', $file->getFilename()));
                 $f = reset(explode('.', $f));
-                $text.= "  # [simplewiki/$f " . $f . "]\n";
+                $text.= "  # [$f " . $f . "]\n";
             }
             $contents = $this->getRenderer()->render($text);
         } else {

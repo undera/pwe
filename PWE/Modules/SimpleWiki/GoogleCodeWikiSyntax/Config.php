@@ -99,7 +99,7 @@ class Config extends \WikiRenderer\Config {
         // creation of the default parameters array
         $randomId = base_convert(rand(0, 50000), 10, 36);
         $this->_params = array(
-            'shortenLongUrl' => true,
+            'shortenLongUrl' => false,
             'convertSmileys' => true,
             'convertSymbols' => true,
             'anchorsPrefix' => '',

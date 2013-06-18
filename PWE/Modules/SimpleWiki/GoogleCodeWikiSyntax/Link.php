@@ -9,7 +9,7 @@ class Link extends TagXhtml {
     protected $name = 'a';
     public $beginTag = '[';
     public $endTag = ']';
-    protected $attribute = array('$$', 'href');
+    protected $attribute = array('href', '$$',);
     public $separators = array(' ');
     static $img_exts = array('png', 'jpg', 'gif');
 
@@ -19,22 +19,22 @@ class Link extends TagXhtml {
             $this->separatorCount = 1;
             $href = $this->wikiContentArr[0];
             list($href, $label, $targetBlank, $nofollow) = $this->config->processLink($href, $this->name);
-            $this->contents[0] = $label;
+            $this->contents[1] = $label;
         } else {
             $href = $this->wikiContentArr[0];
             list($href, $label, $targetBlank, $nofollow) = $this->config->processLink($href, $this->name);
-            $this->contents[0] = implode($this->separators[0], array_slice($this->contents, 1));
+            $this->contents[1] = implode($this->separators[0], array_slice($this->contents, 1));
         }
 
         if (!strstr($href, ':')) {
             $href = '../' . $href;
         }
 
-        $this->wikiContentArr[1] = $href;
+        $this->wikiContentArr[0] = $href;
 
         $ext = strtolower(end(explode('.', $href)));
         if (in_array($ext, self::$img_exts)) {
-            return '<img src="' . $href . '" alt="' . $this->contents[0] . '"/>';
+            return '<img src="' . $href . '" alt="' . $this->contents[1] . '"/>';
         } else {
             // management of the target
             $targetBlank = isset($targetBlank) ? $targetBlank : $this->config->getParam('targetBlank');
@@ -58,8 +58,44 @@ class Link extends TagXhtml {
             else
                 unset($this->additionnalAttributes['rel']);
             // link generation
-            return parent::getContent();
+            return $this->getContent_copied();
         }
+    }
+
+    public function isOtherTagAllowed() {
+        return false;
+    }
+
+    protected function _doEscape($string) {
+        return $string;
+    }
+
+    /*
+     * Had to override it from TagXhtml, since it forces htmlspecialchars
+     * and breaks links with params
+     */
+
+    public function getContent_copied() {
+        $attr = '';
+        $cntattr = count($this->attribute);
+        $count = ($this->separatorCount >= $cntattr) ? ($cntattr - 1) : $this->separatorCount;
+        $content = '';
+
+        for ($i = 0; $i <= $count; $i++) {
+            if (in_array($this->attribute[$i], $this->ignoreAttribute))
+                continue;
+            if ($this->attribute[$i] != '$$') {
+                $attr.= ' ' . $this->attribute[$i] . '="' . $this->wikiContentArr[$i] . '"';
+            } else {
+                $content = $this->contents[$i];
+            }
+        }
+
+        foreach ($this->additionnalAttributes as $name => $value) {
+            $attr .= ' ' . $name . '="' . htmlspecialchars($value) . '"';
+        }
+
+        return '<' . $this->name . $attr . '>' . $content . '</' . $this->name . '>';
     }
 
 }
