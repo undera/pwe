@@ -2,10 +2,9 @@
 
 namespace PWE\Core;
 
-use PWE\Lib\Smarty\SmartyAssociative;
-use PWE\Exceptions\HTTP4xxException;
 use PWE\Exceptions\HTTP3xxException;
-use \Exception;
+use PWE\Exceptions\HTTP4xxException;
+use PWE\Lib\Smarty\SmartyAssociative;
 
 class PWEURL implements SmartyAssociative {
 
@@ -29,9 +28,7 @@ class PWEURL implements SmartyAssociative {
         $this->URLArray = explode('/', $this->URL);
 
         // 1.2. Переадресация некорректных URL
-        if (in_array('..', $this->URLArray)
-                || in_array('.', $this->URLArray)
-                || strstr($this->URL, '//')) {
+        if (in_array('..', $this->URLArray) || in_array('.', $this->URLArray) || strstr($this->URL, '//')) {
             $goto = str_replace('/../', '/', $this->URL);
             $goto = str_replace('/.', '', $goto);
             $goto = str_replace('//', '/', $goto);
@@ -41,7 +38,11 @@ class PWEURL implements SmartyAssociative {
         // 1.3. Переадресация запросов без завершающего слэша, но не файловых
         if (strlen(end($this->URLArray))) { // без слэша
             if (!strstr(end($this->URLArray), '.')) { // не файловые
-                throw new HTTP3xxException($this->URL . '/', HTTP3xxException::PERMANENT);
+                $url = $this->URL . '/';
+                if ($_GET) {
+                    $url.='?' . http_build_query($_GET);
+                }
+                throw new HTTP3xxException($url, HTTP3xxException::PERMANENT);
             }
         } else {
             array_pop($this->URLArray); // пустой последний элемент для нас - лишний в запросах на диру

@@ -30,6 +30,18 @@ class RedirectAcceptedTest extends \PHPUnit_Framework_TestCase {
         }
     }
 
+    public function testProcess_no_slash() {
+        $this->object->getPWE()->setStructFile(dirname(__FILE__) . '/redirect.xml');
+        $this->object->getPWE()->setURL('/param_no_slash/test/');
+        $_GET['getparam'] = 'test';
+        try {
+            $this->object->process();
+            $this->fail();
+        } catch (HTTP3xxException $e) {
+            $this->assertEquals("/redir2/test?getparam=test", $e->getMessage());
+        }
+    }
+
 }
 
 ?>

@@ -22,7 +22,11 @@ class RedirectAccepted extends PWEModule implements Outputable {
         if (sizeof($params)) {
             if (strrchr($uri, '/') != '/')
                 $uri .= '/';
-            $uri .= implode('/', $params) . (strstr(end($params), '.') ? '' : '/');
+            $uri .= implode('/', $params);
+        }
+
+        if (!strstr(end($params), '.') && !$node['!a']['no_final_slash']) {
+            $uri.="/";
         }
 
         // добавление trailer
@@ -30,14 +34,12 @@ class RedirectAccepted extends PWEModule implements Outputable {
             $uri .= $node['!a']['trailer'];
 
         // проверка наличия запросной части в URI
-        if (sizeof($_GET)) {
-            foreach ($_GET as $k => $v)
-                $query[] = "$k=" . rawurlencode($v);
-            ;
-            $uri .= '?' . implode('&', $query);
+        if ($_GET) {
+            $uri .= '?' . http_build_query($_GET);
         }
-        $uri = preg_replace('!([^:])/{2,}!', '\\1/', $uri);
 
+        // what this is for?
+        $uri = preg_replace('!([^:])/{2,}!', '\\1/', $uri);
 
         // переадресация
         throw new HTTP3xxException($uri, HTTP3xxException::PERMANENT);

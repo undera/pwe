@@ -45,6 +45,17 @@ class PWEURLTest extends \PHPUnit_Framework_TestCase {
         }
     }
 
+    public function testGetProposedRedirect_no_slash_get_params() {
+        $_GET['test'] = 1;
+        $_GET['test2'] = 2;
+        try {
+            $obj = new PWEURL('/img');
+            throw new Exception("302 expected");
+        } catch (HTTP3xxException $e) {
+            $this->assertEquals('/img/?test=1&test2=2', $e->getMessage());
+        }
+    }
+
     public function testGetProposedRedirect_incorrectURI() {
         try {
             $obj = new PWEURL('/service/?refresh=:/');
