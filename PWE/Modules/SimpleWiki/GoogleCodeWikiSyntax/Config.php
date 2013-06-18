@@ -20,11 +20,11 @@ class Config extends \WikiRenderer\Config {
             '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Monospace', // ##monospace##
             '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Superscript', // ^^superscript^^
             '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Subscript', // ,,subscript,,
-            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Abbr', // ??abbr|text??
+            //'\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Abbr', // ??abbr|text??
             '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Link', // [[link|url]]		[[url]]
 //            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Image', // {{image|url}}	{{url}}
-            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Footnote', // ((footnote))		((label|footnote))
-            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Anchor', // ~#anchor#~
+//            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Footnote', // ((footnote))		((label|footnote))
+//            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Anchor', // ~#anchor#~
             '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\HTML',
         )
     );

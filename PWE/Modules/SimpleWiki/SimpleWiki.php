@@ -2,7 +2,7 @@
 
 namespace PWE\Modules\SimpleWiki;
 
-use FilesystemIterator;
+use GlobIterator;
 use PWE\Core\PWELogger;
 use PWE\Exceptions\HTTP4xxException;
 use PWE\Exceptions\HTTP5xxException;
@@ -22,13 +22,12 @@ class SimpleWiki extends PWEModule implements Outputable {
 
         $args = $this->PWE->getURL()->getParamsAsArray();
         if (!$args) {
-            $files = new FilesystemIterator($node['!i']['wiki_dir'], FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::SKIP_DOTS);
+            $files = new GlobIterator($node['!i']['wiki_dir'] . '/*.wiki');
             $text = "";
-            while ($files->valid()) {
-                $f=end(explode('/', $files->key()));
-                $f=reset(explode('.', $f));
-                $text.= "  # [simplewiki/$f]\n";
-                $files->next();
+            foreach ($files as $file) {
+                $f = end(explode('/', $file->getFilename()));
+                $f = reset(explode('.', $f));
+                $text.= "  # [simplewiki/$f " . $f . "]\n";
             }
             $contents = $this->getRenderer()->render($text);
         } else {
@@ -46,6 +45,10 @@ class SimpleWiki extends PWEModule implements Outputable {
         $smarty = new SmartyWrapper($this->PWE);
         $smarty->setTemplateFile(dirname(__FILE__) . '/wiki.tpl');
         $smarty->assign('content', $contents);
+        if (is_file($node['!i']['wiki_dir'] . '/Sidebar.wiki')) {
+            $smarty->assign("sidebar", $this->renderPage($node['!i']['wiki_dir'] . '/Sidebar.wiki'));
+        }
+
         $this->PWE->addContent($smarty);
     }
 
