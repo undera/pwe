@@ -27,7 +27,7 @@ case "$1" in
         echo install/upgrade phpseclib
         pear channel-discover phpseclib.sourceforge.net || pear channel-update phpseclib.sourceforge.net
         pear install --soft --onlyreqdeps PHP_Compat-1.6.0a3 || pear upgrade PHP_Compat-1.6.0a3
-        pear install --soft --onlyreqdeps phpseclib/Crypt_RSA-0.3.1 || pear upgrade phpseclib/Crypt_RSA-0.3.1
+        pear install --soft --onlyreqdeps phpseclib/Crypt_RSA || pear upgrade phpseclib/Crypt_RSA
 
         echo install/upgrade OpenID
         pear install --soft --onlyreqdeps Crypt_DiffieHellman-0.2.6 || pear upgrade Crypt_DiffieHellman-0.2.6
