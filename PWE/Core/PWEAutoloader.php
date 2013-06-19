@@ -231,7 +231,11 @@ abstract class PWEAutoloader {
                 self::$cache = array_merge(self::$cache, unserialize(file_get_contents($cache_file)));
                 self::$try_loading_cache = false;
             } else {
-                PWELogger::warning("No classpath cache loaded: " . $cache_file);
+                if ($cache_file) {
+                    PWELogger::warning("No classpath cache loaded: " . $cache_file);
+                } else {
+                    PWELogger::debug("No classpath cache loaded: " . $cache_file);
+                }
                 self::$cache = array();
                 self::$try_loading_cache = true;
             }
