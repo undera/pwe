@@ -10,7 +10,7 @@ class WikiList extends Block {
     protected $_previousTag;
     protected $_firstItem = false;
     protected $_firstTagLen;
-    protected $regexp = "/^([\*#]+)\s*(.*)/";
+    protected $regexp = "/^(  )+([\*#]+)\s*(.*)/";
 
     /**
      * test si la chaine correspond au debut ou au contenu d'un bloc
@@ -62,7 +62,7 @@ class WikiList extends Block {
         else
             $str = $this->_firstItem ? '<li>' : "</li>\n<li>";
         $this->_firstItem = false;
-        return ($str . $this->_renderInlineTag($this->_detectMatch[2]));
+        return ($str . $this->_renderInlineTag($this->_detectMatch[3]));
     }
 
 }

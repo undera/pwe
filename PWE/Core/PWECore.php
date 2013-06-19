@@ -26,7 +26,7 @@ class PWECore extends AbstractPWECore implements SmartyAssociative {
      * @var PWEURL
      */
     private $URL;
-    private $structureNode = array();
+    protected $structureNode = array();
     protected $siteStructureFile;
     private $statusSent = false;
     private $siteStructure;
@@ -170,7 +170,7 @@ class PWECore extends AbstractPWECore implements SmartyAssociative {
 
     /**
      *
-     * @param array $structureNode
+     * @param mixed $structureNode
      * @return PWEModule
      */
     public function getModuleInstance($structureNode) {
@@ -231,7 +231,7 @@ class PWECore extends AbstractPWECore implements SmartyAssociative {
 
     // TODO: there is simplier way to do it with xml_find_attr
     // TODO: incorporate !i calculation here
-    private function recursiveNodeSearch(&$node, $uriArray) {
+    private function recursiveNodeSearch(array &$node, array $uriArray) {
         $size = sizeof(@$node['!c']['url']);
         reset($uriArray);
         $link = current($uriArray);

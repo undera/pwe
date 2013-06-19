@@ -1,3 +1,3 @@
 <?xml version='1.0' encoding='UTF-8'?>
 
-<url class="PWE\Modules\SimpleWiki\SimpleWiki" wiki_dir="./" accept="1" />
+<url class="PWE\Modules\SimpleWiki\SimpleWiki" wiki_dir="." accept="1" />

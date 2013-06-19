@@ -9,11 +9,6 @@ use PWE\Core\PWECore;
 use PWE\Core\PWELogger;
 use PWE\Exceptions\HTTP5xxException;
 
-/**
- * Description of AMChartsHelper
- *
- * @author undera
- */
 class AMChartsHelper extends PWEModule implements Setupable {
 
     public static function getAmChartsDir() {

@@ -6,11 +6,6 @@ use PWE\Modules\PWEModulesManager;
 use PWE\Modules\TestPWEModulesManager;
 use PWE\Utils\FilesystemHelper;
 
-/**
- * Description of UnitTestPWECore
- *
- * @author undera
- */
 class UnitTestPWECore extends PWECore {
 
     public function setStructFile($param0) {
@@ -37,6 +32,10 @@ class UnitTestPWECore extends PWECore {
      */
     public function getModulesManager() {
         return $this->modulesManager;
+    }
+
+    public function setNode($node) {
+        $this->structureNode = $node;
     }
 
 }

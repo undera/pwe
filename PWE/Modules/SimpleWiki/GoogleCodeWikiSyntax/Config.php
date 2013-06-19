@@ -38,7 +38,7 @@ class Config extends \WikiRenderer\Config {
         '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Hr',
         '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Blockquote',
         '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Table',
-        '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\StyledBlock',
+        //'\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\StyledBlock',
         '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Paragraph',
     );
     // list of extensions and their default configuration

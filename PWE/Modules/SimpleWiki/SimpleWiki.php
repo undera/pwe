@@ -4,6 +4,7 @@ namespace PWE\Modules\SimpleWiki;
 
 use GlobIterator;
 use PWE\Core\PWELogger;
+use PWE\Exceptions\HTTP3xxException;
 use PWE\Exceptions\HTTP4xxException;
 use PWE\Exceptions\HTTP5xxException;
 use PWE\Lib\Smarty\SmartyWrapper;
@@ -20,8 +21,12 @@ class SimpleWiki extends PWEModule implements Outputable {
             throw new HTTP5xxException("Not configured wiki source dir");
         }
 
+        PWELogger::debug("Wiki dir: " . $node['!i']['wiki_dir']);
+
         $args = $this->PWE->getURL()->getParamsAsArray();
-        if ($args[0]=='Main') {
+        if (!$args) {
+            throw new HTTP3xxException("Main/");
+        } elseif ($args[0] == 'Main') {
             $files = new GlobIterator($node['!i']['wiki_dir'] . '/*.wiki');
             $text = "";
             foreach ($files as $file) {

@@ -10,10 +10,9 @@ class Monospace extends TagXhtml {
     public $beginTag = '{{{';
     public $endTag = '}}}';
 
-    /*
-      public function isOtherTagAllowed() {
-      return false;
-      }
-     */
+    public function isOtherTagAllowed() {
+        return false;
+    }
+
 }
 
