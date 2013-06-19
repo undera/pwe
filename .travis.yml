@@ -6,7 +6,7 @@ before_script:
   - git clone https://github.com/baldurrensch/Smarty.git lib/smarty
   - git clone https://github.com/doctrine/dbal.git lib/doctrine-dbal
   - git clone https://github.com/doctrine/common.git lib/doctrine-common
-  - mkdir -p PWE/Lib/AmCharts/amcharts_2.5.5
-  - touch PWE/Lib/AmCharts/amcharts_2.5.5/dummy.js
+  - mkdir -p PWE/Lib/AmCharts/amcharts_2.5.5/amcharts
+  - touch PWE/Lib/AmCharts/amcharts_2.5.5/amcharts/dummy.js
   - find PWE/Lib/AmCharts
 script: phpunit _test
