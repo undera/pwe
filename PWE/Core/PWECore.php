@@ -4,7 +4,6 @@ namespace PWE\Core;
 
 use BadFunctionCallException;
 use PWE\Auth\PWEUserAuthController;
-use PWE\Auth\PWEUserAuthController;
 use PWE\Exceptions\HTTP2xxException;
 use PWE\Exceptions\HTTP3xxException;
 use PWE\Exceptions\HTTP4xxException;
