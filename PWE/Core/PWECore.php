@@ -4,6 +4,8 @@ namespace PWE\Core;
 
 use BadFunctionCallException;
 use PWE\Auth\PWEUserAuthController;
+use BadFunctionCallException;
+use PWE\Auth\PWEUserAuthController;
 use PWE\Exceptions\HTTP2xxException;
 use PWE\Exceptions\HTTP3xxException;
 use PWE\Exceptions\HTTP4xxException;
@@ -71,16 +73,21 @@ class PWECore extends AbstractPWECore implements SmartyAssociative {
     }
 
     public function sendHTTPStatusCode($code) {
-        if ($this->statusSent || headers_sent())
-            PWELogger::warning("Trying to send HTTP status more than once for code: " . $code);
+        if ($this->statusSent) {
+            PWELogger::warn("Trying to send HTTP status more than once for code: " . $code);
+        }
 
         if (!preg_match("/^[12345][0-9][0-9]$/", $code)) {
             $code = 500;
         }
 
-        $status = $_SERVER["SERVER_PROTOCOL"] . ' ' . $code;
-        PWELogger::debug("HTTP Status header: " . $status);
-        header($status, true, $code);
+        if (!headers_sent()) {
+            $status = $_SERVER["SERVER_PROTOCOL"] . ' ' . $code;
+            PWELogger::debug("HTTP Status header: " . $status);
+            header($status, true, $code);
+        } else {
+            PWELogger::warn("Cannot report status, headers has been sent: " . $status);
+        }
         $this->statusSent = true;
     }
 
