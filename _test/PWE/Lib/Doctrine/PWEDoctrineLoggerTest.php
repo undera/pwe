@@ -33,10 +33,7 @@ class PWEDoctrineLoggerTest extends \PHPUnit_Framework_TestCase {
      * @todo   Implement test__destruct().
      */
     public function test__destruct() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        
     }
 
     /**
@@ -44,10 +41,7 @@ class PWEDoctrineLoggerTest extends \PHPUnit_Framework_TestCase {
      * @todo   Implement testStartQuery().
      */
     public function testStartQuery() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->object->startQuery("");
     }
 
     /**
@@ -55,10 +49,7 @@ class PWEDoctrineLoggerTest extends \PHPUnit_Framework_TestCase {
      * @todo   Implement testStopQuery().
      */
     public function testStopQuery() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->object->stopQuery("");
     }
 
 }

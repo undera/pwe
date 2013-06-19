@@ -26,7 +26,7 @@ class SimpleWikiTest extends \PHPUnit_Framework_TestCase {
     public function testProcess() {
         $PWE = new UnitTestPWECore();
         $PWE->setStructFile(dirname(__FILE__) . '/SimpleWiki.xml');
-        $PWE->setURL('/GoogleSyntax.wiki');
+        $PWE->setURL('/GoogleSyntax/');
         $obj = new SimpleWiki($PWE);
         $obj->process();
         $PWE->getContent();

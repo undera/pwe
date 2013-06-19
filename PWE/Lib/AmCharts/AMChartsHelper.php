@@ -32,14 +32,16 @@ class AMChartsHelper extends PWEModule implements Setupable {
         PWELogger::info("Copying files for amcharts");
 
         $basedir = self::getAmChartsDir();
-        if (!$basedir)
+        if (!$basedir) {
             throw new HTTP5xxException("Cannot find amcharts_x.x.x dir $basedir");
+        }
         $copied = FilesystemHelper::fsys_copydir($basedir . '/amcharts', $pwe->getStaticDirectory() . '/amcharts/javascript', true);
-        if (!$copied)
+        if (!$copied) {
             throw new HTTP5xxException("Failed to copy amcharts resource files, see log for details");
+        }
         return true;
     }
- 
+
 }
 
 function isAmchartsBase($name) {
