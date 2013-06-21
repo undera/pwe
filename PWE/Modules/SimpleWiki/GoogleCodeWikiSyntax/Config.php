@@ -31,12 +31,13 @@ class Config extends \WikiRenderer\Config {
 
     /** List of block markups. */
     public $blocktags = array(
+        '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Pragma',
         '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Title',
         '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\WikiList',
         '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Code',
         '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Pre',
         '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Hr',
-        '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Blockquote',
+        //'\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Blockquote',
         '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Table',
         //'\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\StyledBlock',
         '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Paragraph',

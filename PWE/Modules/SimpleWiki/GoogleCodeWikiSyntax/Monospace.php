@@ -13,6 +13,8 @@ class Monospace extends TagXhtml {
     public function isOtherTagAllowed() {
         return false;
     }
+    
+    
 
 }
 
