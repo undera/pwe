@@ -14,7 +14,7 @@ class Pre extends Block {
 
     public function getRenderedLine() {
         $text = $this->_detectMatch[0];
-        if ($text == '{{{' || $text == '}}}') {
+        if (strstr($text, '{{{') || strstr($text, '}}}')) {
             return '';
         } else {
             return $text;
