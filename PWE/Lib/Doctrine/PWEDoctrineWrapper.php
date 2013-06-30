@@ -12,11 +12,6 @@ use PWE\Core\PWELogger;
 use PWE\Modules\PWEModule;
 use PWE\Modules\Setupable;
 
-/**
- * Description of DoctrineWrapper
- *
- * @author undera
- */
 class PWEDoctrineWrapper extends PWEModule implements Setupable, PWECMDJob {
 
     /**
@@ -47,7 +42,7 @@ class PWEDoctrineWrapper extends PWEModule implements Setupable, PWECMDJob {
             return self::$connection;
         }
 
-        $settings = $PWE->getModulesManager()->getModuleSettings('PWE\Lib\Doctrine\PWEDoctrineWrapper');
+        $settings = $PWE->getModulesManager()->getModuleSettings(self::getClass());
         $params = $settings['!c']['connection'][0]['!a'];
 
         $config = new Configuration();
@@ -134,7 +129,13 @@ class PWEDoctrineWrapper extends PWEModule implements Setupable, PWECMDJob {
     }
 
     public function run(array $args) {
+        // prevent from interrupting the long upgrade
+        set_time_limit(0);
         $this->processDBUpgrade($args[0], $args[1]);
+    }
+
+    public static function getClass() {
+        return __CLASS__;
     }
 
 }
