@@ -9,9 +9,6 @@
 
 namespace PWE\Utils;
 
-//
-
-
 use Exception;
 use InvalidArgumentException;
 use PWE\Core\PWECore;
@@ -175,7 +172,9 @@ class PWEXML extends PWEXMLFunctions implements Setupable {
             if (is_file($bak_file)) {
                 copy($bak_file, $fname);
             } else {
-                unlink($fname);
+                if (is_file($fname)) {
+                    unlink($fname);
+                }
             }
             throw $e;
         }

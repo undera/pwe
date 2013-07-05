@@ -28,7 +28,7 @@ class SimpleWikiTest extends \PHPUnit_Framework_TestCase {
     public function testProcess_main() {
         $PWE = new UnitTestPWECore();
         $PWE->setStructFile(dirname(__FILE__) . '/SimpleWiki.xml');
-        $PWE->setURL('/Main/');
+        $PWE->setURL('/list/');
         $obj = new SimpleWiki($PWE);
         $obj->process();
         $PWE->getContent();
@@ -54,7 +54,7 @@ class SimpleWikiTest extends \PHPUnit_Framework_TestCase {
         try {
             $obj->process();
         } catch (HTTP3xxException $e) {
-            $this->assertEquals('Main/', $e->getMessage());
+            $this->assertEquals('list/', $e->getMessage());
         }
     }
 

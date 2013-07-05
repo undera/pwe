@@ -17,17 +17,22 @@ class SimpleWiki extends PWEModule implements Outputable {
 
     public function process() {
         $node = $this->PWE->getNode();
-        if (!is_dir($node['!i']['wiki_dir'])) {
-            throw new HTTP5xxException("Not configured wiki source dir");
+        $dir = $node['!i']['wiki_dir'];
+        if ($dir[0] != DIRECTORY_SEPARATOR) {
+            $dir = $this->PWE->getDataDirectory() . '/' . $dir;
         }
 
-        PWELogger::debug("Wiki dir: " . $node['!i']['wiki_dir']);
+        if (!is_dir($dir)) {
+            throw new HTTP5xxException("Not configured wiki source dir, or it does not exists");
+        }
+
+        PWELogger::debug("Wiki dir: " . $dir);
 
         $args = $this->PWE->getURL()->getParamsAsArray();
         if (!$args) {
-            throw new HTTP3xxException("Main/");
-        } elseif ($args[0] == 'Main') {
-            $files = new GlobIterator($node['!i']['wiki_dir'] . '/*.wiki');
+            throw new HTTP3xxException("list/");
+        } elseif ($args[0] == 'list') {
+            $files = new GlobIterator($dir . '/*.wiki');
             $text = "";
             foreach ($files as $file) {
                 $f = end(explode('/', $file->getFilename()));
@@ -36,7 +41,7 @@ class SimpleWiki extends PWEModule implements Outputable {
             }
             $contents = $this->getRenderer()->render($text);
         } else {
-            $file = $node['!i']['wiki_dir'] . '/' . $args[0];
+            $file = $dir . '/' . $args[0];
             if (end(explode('.', $file)) != 'wiki') {
                 $file.='.wiki';
             }
@@ -50,8 +55,8 @@ class SimpleWiki extends PWEModule implements Outputable {
         $smarty = new SmartyWrapper($this->PWE);
         $smarty->setTemplateFile(dirname(__FILE__) . '/wiki.tpl');
         $smarty->assign('content', $contents);
-        if (is_file($node['!i']['wiki_dir'] . '/Sidebar.wiki')) {
-            $smarty->assign("sidebar", $this->renderPage($node['!i']['wiki_dir'] . '/Sidebar.wiki'));
+        if (is_file($dir . '/Sidebar.wiki')) {
+            $smarty->assign("sidebar", $this->renderPage($dir . '/Sidebar.wiki'));
         }
 
         $this->PWE->addContent($smarty);
