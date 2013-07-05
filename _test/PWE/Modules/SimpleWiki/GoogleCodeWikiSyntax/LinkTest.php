@@ -42,7 +42,12 @@ class LinkTest extends \PHPUnit_Framework_TestCase {
 
     public function testGetRenderedLine_img1() {
         $res = $this->object->render("[http://jmeter-plugins.googlecode.com/svn-history/wiki/img/loadosophia_uploader.png]");
-        $this->assertEquals('<p><img src="http://jmeter-plugins.googlecode.com/svn-history/wiki/img/loadosophia_uploader.png" alt="http://jmeter-plugins.googlecode.com/svn-history/wiki/img/loadosophia_uploader.png"/></p>', $res);
+        $this->assertEquals('<p><img src="http://jmeter-plugins.googlecode.com/svn-history/wiki/img/loadosophia_uploader.png" alt=""/></p>', $res);
+    }
+
+    public function testGetRenderedLine_img2() {
+        $res = $this->object->render('<p align="center">[http://blazemeter.com/?utm_source=jmplinnerpages&utm_medium=cpc&utm_content=jmpininnerpgs&utm_campaign=JMeter%2BPlug%2BIn%2BWiki http://apc.kg/img/jpgc/bz_small.jpg]</p>');
+        $this->assertEquals('<p><p align="center"><a href="http://blazemeter.com/?utm_source=jmplinnerpages&utm_medium=cpc&utm_content=jmpininnerpgs&utm_campaign=JMeter%2BPlug%2BIn%2BWiki" target="_blank" rel="nofollow"><img src="http://apc.kg/img/jpgc/bz_small.jpg" alt=""/></a></p></p>', $res);
     }
 
 }

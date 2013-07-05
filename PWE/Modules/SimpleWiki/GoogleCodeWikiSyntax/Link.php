@@ -32,9 +32,19 @@ class Link extends TagXhtml {
 
         $this->wikiContentArr[0] = $href;
 
+        $ext_label = strtolower(end(explode('.', $this->contents[1])));
+        if (in_array($ext_label, self::$img_exts)) {
+            $this->contents[1] = '<img src="' . $this->contents[1] . '" alt=""/>';
+        }
+
         $ext = strtolower(end(explode('.', $href)));
         if (in_array($ext, self::$img_exts)) {
-            return '<img src="' . $href . '" alt="' . $this->contents[1] . '"/>';
+            if (in_array($ext_label, self::$img_exts)) {
+                $alt = '';
+            } else {
+                $alt = $this->contents[1];
+            }
+            return '<img src="' . $href . '" alt="' . $alt . '"/>';
         } else {
             // management of the target
             $targetBlank = isset($targetBlank) ? $targetBlank : $this->config->getParam('targetBlank');
