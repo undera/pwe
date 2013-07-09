@@ -50,7 +50,6 @@ table, td
 h1, h2, h3, h4
 {
     color: #cc6600;
-    /* texdsft-decoration: underline; */
 }
 
 a:link
@@ -70,4 +69,14 @@ a.hl, .hl a, .hl {
 
 table.breadcrumbs td {
     border-bottom: 1px solid #ffcc33;
+}
+
+td.logo {
+    padding: 10px 20px;
+}
+
+td.header_title {
+    font-weight: bold;
+    width: 100%; 
+    font-size: 1.4em;
 }

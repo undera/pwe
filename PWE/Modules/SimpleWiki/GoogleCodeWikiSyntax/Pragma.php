@@ -7,7 +7,7 @@ use WikiRenderer\Block;
 class Pragma extends Block {
 
     public $type = 'comment';
-    protected $regexp = "/^(#labels\s.*)$/";
+    protected $regexp = "/^(#(labels|summary)\s.*)$/";
     protected $_openTag = '<!--';
     protected $_closeTag = '-->';
     private $seen = false;
@@ -26,9 +26,9 @@ class Pragma extends Block {
             return false;
         }
 
-        if (strpos($string, '#labels ') === 0) {
+        if (strpos($string, '#labels ') === 0 || strpos($string, '#summary ') === 0) {
             $this->seen = true;
-            $this->_detectMatch=array($string);
+            $this->_detectMatch = array($string);
             return true;
         }
         return false;

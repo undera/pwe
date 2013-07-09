@@ -85,7 +85,7 @@
                     <tr>
                         <!-- LOGO -->
                         {* FIXME: params break this link *}
-                        <td class="logo" style='padding: 10px 20px;'><a href="{'../'|str_repeat:$urlFullCount}"><img
+                        <td class="logo"><a href="{'../'|str_repeat:$urlFullCount}"><img
                                     {if $node.$i.custom_logo}
                                         src="{$node.$i.custom_logo}"
                                     {else}
@@ -96,10 +96,14 @@
                         <!-- /LOGO -->
 
                         <!-- PAGE TITLE -->
-                        <td style='width: 100%; font-size: 1.4em;'><b>{$node.$i.title|default:$node.$a.link}</b></td>
+                        <td class='header_title'>
+                            {block name="header_title"}
+                                {$node.$i.title|default:$node.$a.link}
+                            {/block}
+                        </td>
                         <!-- /PAGE TITLE -->
 
-                        <td>
+                        <td class="header_right">
                             {block name="header_right"}
                             {/block}
                         </td>

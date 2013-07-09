@@ -26,15 +26,15 @@ class Link extends TagXhtml {
             $this->contents[1] = implode($this->separators[0], array_slice($this->contents, 1));
         }
 
-        if (!strstr($href, ':')) {
-            $href = '../' . $href;
-        }
-
-        $this->wikiContentArr[0] = $href;
-
         $ext_label = strtolower(end(explode('.', $this->contents[1])));
         if (in_array($ext_label, self::$img_exts)) {
             $this->contents[1] = '<img src="' . $this->contents[1] . '" alt=""/>';
+        } else {
+            if (!strstr($href, ':') && strpos($href, '/') !== 0) {
+                $href = '../' . $href;
+            }
+
+            $this->wikiContentArr[0] = $href;
         }
 
         $ext = strtolower(end(explode('.', $href)));
