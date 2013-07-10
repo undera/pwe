@@ -18,6 +18,8 @@ class SimpleWiki extends PWEModule implements Outputable {
     public function process() {
         $node = $this->PWE->getNode();
         $dir = $node['!i']['wiki_dir'];
+        $start_page = $node['!i']['start_page'] ? $node['!i']['start_page'] : "list";
+
         if ($dir[0] != DIRECTORY_SEPARATOR) {
             $dir = $this->PWE->getDataDirectory() . '/' . $dir;
         }
@@ -30,7 +32,7 @@ class SimpleWiki extends PWEModule implements Outputable {
 
         $args = $this->PWE->getURL()->getParamsAsArray();
         if (!$args) {
-            throw new HTTP3xxException("list/");
+            throw new HTTP3xxException($start_page . "/");
         } elseif ($args[0] == 'list') {
             $files = new GlobIterator($dir . '/*.wiki');
             $text = "";
@@ -77,5 +79,7 @@ class SimpleWiki extends PWEModule implements Outputable {
     }
 
 }
+
+
 
 ?>
