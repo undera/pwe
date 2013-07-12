@@ -27,30 +27,12 @@ class FileDownloads extends PWEModule implements Outputable {
         $this->link_base = $node['!a']['download_link'];
     }
 
-    public function getFileBlock($file, $comment) {
-        $basename = basename($file);
-        $file = $this->getRealFile($file);
-        if (!is_file($file)) {
-            \PWE\Core\PWELogger::warn("Broken download: $file");
-            return '[broken download: ' . $basename . ']';
-        }
-
-        $size = FilesystemHelper::fsys_kbytes(filesize($file));
-        $date = date('M d, Y', filemtime($file));
-        $link = $this->link_base . '/' . $basename;
-
-        $res = "<span class='file_download'>";
-        $res.="<a href='$link'><b>$basename</b></a>";
-        $res.=", <span class='filesize'>$size</span>, <span class='filedate'>$date</span>";
-        $res.="<br/><i>$comment</i></span>";
-        return $res;
-    }
-
     public function process() {
         $params = $this->PWE->getURL()->getParamsAsArray();
-        $file_path = '/' . $this->dl_base . '/' . PWEURL::protectAgainsRelativePaths($params[0]);
+        $file_path = '/' . $this->dl_base . '/' . PWEURL::protectAgainsRelativePaths(implode('/', $params));
         $file = $this->PWE->getRootDirectory() . $file_path;
         if (!is_file($file)) {
+            \PWE\Core\PWELogger::error("File not found: $file_path");
             throw new HTTP4xxException("File not found", HTTP4xxException::NOT_FOUND);
         }
 
@@ -61,11 +43,31 @@ class FileDownloads extends PWEModule implements Outputable {
         return $this->PWE->getRootDirectory() . '/' . $this->dl_base . '/' . PWEURL::protectAgainsRelativePaths($file);
     }
 
+    public function getFileBlock($orig_file, $comment) {
+        $orig_file = PWEURL::protectAgainsRelativePaths($orig_file);
+        $basename = basename($orig_file);
+        $file = $this->getRealFile($orig_file);
+        if (!is_file($file)) {
+            \PWE\Core\PWELogger::warn("Broken download: $file");
+            return '[broken download: ' . $basename . ']';
+        }
+
+        $size = FilesystemHelper::fsys_kbytes(filesize($file));
+        $date = date('M d, Y', filemtime($file));
+        $link = $this->link_base . '/' . $orig_file;
+
+        $res = "<span class='file_download'>";
+        $res.="<a href='$link'><b>$basename</b></a>";
+        $res.=", <span class='filesize'>$size</span>, <span class='filedate'>$date</span>";
+        $res.="<br/><i>$comment</i></span>";
+        return $res;
+    }
+
     public function getDirectoryBlock($subdir) {
         $it = new \FilesystemIterator($this->getRealFile($subdir));
         $res = "";
         foreach ($it as $file) {
-            $res.=$this->getFileBlock($subdir.'/'.basename($file), '')."\n\n";
+            $res.=$this->getFileBlock($subdir . '/' . basename($file), '') . "\n\n";
         }
         return $res;
     }
