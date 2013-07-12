@@ -15,7 +15,7 @@ table, td
 .menu1 td
 {
     background-color: #fff688; 
-    background-image: url('menu_bg.gif');
+    background-image: url('/img/design/menu_bg.gif');
     color: #cc6600;
     white-space: nowrap;
     font-weight: bold;
@@ -24,7 +24,7 @@ table, td
 
 .menu1 td.hl
 {
-    background-image: url('menu_bgh.gif');
+    background-image: url('/img/design/menu_bgh.gif');
 }
 
 .menu2

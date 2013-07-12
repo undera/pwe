@@ -268,6 +268,11 @@ class PWECore extends AbstractPWECore implements SmartyAssociative {
         return $node;
     }
 
+    /**
+     * 
+     * @return array
+     * @throws HTTP5xxException
+     */
     public function getNode() {
         if (!$this->structureNode) {
             throw new HTTP5xxException("Current node was not defined yet. Method setURL must be called before getting current Node");

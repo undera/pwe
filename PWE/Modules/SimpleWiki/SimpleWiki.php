@@ -20,6 +20,7 @@ class SimpleWiki extends PWEModule implements Outputable {
     public function __construct(\PWE\Core\PWECore $core) {
         parent::__construct($core);
         $this->config = new Config();
+        $this->config->setPWE($core);
     }
 
     public function process() {

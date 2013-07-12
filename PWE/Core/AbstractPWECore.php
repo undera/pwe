@@ -44,6 +44,10 @@ abstract class AbstractPWECore {
         $this->tempFolder = $dir;
     }
 
+    public function getRootDirectory() {
+        return $this->rootFolder;
+    }
+
     public function getDataDirectory() {
         return $this->dataFolder;
     }
@@ -82,12 +86,13 @@ abstract class AbstractPWECore {
     }
 
     public function setStaticDirectory($dir) {
-        $this->staticFolder=$dir;
+        $this->staticFolder = $dir;
     }
 
     public function setStaticHref($href) {
-        $this->staticHref=$href;
+        $this->staticHref = $href;
     }
+
 }
 
 ?>

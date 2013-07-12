@@ -7,6 +7,12 @@ namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
  */
 class Config extends \WikiRenderer\Config {
 
+    /**
+     *
+     * @var \PWE\Core\PWECore
+     */
+    private $PWE;
+
     /** ??? */
     public $defaultTextLineContainer = '\WikiRenderer\HtmlTextLine';
 
@@ -25,6 +31,7 @@ class Config extends \WikiRenderer\Config {
 //            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Image', // {{image|url}}	{{url}}
 //            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Footnote', // ((footnote))		((label|footnote))
 //            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Anchor', // ~#anchor#~
+            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\FileDownload',
             '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\HTML',
         )
     );
@@ -336,7 +343,7 @@ class Config extends \WikiRenderer\Config {
     public function getToc($raw = false) {
         if ($raw === true)
             return ($this->_toc['sub']);
-        $html = "<b>On this page:</b>".$this->_getRenderedToc($this->_toc['sub']);
+        $html = "<b>On this page:</b>" . $this->_getRenderedToc($this->_toc['sub']);
         return ($html);
     }
 
@@ -441,6 +448,18 @@ class Config extends \WikiRenderer\Config {
         }
         $html .= "</ul>\n";
         return ($html);
+    }
+
+    public function setPWE(\PWE\Core\PWECore $pwe) {
+        $this->PWE = $pwe;
+    }
+
+    /**
+     * 
+     * @return \PWE\Core\PWECore
+     */
+    public function getPWE() {
+        return $this->PWE;
     }
 
 }

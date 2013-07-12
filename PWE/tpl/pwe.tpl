@@ -288,10 +288,10 @@
                         <td style='padding: 5px;'><big><b title='Mathematical sign, means "For All"'>&forall;</b></big></td>
                         <td align='right'>
                             <small> Powered by 
-                                <a title='Pluggable Web Engine' href='http://code.google.com/p/pwe-cmf/'><b>P&nbsp;W&nbsp;E</b></a>
+                                <a title='Pluggable Web Engine' href='https://github.com/undera/pwe'><b>P&nbsp;W&nbsp;E</b></a>
                             </small>
                         </td>
-                        <td style='padding: 5px;'><a href='http://code.google.com/p/pwe-cmf/'><img style='margin-bottom: 3px; border: none;' src='{$IMG_HREF}/design/pwe_logo_small.gif' title='Pluggable Web Engine' alt='PWE' /></a></td>
+                        <td style='padding: 5px;'><a href='https://github.com/undera/pwe'><img style='margin-bottom: 3px; border: none;' src='{$IMG_HREF}/design/pwe_logo_small.gif' title='Pluggable Web Engine' alt='PWE' /></a></td>
                     </tr>
                 </table>
             {/block}
