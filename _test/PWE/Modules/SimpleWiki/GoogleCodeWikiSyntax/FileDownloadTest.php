@@ -12,7 +12,12 @@ class FileDownloadTest extends \PHPUnit_Framework_TestCase {
     protected $object;
 
     protected function setUp() {
-        $this->object = new Renderer(new Config());
+        $cnf = new Config();
+        $pwe = new \PWE\Core\UnitTestPWECore();
+        $pwe->setXMLDirectory(dirname(__FILE__));
+        $cnf->setPWE($pwe);
+        $pwe->setURL('/');
+        $this->object = new Renderer($cnf);
     }
 
     public function testGetRenderedLine_anchored() {
