@@ -32,6 +32,7 @@ class Config extends \WikiRenderer\Config {
 //            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Footnote', // ((footnote))		((label|footnote))
 //            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Anchor', // ~#anchor#~
             '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\FileDownload',
+            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\FileDownloadDir',
             '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\HTML',
         )
     );

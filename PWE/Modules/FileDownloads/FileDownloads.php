@@ -31,6 +31,7 @@ class FileDownloads extends PWEModule implements Outputable {
         $basename = basename($file);
         $file = $this->getRealFile($file);
         if (!is_file($file)) {
+            \PWE\Core\PWELogger::warn("Broken download: $file");
             return '[broken download: ' . $basename . ']';
         }
 
@@ -58,6 +59,15 @@ class FileDownloads extends PWEModule implements Outputable {
 
     private function getRealFile($file) {
         return $this->PWE->getRootDirectory() . '/' . $this->dl_base . '/' . PWEURL::protectAgainsRelativePaths($file);
+    }
+
+    public function getDirectoryBlock($subdir) {
+        $it = new \FilesystemIterator($this->getRealFile($subdir));
+        $res = "";
+        foreach ($it as $file) {
+            $res.=$this->getFileBlock($subdir.'/'.basename($file), '')."\n\n";
+        }
+        return $res;
     }
 
 }
