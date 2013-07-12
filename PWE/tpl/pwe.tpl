@@ -119,87 +119,89 @@
         <!--menu1-->
         <tr>
             <td class='menu1' style="background-repeat: repeat-x; background-position: center left;">
-                <table border='0' width="100%" cellspacing='0' cellpadding='0'>
-                    <tr>
-                        {math assign=upper_repeats equation='x-1' x=$urlFullCount}
-                        {foreach $level1 as $item1}
-                            {if $item1.$a.menu}
-                                {if $item1.selected}
-                                    <!--item1h-->
-                                    <td style="white-space: nowrap;" class='hl'>
-                                        {if $item1.$a.menu_icon}
-                                            <a href='{'../'|str_repeat:$upper_repeats}{$item1.$a.link}/'><img src="{$item1.$a.menu_icon}" alt=''  style="vertical-align: bottom;"/></a>
-                                        {/if}
-                                        <a href='{'../'|str_repeat:$upper_repeats}{$item1.$a.link}/'>{$item1.$a.title|default:$item1.$a.link}</a>
-                                    </td>
-                                    <!--/item1h-->
-                                {else}
-                                    <!--item1-->
-                                    <td style="white-space: nowrap;">
-                                        {if $item1.$a.menu_icon}
-                                            <a href='{'../'|str_repeat:$upper_repeats}{$item1.$a.link}/'><img src="{$item1.$a.menu_icon}" alt='' style="vertical-align: bottom;"/></a>
-                                        {/if}
-                                        <a href='{'../'|str_repeat:$upper_repeats}{$item1.$a.link}/'>{$item1.$a.title|default:$item1.$a.link}</a>
-                                    </td>
-                                    <!--/item1-->
+                {block name="menu1"}
+                    <table border='0' width="100%" cellspacing='0' cellpadding='0'>
+                        <tr>
+                            {math assign=upper_repeats equation='x-1' x=$urlFullCount}
+                            {foreach $level1 as $item1}
+                                {if $item1.$a.menu}
+                                    {if $item1.selected}
+                                        <!--item1h-->
+                                        <td style="white-space: nowrap;" class='hl'>
+                                            {if $item1.$a.menu_icon}
+                                                <a href='{'../'|str_repeat:$upper_repeats}{$item1.$a.link}/'><img src="{$item1.$a.menu_icon}" alt=''  style="vertical-align: bottom;"/></a>
+                                            {/if}
+                                            <a href='{'../'|str_repeat:$upper_repeats}{$item1.$a.link}/'>{$item1.$a.title|default:$item1.$a.link}</a>
+                                        </td>
+                                        <!--/item1h-->
+                                    {else}
+                                        <!--item1-->
+                                        <td style="white-space: nowrap;">
+                                            {if $item1.$a.menu_icon}
+                                                <a href='{'../'|str_repeat:$upper_repeats}{$item1.$a.link}/'><img src="{$item1.$a.menu_icon}" alt='' style="vertical-align: bottom;"/></a>
+                                            {/if}
+                                            <a href='{'../'|str_repeat:$upper_repeats}{$item1.$a.link}/'>{$item1.$a.title|default:$item1.$a.link}</a>
+                                        </td>
+                                        <!--/item1-->
+                                    {/if}
                                 {/if}
-                            {/if}
-                        {/foreach}
-                        <td style="width: 100%" align="right">
-                            <small>
-                                <a id='minimizelink' style="text-decoration:none;" title="Collapse" href="#"
-                                   onclick="minimizeHeader();"
-                                   >&nbsp;&nbsp;&uarr;&nbsp;&nbsp;</a>
-                                <a id='restorelink' style="text-decoration:none; display:none;" title="Expand" href="#"
-                                   onclick="restoreHeader();"
-                                   >&nbsp;&nbsp;&darr;&nbsp;&nbsp;</a>
-                            </small>
-                            <script type="text/javascript">
-                                       function SetCookie(cookieName, cookieValue, nDays) {
-                                           var today = new Date();
-                                           var expire = new Date();
-                                           if (nDays == null || nDays == 0)
-                                               nDays = 1;
-                                           expire.setTime(today.getTime() + 3600000 * 24 * nDays);
-                                           document.cookie = cookieName + "=" + escape(cookieValue)
-                                                   + ";expires=" + expire.toGMTString();
-                                       }
-                                       //
-                                       function ReadCookie(cookieName) {
-                                           var theCookie = " " + document.cookie;
-                                           var ind = theCookie.indexOf(" " + cookieName + "=");
-                                           if (ind == -1)
-                                               ind = theCookie.indexOf(";" + cookieName + "=");
-                                           if (ind == -1 || cookieName == "")
-                                               return "";
-                                           var ind1 = theCookie.indexOf(";", ind + 1);
-                                           if (ind1 == -1)
-                                               ind1 = theCookie.length;
-                                           return unescape(theCookie.substring(ind + cookieName.length + 2, ind1));
-                                       }
+                            {/foreach}
+                            <td style="width: 100%" align="right">
+                                <small>
+                                    <a id='minimizelink' style="text-decoration:none;" title="Collapse" href="#"
+                                       onclick="minimizeHeader();"
+                                       >&nbsp;&nbsp;&uarr;&nbsp;&nbsp;</a>
+                                    <a id='restorelink' style="text-decoration:none; display:none;" title="Expand" href="#"
+                                       onclick="restoreHeader();"
+                                       >&nbsp;&nbsp;&darr;&nbsp;&nbsp;</a>
+                                </small>
+                                <script type="text/javascript">
+                                           function SetCookie(cookieName, cookieValue, nDays) {
+                                               var today = new Date();
+                                               var expire = new Date();
+                                               if (nDays == null || nDays == 0)
+                                                   nDays = 1;
+                                               expire.setTime(today.getTime() + 3600000 * 24 * nDays);
+                                               document.cookie = cookieName + "=" + escape(cookieValue)
+                                                       + ";expires=" + expire.toGMTString();
+                                           }
+                                           //
+                                           function ReadCookie(cookieName) {
+                                               var theCookie = " " + document.cookie;
+                                               var ind = theCookie.indexOf(" " + cookieName + "=");
+                                               if (ind == -1)
+                                                   ind = theCookie.indexOf(";" + cookieName + "=");
+                                               if (ind == -1 || cookieName == "")
+                                                   return "";
+                                               var ind1 = theCookie.indexOf(";", ind + 1);
+                                               if (ind1 == -1)
+                                                   ind1 = theCookie.length;
+                                               return unescape(theCookie.substring(ind + cookieName.length + 2, ind1));
+                                           }
 
-                                       function minimizeHeader() {
-                                           document.all['toppanel'].style.display = 'none';
-                                           document.all['minimizelink'].style.display = 'none';
-                                           document.all['restorelink'].style.display = '';
-                                           SetCookie("headerMinimized", 1, 30);
-                                       }
+                                           function minimizeHeader() {
+                                               document.all['toppanel'].style.display = 'none';
+                                               document.all['minimizelink'].style.display = 'none';
+                                               document.all['restorelink'].style.display = '';
+                                               SetCookie("headerMinimized", 1, 30);
+                                           }
 
-                                       function restoreHeader() {
-                                           document.all['toppanel'].style.display = '';
-                                           document.all['minimizelink'].style.display = '';
-                                           document.all['restorelink'].style.display = 'none';
-                                           SetCookie("headerMinimized", 1, -30);
-                                           //alert("Deleted cookie");
-                                       }
+                                           function restoreHeader() {
+                                               document.all['toppanel'].style.display = '';
+                                               document.all['minimizelink'].style.display = '';
+                                               document.all['restorelink'].style.display = 'none';
+                                               SetCookie("headerMinimized", 1, -30);
+                                               //alert("Deleted cookie");
+                                           }
 
-                                       if (ReadCookie("headerMinimized")) {
-                                           minimizeHeader();
-                                       }
-                            </script>
-                        </td>
-                    </tr>
-                </table>
+                                           if (ReadCookie("headerMinimized")) {
+                                               minimizeHeader();
+                                           }
+                                </script>
+                            </td>
+                        </tr>
+                    </table>
+                {/block}
             </td>
         </tr>
         <!--/menu1-->

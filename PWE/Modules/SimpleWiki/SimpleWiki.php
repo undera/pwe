@@ -15,6 +15,13 @@ use WikiRenderer\Renderer;
 
 class SimpleWiki extends PWEModule implements Outputable {
 
+    private $config;
+
+    public function __construct(\PWE\Core\PWECore $core) {
+        parent::__construct($core);
+        $this->config = new Config();
+    }
+
     public function process() {
         $node = $this->PWE->getNode();
         $dir = $node['!i']['wiki_dir'];
@@ -57,9 +64,12 @@ class SimpleWiki extends PWEModule implements Outputable {
         $smarty = new SmartyWrapper($this->PWE);
         $smarty->setTemplateFile(dirname(__FILE__) . '/wiki.tpl');
         $smarty->assign('content', $contents);
+
+        $sidebar = $this->config->getToc();
         if (is_file($dir . '/Sidebar.wiki')) {
-            $smarty->assign("sidebar", $this->renderPage($dir . '/Sidebar.wiki'));
+            $sidebar.=$this->renderPage($dir . '/Sidebar.wiki');
         }
+        $smarty->assign("sidebar", $sidebar);
 
         $this->PWE->addContent($smarty);
     }
@@ -74,12 +84,10 @@ class SimpleWiki extends PWEModule implements Outputable {
      * @return Renderer
      */
     protected function getRenderer() {
-        $w = new Renderer(new Config());
+        $w = new Renderer($this->config);
         return $w;
     }
 
 }
-
-
 
 ?>

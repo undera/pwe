@@ -336,7 +336,7 @@ class Config extends \WikiRenderer\Config {
     public function getToc($raw = false) {
         if ($raw === true)
             return ($this->_toc['sub']);
-        $html = $this->_getRenderedToc($this->_toc['sub']);
+        $html = "<b>On this page:</b>".$this->_getRenderedToc($this->_toc['sub']);
         return ($html);
     }
 
@@ -431,7 +431,7 @@ class Config extends \WikiRenderer\Config {
     private function _getRenderedToc($list, $depth = 1) {
         if (!isset($list) || empty($list))
             return ('');
-        $html = "<ul class=\"toc-list\">\n";
+        $html = "<ul class=\"toc-list toc-list$depth\">\n";
         foreach ($list as $entry) {
             $html .= "<li class=\"toc-entry\">\n";
             $html .= '<a href="#' . $this->getParam('anchorsPrefix') . $this->titleToIdentifier($depth, $entry['value']) . '">' . $entry['value'] . "</a>\n";
