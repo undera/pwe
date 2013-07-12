@@ -22,7 +22,7 @@ class PreTest extends \PHPUnit_Framework_TestCase {
         $obj = new \WikiRenderer\Renderer(new Config());
         $str = "{{{ some text }}}";
         $res = $obj->render($str);
-        $this->assertEquals("<p><tt> some text </tt></p>", $res);
+        $this->assertEquals("<tt> some text </tt>", $res);
     }
 
 }
