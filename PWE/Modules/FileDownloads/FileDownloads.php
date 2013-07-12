@@ -29,11 +29,12 @@ class FileDownloads extends PWEModule {
         }
 
         $size = FilesystemHelper::fsys_kbytes(filesize($file));
-        $date = date('M d, Y', filectime($file));
+        $date = date('M d, Y', filemtime($file));
         $link = $file;
 
         $res = "<span class='file_download'>";
-        $res.="<a href='$link'><b>$basename</b></a>, <span class='filesize'>$size</span>, <span class='filedate'>$date</span>";
+        $res.="<a href='$link'><b>$basename</b></a>";
+        $res.=", <span class='filesize'>$size</span>, <span class='filedate'>$date</span>";
         $res.="<br/><i>$comment</i></span>";
         return $res;
     }

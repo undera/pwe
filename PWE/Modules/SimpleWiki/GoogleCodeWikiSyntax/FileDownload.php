@@ -2,7 +2,6 @@
 
 namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
 
-use PWE\Core\PWEURL;
 use PWE\Modules\FileDownloads\FileDownloads;
 use WikiRenderer\TagXhtml;
 
