@@ -21,5 +21,8 @@ class HTML extends Tag {
         }
     }
 
+    public function isOtherTagAllowed() {
+        return false;
+    }
 }
 
