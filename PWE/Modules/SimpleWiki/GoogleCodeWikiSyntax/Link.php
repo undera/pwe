@@ -30,7 +30,7 @@ class Link extends TagXhtml {
         if (in_array($ext_label, self::$img_exts)) {
             $this->contents[1] = '<img src="' . $this->contents[1] . '" alt=""/>';
         } else {
-            if (!strstr($href, ':') && strpos($href, '/') !== 0) {
+            if (!strstr($href, ':') && strpos($href, '/') !== 0 && strpos($href, '#') !== 0) {
                 $href = '../' . $href;
             }
 
