@@ -2,7 +2,9 @@
 
 namespace PWE\Modules\FileDownloads;
 
+use FilesystemIterator;
 use PWE\Core\PWECore;
+use PWE\Core\PWELogger;
 use PWE\Core\PWEURL;
 use PWE\Exceptions\HTTP3xxException;
 use PWE\Exceptions\HTTP4xxException;
@@ -32,10 +34,11 @@ class FileDownloads extends PWEModule implements Outputable {
         $file_path = '/' . $this->dl_base . '/' . PWEURL::protectAgainsRelativePaths(implode('/', $params));
         $file = $this->PWE->getRootDirectory() . $file_path;
         if (!is_file($file)) {
-            \PWE\Core\PWELogger::error("File not found: $file_path");
+            PWELogger::error("File not found: $file_path");
             throw new HTTP4xxException("File not found", HTTP4xxException::NOT_FOUND);
         }
 
+        $this->recordDownload($file);
         throw new HTTP3xxException($file_path);
     }
 
@@ -48,7 +51,7 @@ class FileDownloads extends PWEModule implements Outputable {
         $basename = basename($orig_file);
         $file = $this->getRealFile($orig_file);
         if (!is_file($file)) {
-            \PWE\Core\PWELogger::warn("Broken download: $file");
+            PWELogger::warn("Broken download: $file");
             return '[broken download: ' . $basename . ']';
         }
 
@@ -58,18 +61,46 @@ class FileDownloads extends PWEModule implements Outputable {
 
         $res = "<span class='file_download'>";
         $res.="<a href='$link'><b>$basename</b></a>";
-        $res.=", <span class='filesize'>$size</span>, <span class='filedate'>$date</span>";
+        $res.=", <span class='filesize'>$size</span>";
+        $res.=", <span class='filedate'>$date</span>";
+
+        $cnt = $this->getDownloadCount($file);
+        if ($cnt) {
+            $res.=", <span class='count'>Download count: $cnt</span>";
+        }
         $res.="<br/><i>$comment</i></span>";
         return $res;
     }
 
     public function getDirectoryBlock($subdir) {
-        $it = new \FilesystemIterator($this->getRealFile($subdir));
+        $it = new FilesystemIterator($this->getRealFile($subdir));
         $res = "";
         foreach ($it as $file) {
             $res.=$this->getFileBlock($subdir . '/' . basename($file), '') . "\n\n";
         }
         return $res;
+    }
+
+    private function recordDownload($file) {
+        $cnt = $this->getDownloadCount($file);
+
+        $f = $file . '.cnt';
+        if (is_writeable($f)) {
+            file_put_contents($f, $cnt + 1);
+        } else {
+            PWELogger::warn("Cannot write download count to $f");
+        }
+    }
+
+    private function getDownloadCount($file) {
+        $f = $file . '.cnt';
+        if (is_file($f)) {
+            $cnt = round(file_get_contents($f));
+        } else {
+            PWELogger::warn("No download count info for " . $file);
+            $cnt = 0;
+        }
+        return $cnt;
     }
 
 }
