@@ -4,10 +4,6 @@ namespace PWE\Modules;
 
 use PWE\Core\PWECore;
 
-/**
- *
- * @author undera
- */
 abstract class PWEModule {
 
     /**
