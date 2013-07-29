@@ -1,3 +1,4 @@
+.directory
 /img/
 /lib/
 /nbproject/
@@ -6,3 +7,4 @@
 debhelper.log
 substvars
 dirs
+.idea
