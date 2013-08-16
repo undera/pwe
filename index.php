@@ -2,12 +2,13 @@
 
 /**
  *  PWE Framework entry file
- *  @author Andrey Pohilko <apc@apc.kg>
- *  @version 1.5
+ * @author Andrey Pohilko <apc@apc.kg>
+ * @version 1.5
  */
 
 namespace PWE;
 
+//phpinfo(INFO_VARIABLES);
 use InvalidArgumentException;
 use PWE\Core\CMDLinePWECore;
 use PWE\Core\PWEAutoloader;
@@ -16,7 +17,6 @@ use PWE\Core\PWECore;
 use PWE\Core\PWELogger;
 use PWE\Exceptions\PHPFatalException;
 
-//phpinfo(INFO_VARIABLES);
 require_once dirname(__FILE__) . '/PWE/Lib/Smarty/SmartyAssociative.php';
 require_once dirname(__FILE__) . '/PWE/Modules/Setupable.php';
 require_once dirname(__FILE__) . '/PWE/Modules/Outputable.php';

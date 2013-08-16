@@ -28,9 +28,9 @@ class FileDownloads extends PWEModule implements Outputable {
         $this->link_base = $node['!a']['download_link'];
     }
 
-    public static function filter_zips($current, $key, $iterator) {
+    public static function filter_out_cnt($current, $key, $iterator) {
         $ext=strtolower(end(explode('.', $current)));
-        return $ext=='zip';
+        return $ext!=='cnt';
     }
 
     public function process() {
@@ -70,7 +70,7 @@ class FileDownloads extends PWEModule implements Outputable {
 
     public function getDirectoryBlock($subdir) {
         $fi=new \FilesystemIterator($this->getRealFile($subdir));
-        $it = new \CallbackFilterIterator($fi, __CLASS__.'::filter_zips');
+        $it = new \CallbackFilterIterator($fi, __CLASS__.'::filter_out_cnt');
         $res = "";
         foreach ($it as $file) {
             $res.=$this->getFileBlock($subdir . '/' . basename($file), '') . "\n\n";
