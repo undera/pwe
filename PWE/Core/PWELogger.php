@@ -81,7 +81,7 @@ abstract class PWELogger {
         } else {
             //$data=str_replace("\n", "\t", $data);
             $id = $_SERVER['REMOTE_PORT'] ? $_SERVER['REMOTE_PORT'] : getmypid();
-            file_put_contents($file, "[$time $id $location $data\n");
+            file_put_contents($file, "[$time $id $location $data\n", FILE_APPEND);
         }
 
         if ($e != null) {
