@@ -2,6 +2,7 @@
 
 namespace PWE\Core;
 
+use PWE\Modules\CMDLineModulesManager;
 use RuntimeException;
 
 class CMDLinePWECore extends PWECore {
@@ -13,7 +14,7 @@ class CMDLinePWECore extends PWECore {
         }
         $this->setXMLDirectory(dirname(__FILE__));
         $this->setTempDirectory('/tmp');
-        $this->createModulesManager(new \PWE\Modules\CMDLineModulesManager($this, $registryPath));
+        $this->createModulesManager(new CMDLineModulesManager($this, $registryPath));
     }
 
     public function getNode() {
