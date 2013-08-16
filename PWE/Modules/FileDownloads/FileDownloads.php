@@ -2,6 +2,8 @@
 
 namespace PWE\Modules\FileDownloads;
 
+use CallbackFilterIterator;
+use FilesystemIterator;
 use PWE\Core\PWECore;
 use PWE\Core\PWELogger;
 use PWE\Core\PWEURL;
@@ -29,8 +31,9 @@ class FileDownloads extends PWEModule implements Outputable {
     }
 
     public static function filter_out_cnt($current, $key, $iterator) {
-        $ext=strtolower(end(explode('.', $current)));
-        return $ext!=='cnt';
+        $ext = strtolower(end(explode('.', $current)));
+
+        return $ext !== 'cnt';
     }
 
     public function process() {
@@ -65,16 +68,18 @@ class FileDownloads extends PWEModule implements Outputable {
             PWELogger::warn("No download count info for " . $file);
             $cnt = 0;
         }
+
         return $cnt;
     }
 
     public function getDirectoryBlock($subdir) {
-        $fi=new \FilesystemIterator($this->getRealFile($subdir));
-        $it = new \CallbackFilterIterator($fi, __CLASS__.'::filter_out_cnt');
+        $fi = new FilesystemIterator($this->getRealFile($subdir));
+        $it = new CallbackFilterIterator($fi, __CLASS__ . '::filter_out_cnt');
         $res = "";
         foreach ($it as $file) {
-            $res.=$this->getFileBlock($subdir . '/' . basename($file), '') . "\n\n";
+            $res .= $this->getFileBlock($subdir . '/' . basename($file), '') . "\n\n";
         }
+
         return $res;
     }
 
@@ -88,6 +93,7 @@ class FileDownloads extends PWEModule implements Outputable {
         $file = $this->getRealFile($orig_file);
         if (!is_file($file)) {
             PWELogger::warn("Broken download: $file");
+
             return '[broken download: ' . $basename . ']';
         }
 
@@ -96,15 +102,16 @@ class FileDownloads extends PWEModule implements Outputable {
         $link = $this->link_base . '/' . $orig_file;
 
         $res = "<span class='file_download'>";
-        $res.="<a href='$link'><b>$basename</b></a>";
-        $res.=", <span class='filesize'>$size</span>";
-        $res.=", <span class='filedate'>$date</span>";
+        $res .= "<a href='$link'><b>$basename</b></a>";
+        $res .= ", <span class='filesize'>$size</span>";
+        $res .= ", <span class='filedate'>$date</span>";
 
         $cnt = $this->getDownloadCount($file);
         if ($cnt) {
-            $res.=", <span class='count'>Download count: $cnt</span>";
+            $res .= ", <span class='count'>Download count: $cnt</span>";
         }
-        $res.="<br/><i>$comment</i></span>";
+        $res .= "<br/><i>$comment</i></span>";
+
         return $res;
     }
 
