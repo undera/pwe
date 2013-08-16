@@ -81,7 +81,7 @@ abstract class PWELogger {
         } else {
             //$data=str_replace("\n", "\t", $data);
             $id = $_SERVER['REMOTE_PORT'] ? $_SERVER['REMOTE_PORT'] : getmypid();
-            file_put_contents($file, "[$time] [$id] [$location]\t$data\n");
+            file_put_contents($file, "[$time $id $location $data\n");
         }
 
         if ($e != null) {
@@ -97,7 +97,7 @@ abstract class PWELogger {
             return;
 
         if ($msg) {
-            $str = "[debug]" . str_repeat("\t", $indent + 1) . str_replace("\n", " ", $msg);
+            $str = "debug]" . str_repeat("\t", $indent + 1) . str_replace("\n", " ", $msg);
             PWELogger::debug_print($str, self::$stdout);
         }
 
@@ -116,7 +116,7 @@ abstract class PWELogger {
         if (self::$pwe_debug_level > PWELogger::INFO)
             return;
 
-        $str = "[info]\t$msg";
+        $str = "info]\t$msg";
         PWELogger::debug_print($str, self::$stdout);
     }
 
@@ -128,7 +128,7 @@ abstract class PWELogger {
         if (self::$pwe_debug_level > PWELogger::WARNING)
             return;
 
-        $str = "[warn]\t$msg";
+        $str = "warn]\t$msg";
         PWELogger::debug_print($str, self::$stderr, $e);
     }
 
@@ -136,7 +136,7 @@ abstract class PWELogger {
         if (self::$pwe_debug_level > PWELogger::ERROR)
             return;
 
-        $str = "[error]\t$msg";
+        $str = "error]\t$msg";
         PWELogger::debug_print($str, self::$stderr, $e);
     }
 
