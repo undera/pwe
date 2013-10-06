@@ -35,14 +35,16 @@
     {capture name=breadcrumbs}
         {if $path != '../' || !$root.$p}
             {if $root.$a.link}
-                <b><a href="{$path}{$root.$a.link}/">{$root.$a.title|default:$root.$a.link}</a></b>
+                <span style="font-weight: bold;"><a
+                            href="{$path}{$root.$a.link}/">{$root.$a.title|default:$root.$a.link}</a></span>
             {else}
-                <b><a href="{$path}">{$root.$a.title|default:$root.$a.link}</a></b>
+                <span style="font-weight: bold;"><a href="{$path}">{$root.$a.title|default:$root.$a.link}</a></span>
             {/if}
             {if $smarty.capture.breadcrumbs|strlen}&gt;{/if}
             {$smarty.capture.breadcrumbs}
         {else}
-            <b><a class="hl" href="{$path}{$root.$a.link}/">{$root.$a.title|default:$root.$a.link}</a></b>
+            <span style="font-weight: bold;"><a class="hl"
+                                                href="{$path}{$root.$a.link}/">{$root.$a.title|default:$root.$a.link}</a></span>
             {$smarty.capture.breadcrumbs}
         {/if}
     {/capture}
@@ -51,7 +53,7 @@
 
 <tr>
     <td style="background-color: white; font-size: 0.8em;">
-        <table class="breadcrumbs" style="width: 100%; background-color: white; margin:0px;padding:0px;" cellspacing="0"
+        <table class="breadcrumbs" style="width: 100%; background-color: white; margin:0;padding:0;" cellspacing="0"
                cellpadding="0">
             <tr>
                 {if $smarty.capture.breadcrumbs}
@@ -65,12 +67,12 @@
                 {block name="login_logout"}
                     {AUTH->getUserID assign=isAuth}
                     {if $isAuth}
-                        <td style="padding: 0px 4px; white-space: nowrap;">
+                        <td style="padding: 0 4px; white-space: nowrap;">
                             <img alt='' style='vertical-align: text-bottom;' src='{$IMG_HREF}/design/user_icon.png'/>
-                            <b>{AUTH->getUserName}</b>
+                            <span style="font-weight: bold;">{AUTH->getUserName}</span>
                         </td>
                         {AUTH->getLevelsUpToAuthNode assign=levels}
-                        <td style="padding: 0px 4px; white-space: nowrap;">
+                        <td style="padding: 0 4px; white-space: nowrap;">
                             <a href='{'../'|str_repeat:$levels}logout/'>Logout</a>
                         </td>
                     {/if}
@@ -121,7 +123,7 @@
 {if $level1}
     <!--menu1-->
     <tr>
-        <td class='menu1' style="background-repeat: repeat-x; background-position: center left;">
+        <td class='menu1' style="background: repeat-x center left;">
             {block name="menu1"}
                 <table border='0' width="100%" cellspacing='0' cellpadding='0'>
                     <tr>
@@ -154,57 +156,6 @@
                             {/if}
                         {/foreach}
                         <td style="width: 100%" align="right">
-                            <small>
-                                <a id='minimizelink' style="text-decoration:none;" title="Collapse" href="#"
-                                   onclick="minimizeHeader();"
-                                        >&nbsp;&nbsp;&uarr;&nbsp;&nbsp;</a>
-                                <a id='restorelink' style="text-decoration:none; display:none;" title="Expand" href="#"
-                                   onclick="restoreHeader();"
-                                        >&nbsp;&nbsp;&darr;&nbsp;&nbsp;</a>
-                            </small>
-                            <script type="text/javascript">
-                                function SetCookie(cookieName, cookieValue, nDays) {
-                                    var today = new Date();
-                                    var expire = new Date();
-                                    if (nDays == null || nDays == 0)
-                                        nDays = 1;
-                                    expire.setTime(today.getTime() + 3600000 * 24 * nDays);
-                                    document.cookie = cookieName + "=" + escape(cookieValue)
-                                            + ";expires=" + expire.toGMTString();
-                                }
-                                //
-                                function ReadCookie(cookieName) {
-                                    var theCookie = " " + document.cookie;
-                                    var ind = theCookie.indexOf(" " + cookieName + "=");
-                                    if (ind == -1)
-                                        ind = theCookie.indexOf(";" + cookieName + "=");
-                                    if (ind == -1 || cookieName == "")
-                                        return "";
-                                    var ind1 = theCookie.indexOf(";", ind + 1);
-                                    if (ind1 == -1)
-                                        ind1 = theCookie.length;
-                                    return unescape(theCookie.substring(ind + cookieName.length + 2, ind1));
-                                }
-
-                                function minimizeHeader() {
-                                    document.all['toppanel'].style.display = 'none';
-                                    document.all['minimizelink'].style.display = 'none';
-                                    document.all['restorelink'].style.display = '';
-                                    SetCookie("headerMinimized", 1, 30);
-                                }
-
-                                function restoreHeader() {
-                                    document.all['toppanel'].style.display = '';
-                                    document.all['minimizelink'].style.display = '';
-                                    document.all['restorelink'].style.display = 'none';
-                                    SetCookie("headerMinimized", 1, -30);
-                                    //alert("Deleted cookie");
-                                }
-
-                                if (ReadCookie("headerMinimized")) {
-                                    minimizeHeader();
-                                }
-                            </script>
                         </td>
                     </tr>
                 </table>
@@ -223,7 +174,7 @@
                     <!--menu2-->
                     <td style="white-space: nowrap;" valign='top' class='root'>
                         {block 'menu2'}
-                            <b class='menu2'>
+                            <span class='menu2' style="font-weight: bold;">
                                 {math assign=upper_repeats equation='x-2' x=$urlFullCount}
                                 {foreach $level2 as $item2}
                                     {if $item2.$a.menu}
@@ -233,16 +184,18 @@
                                             <a class="hl"
                                                href='{'../'|str_repeat:$upper_repeats}{$item2.$a.link}/'>{$item2.$a.title|default:$item2.$a.link}</a>
                                             <br/>
-                                            <!--/item2h-->
+
+                                                                                            <!--/item2h-->
                                         {else}
                                             <!--item2-->
+
                                             <a href='{'../'|str_repeat:$upper_repeats}{$item2.$a.link}/'>{$item2.$a.title|default:$item2.$a.link}</a>
                                             <br/>
                                             <!--/item2-->
                                         {/if}
                                     {/if}
                                 {/foreach}
-                            </b>
+                            </span>
                             <br/>
                         {/block}
                     </td>
@@ -298,18 +251,35 @@
 <tr>
     <td class="footer">
         {block name="footer"}
-            <table style='float:right;' border='0' cellspacing='0' cellpadding='0'>
+            <table style="width: 100%; border: 0; padding: 0; border-collapse: collapse;">
                 <tr>
-                    <td style='padding: 5px;'><big><b title='Mathematical sign, means "For All"'>&forall;</b></big></td>
-                    <td align='right'>
-                        <small> Powered by
-                            <a title='Pluggable Web Engine' href='https://github.com/undera/pwe'><b>P&nbsp;W&nbsp;E</b></a>
-                        </small>
-                    </td>
-                    <td style='padding: 5px;'><a href='https://github.com/undera/pwe'><img
-                                    style='margin-bottom: 3px; border: none;'
-                                    src='{$IMG_HREF}/design/pwe_logo_small.gif' title='Pluggable Web Engine' alt='PWE'/></a>
-                    </td>
+                    {block name="footer_left"}
+                        <td class="footer-left"></td>
+                    {/block}
+                    {block name="footer_center"}
+                        <td class="footer-center"></td>
+                    {/block}
+                    {block name="footer_right"}
+                        <td class="footer-right">
+                            <table style='float:right;' border='0' cellspacing='0' cellpadding='0'>
+                                <tr>
+                                    <td style="padding: 5px; font-size: large; font-weight: bold;"
+                                        title='Mathematical sign, means "For All"'>&forall;</td>
+                                    <td align='right' style="font-size: 80%;">
+                                        Powered by
+                                        <a title='Pluggable Web Engine' href='https://github.com/undera/pwe'
+                                           style="font-weight: bold;">P&nbsp;W&nbsp;E</a>
+                                    </td>
+                                    <td style='padding: 5px;'><a href='https://github.com/undera/pwe'><img
+                                                    style='margin-bottom: 3px; border: none;'
+                                                    src='{$IMG_HREF}/design/pwe_logo_small.gif'
+                                                    title='Pluggable Web Engine'
+                                                    alt='PWE'/></a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    {/block}
                 </tr>
             </table>
         {/block}
