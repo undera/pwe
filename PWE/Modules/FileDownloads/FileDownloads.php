@@ -2,7 +2,6 @@
 
 namespace PWE\Modules\FileDownloads;
 
-use CallbackFilterIterator;
 use FilesystemIterator;
 use PWE\Core\PWECore;
 use PWE\Core\PWELogger;
@@ -14,12 +13,14 @@ use PWE\Modules\Outputable;
 use PWE\Modules\PWEModule;
 use PWE\Utils\FilesystemHelper;
 
-class FileDownloads extends PWEModule implements Outputable {
+class FileDownloads extends PWEModule implements Outputable
+{
 
     private $dl_base;
     private $link_base;
 
-    public function __construct(PWECore $core) {
+    public function __construct(PWECore $core)
+    {
         parent::__construct($core);
         $node = $core->getNode();
         $this->dl_base = $node['!a']['files_base'];
@@ -30,13 +31,15 @@ class FileDownloads extends PWEModule implements Outputable {
         $this->link_base = $node['!a']['download_link'];
     }
 
-    public static function filter_out_cnt($current, $key, $iterator) {
+    public static function filter_out_cnt($current)
+    {
         $ext = strtolower(end(explode('.', $current)));
 
         return $ext !== 'cnt';
     }
 
-    public function process() {
+    public function process()
+    {
         $params = $this->PWE->getURL()->getParamsAsArray();
         $file_path = '/' . $this->dl_base . '/' . PWEURL::protectAgainsRelativePaths(implode('/', $params));
         $file = $this->PWE->getRootDirectory() . $file_path;
@@ -49,7 +52,8 @@ class FileDownloads extends PWEModule implements Outputable {
         throw new HTTP3xxException($file_path);
     }
 
-    private function recordDownload($file) {
+    private function recordDownload($file)
+    {
         $cnt = $this->getDownloadCount($file);
 
         $f = $file . '.cnt';
@@ -60,7 +64,8 @@ class FileDownloads extends PWEModule implements Outputable {
         }
     }
 
-    private function getDownloadCount($file) {
+    private function getDownloadCount($file)
+    {
         $f = $file . '.cnt';
         if (is_file($f)) {
             $cnt = round(file_get_contents($f));
@@ -72,22 +77,30 @@ class FileDownloads extends PWEModule implements Outputable {
         return $cnt;
     }
 
-    public function getDirectoryBlock($subdir) {
+    public function getDirectoryBlock($subdir)
+    {
         $fi = new FilesystemIterator($this->getRealFile($subdir));
-        $it = new CallbackFilterIterator($fi, __CLASS__ . '::filter_out_cnt');
-        $res = "";
-        foreach ($it as $file) {
-            $res .= $this->getFileBlock($subdir . '/' . basename($file), '') . "\n\n";
+        $res = array();
+        /** @var $file \SplFileInfo */
+        foreach ($fi as $file) {
+            if (!self::filter_out_cnt($file)) {
+                continue;
+            }
+            $res[$file->getMTime()] = $this->getFileBlock($subdir . '/' . $file->getBasename(), '') . "\n\n";
         }
 
-        return $res;
+        krsort($res);
+
+        return implode("\n", $res);
     }
 
-    private function getRealFile($file) {
+    private function getRealFile($file)
+    {
         return $this->PWE->getRootDirectory() . '/' . $this->dl_base . '/' . PWEURL::protectAgainsRelativePaths($file);
     }
 
-    public function getFileBlock($orig_file, $comment) {
+    public function getFileBlock($orig_file, $comment)
+    {
         $orig_file = PWEURL::protectAgainsRelativePaths($orig_file);
         $basename = basename($orig_file);
         $file = $this->getRealFile($orig_file);
