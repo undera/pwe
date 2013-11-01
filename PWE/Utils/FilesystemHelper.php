@@ -6,13 +6,15 @@
   Note:
   Update: OMA 07.05.2006 13:12:06
   Note: Инвертирование пордяка проверки существования директорий в fsys_mkdir
- */ ?><?php
+ */
+?><?php
 
 namespace PWE\Utils;
 
 use PWE\Core\PWELogger;
 
-abstract class FilesystemHelper {
+abstract class FilesystemHelper
+{
 
 //----------------------------------------------------------------------------------------
 // Считывает содержимое директории в массив
@@ -21,7 +23,8 @@ abstract class FilesystemHelper {
 //          $stat - детали файла/директории
 //          $filter - функция-фильтр
 // @return: ассоциативный массив содержимого директории
-    public static function fsys_readdir($path, $is_deep=false, $stat=false, $filter=false, $root='') {
+    public static function fsys_readdir($path, $is_deep = false, $stat = false, $filter = "", $root = '')
+    {
         if (strrchr($path, '/') != '/')
             $path .= '/';
         $files = array();
@@ -37,12 +40,12 @@ abstract class FilesystemHelper {
                         if ((!$filter || $filter($path . $file)))
                             $files[$ind] = true; // название директории заканчивается слешем
 
-                        if ($is_deep) {  // рекурсивное чтение, если запрошено
+                        if ($is_deep) { // рекурсивное чтение, если запрошено
                             $files = array_merge($files, self::fsys_readdir($path . $file, $is_deep, false, $filter, $ind . '/'));
                         }
                     } else
-                    if ((!$filter || $filter($path . $file)))
-                        $files[$ind] = false;
+                        if ((!$filter || $filter($path . $file)))
+                            $files[$ind] = false;
                 }
             }
             closedir($d);
@@ -64,7 +67,8 @@ abstract class FilesystemHelper {
 //          $move - удалить после копирования
 //          $is_root - первый заход (private)
 // @return: результат копирования/перемещения
-    public static function fsys_copydir($from, $to, $is_deep=true, $move=false) {
+    public static function fsys_copydir($from, $to, $is_deep = true, $move = false)
+    {
         if (!is_dir($from)) {
             PWELogger::warning("Source directory not exists for copy: $from");
             return false;
@@ -98,11 +102,17 @@ abstract class FilesystemHelper {
         }
 
         // проверка на право чтения с директории-источника и на право удаления при перемещении
-        foreach ($files as $file => $is_dir)
-            if (!is_readable($from . $file) || ($move && !is_writable($from . $file))) {
-                PWELogger::error("Source '$from.$file' is not writable");
+        foreach ($files as $file => $is_dir) {
+            if (!is_readable($from . $file)) {
+                PWELogger::error("Source '$from.$file' is not readable");
                 return false;
             }
+
+            if ($move && !is_writable($from . $file)) {
+                PWELogger::error("Source '$from.$file' is not writable for move");
+                return false;
+            }
+        }
 
         // существующие файлы и директории в конечной директории, для правильного отката
         $existed_files = self::fsys_readdir($to);
@@ -117,8 +127,7 @@ abstract class FilesystemHelper {
                     if (!$copied)
                         break;
                 }
-            }
-            else {
+            } else {
                 $copied = copy($oldpath, $newpath);
                 PWELogger::debug("Copy file " . ($copied ? 'success' : 'FAILED') . ": $oldpath -> $newpath");
                 // если копируется пустой файл, то copy() возвращает false (?)
@@ -127,7 +136,7 @@ abstract class FilesystemHelper {
             }
         }
 
-        if (!$copied) {  //  откат
+        if (!$copied) { //  откат
             PWELogger::info("Rolling back...");
             self::fsys_removedir($to, $is_deep, $existed_files);
             return false;
@@ -145,7 +154,8 @@ abstract class FilesystemHelper {
 //          $is_deep - необходимость копирования содержимого поддиректорий
 // @return: результат перемещения
 // @note:   может не нужен
-    public static function fsys_movedir($from, $to, $is_deep=true) {
+    public static function fsys_movedir($from, $to, $is_deep = true)
+    {
         return self::fsys_copydir($from, $to, $is_deep, true);
     }
 
@@ -155,7 +165,8 @@ abstract class FilesystemHelper {
 //          $is_deep - необходимость удаления содержимого поддиректорий
 //          $leave_files - массив-список неудаляемых файлов/директорий
 // @return: результат удаления
-    function fsys_removedir($dir, $is_deep=true, $leave_files=array()) {
+    function fsys_removedir($dir, $is_deep = true, $leave_files = array())
+    {
         if (!is_dir($dir))
             return true;
         if (strrchr($dir, '/') != '/')
@@ -203,13 +214,14 @@ abstract class FilesystemHelper {
 // Создает директорию
 // @see:    $dir - полный путь к директории
 // @return: результат создания
-    public static function fsys_mkdir($dir) {
+    public static function fsys_mkdir($dir)
+    {
         $notexisted = false;
         $memo = false;
         $dir = str_replace('\\', '/', $dir); // корректируем слеши
         $cdir = $dir;
         $cdir = preg_replace('!/$!', '', $cdir);
-        while ($cdir != '' && strpos($cdir, '/') !== false) {   // проходимся по директоиям, проверяя их существование
+        while ($cdir != '' && strpos($cdir, '/') !== false) { // проходимся по директоиям, проверяя их существование
             if (!is_dir($cdir))
                 $memo[] = $cdir;
             else
@@ -218,12 +230,12 @@ abstract class FilesystemHelper {
             $cdir = substr($cdir, 0, strrpos($cdir, '/'));
         }
 
-        if ($memo) {  // если есть несуществующие директории
+        if ($memo) { // если есть несуществующие директории
             $memo = array_reverse($memo);
             foreach ($memo as $cdir) {
-                if (!is_dir($cdir)) {  // еще раз проверим, на всякий случай
+                if (!is_dir($cdir)) { // еще раз проверим, на всякий случай
                     PWELogger::debug("Creating directory: $cdir");
-                    if (!mkdir($cdir)) {  // если создать директорию не вышло, то откат
+                    if (!mkdir($cdir)) { // если создать директорию не вышло, то откат
                         if ($notexisted)
                             self::fsys_removedir($notexisted);
                         PWELogger::debug('Failed to create directory ' . $cdir);
@@ -232,7 +244,7 @@ abstract class FilesystemHelper {
                     if (!$notexisted)
                         $notexisted = $cdir;
                 }
-                if (!is_writable($cdir)) {  // если в директорию нельзя писать, то откат
+                if (!is_writable($cdir)) { // если в директорию нельзя писать, то откат
                     if ($notexisted)
                         self::fsys_removedir($notexisted);
                     PWELogger::debug('Directory not writable ' . $cdir);
@@ -248,10 +260,11 @@ abstract class FilesystemHelper {
 // Умный размер файла/директории
 // @see:    $file - полный путь к файлу
 // @return: размер файла
-    public static function fsys_filesize($file) {
+    public static function fsys_filesize($file)
+    {
         if (!file_exists($file))
             return false;
-        if (is_dir($file)) {  // директория
+        if (is_dir($file)) { // директория
             if (strrchr($file, '/') != '/')
                 $file .= '/';
             $files = self::fsys_readdir($file, true);
@@ -264,8 +277,7 @@ abstract class FilesystemHelper {
                 $dsize += filesize($file . $path);
             }
             return $dsize;
-        }
-        else {
+        } else {
             return filesize($file);
         }
     }
@@ -274,8 +286,9 @@ abstract class FilesystemHelper {
 // Преобразование любого числа в умный размер файла
 // @see:    $size - число - кол-во байтов
 // @return: умный размер
-    public static function fsys_kbytes($size) {
-        $slevel = array('B', 'KB', 'MB', 'GB', 'TB');  // допустимые метки размеров
+    public static function fsys_kbytes($size)
+    {
+        $slevel = array('B', 'KB', 'MB', 'GB', 'TB'); // допустимые метки размеров
         $lvl = 0;
         while ($size >= 1024) {
             $size /= 1024;
@@ -283,7 +296,7 @@ abstract class FilesystemHelper {
             if ($lvl == 4)
                 break;
         }
-        $size = round($size, 2);  // округление до сотых
+        $size = round($size, 2); // округление до сотых
         if (intval($size) == $size)
             return intval($size) . ' ' . $slevel[$lvl];
         else
