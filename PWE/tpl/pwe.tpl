@@ -7,7 +7,17 @@
     <head>
         {block name="head"}
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-            <title>{block name="title"}{$node.$i.title|default:$node.$a.link}{/block}</title>
+            <title>
+                {block name="title"}
+                    {PWE->getCurrentModuleInstance assign="module"}
+                    {if $module|is_a:'PWE\Modules\TitleGenerator'}
+                        {$module->generateTitle() assign="title"}
+                        {$title|default:$node.$i.title}
+                    {else}
+                        {$node.$i.title|default:$node.$a.link}
+                    {/if}
+                {/block}
+            </title>
             <meta name="keywords" content="{$node.$i.keywords|default:$node.$i.keywords}"/>
             <meta name="description" content="{$node.$i.description|default:$node.$i.description}"/>
             {if false && $smarty.server.SERVER_ADDR==$smarty.server.REMOTE_ADDR}
@@ -59,7 +69,23 @@
                 {if $smarty.capture.breadcrumbs}
                     <!-- POSITION INFO -->
                     <td style='width: 100%; padding: 2px 2px 3px 4px;'>
-                        {block name="breadcrumbs"}{$smarty.capture.breadcrumbs}{/block}
+                        {block name="breadcrumbs"}
+                            {$smarty.capture.breadcrumbs}
+                            {PWE->getCurrentModuleInstance assign="module"}
+                            {if $module|is_a:'PWE\Modules\BreadcrumbsGenerator'}
+                                {$module->generateBreadcrumbs() assign=bcrumbs}
+
+                                {foreach $bcrumbs as $item}
+                                    {if $item.selected}
+                                        &gt;
+                                        <b><a class="hl" href="{$item.$a.link}">{$item.$a.title}</a></b>
+                                    {else}
+                                        &gt;
+                                        <b><a href="{$item.$a.link}">{$item.$a.title}</a></b>
+                                    {/if}
+                                {/foreach}
+                            {/if}
+                        {/block}
                     </td>
                     <!-- /POSITION INFO -->
                 {/if}
@@ -103,7 +129,13 @@
                     <!-- PAGE TITLE -->
                     <td class='header_title'>
                         {block name="header_title"}
-                            {$node.$i.title|default:$node.$a.link}
+                            {PWE->getCurrentModuleInstance assign="module"}
+                            {if $module|is_a:'PWE\Modules\TitleGenerator'}
+                                {$module->generateTitle() assign="title"}
+                                {$title|default:$node.$i.title}
+                            {else}
+                                {$node.$i.title|default:$node.$a.link}
+                            {/if}
                         {/block}
                     </td>
                     <!-- /PAGE TITLE -->
@@ -185,9 +217,17 @@
                                                href='{'../'|str_repeat:$upper_repeats}{$item2.$a.link}/'>{$item2.$a.title|default:$item2.$a.link}</a>
                                             <br/>
 
-                                                                                            <!--/item2h-->
+
+
+
+
+                                                                                                                                                                                                                                                                                            <!--/item2h-->
                                         {else}
                                             <!--item2-->
+
+
+
+
 
                                             <a href='{'../'|str_repeat:$upper_repeats}{$item2.$a.link}/'>{$item2.$a.title|default:$item2.$a.link}</a>
                                             <br/>
