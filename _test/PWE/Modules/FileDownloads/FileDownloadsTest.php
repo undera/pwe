@@ -25,9 +25,9 @@ class FileDownloadsTest extends \PHPUnit_Framework_TestCase
         PWELogger::info("Create dir " . $pwe->getTempDirectory());
         //mkdir($pwe->getTempDirectory(), 0x777, true);
 
-        file_put_contents($pwe->getTempDirectory() . '/test1', '');
+        file_put_contents($pwe->getTempDirectory() . '/test1', time());
         sleep(1);
-        file_put_contents($pwe->getTempDirectory() . '/test2', '');
+        file_put_contents($pwe->getTempDirectory() . '/test2', time());
 
         $node = $pwe->getNode();
         $node['!a']['files_base'] = '.';
