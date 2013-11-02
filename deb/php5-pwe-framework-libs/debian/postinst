@@ -26,15 +26,15 @@ case "$1" in
 
         echo install/upgrade phpseclib
         pear channel-discover phpseclib.sourceforge.net || pear channel-update phpseclib.sourceforge.net
-        pear install --soft --onlyreqdeps PHP_Compat-1.6.0a3 || pear upgrade PHP_Compat-1.6.0a3
-        pear install --soft --onlyreqdeps phpseclib/Crypt_RSA || pear upgrade phpseclib/Crypt_RSA
+        pear upgrade --force --onlyreqdeps PHP_Compat-1.6.0a3
+        pear upgrade --force --onlyreqdeps phpseclib/Crypt_RSA
 
         echo install/upgrade OpenID
-        pear install --soft --onlyreqdeps Crypt_DiffieHellman-0.2.6 || pear upgrade Crypt_DiffieHellman-0.2.6
-        pear install --soft --onlyreqdeps Validate-0.8.5 || pear upgrade Validate-0.8.5
-        pear install --soft --onlyreqdeps Services_Yadis-0.5.1 || pear upgrade Services_Yadis-0.5.1
-        pear install --soft --onlyreqdeps HTTP_OAuth-0.2.3 || pear upgrade HTTP_OAuth-0.2.3
-        pear install --soft --alldeps OpenID-0.3.3 || pear upgrade OpenID-0.3.3
+        pear upgrade --force --onlyreqdeps pear upgrade Crypt_DiffieHellman-0.2.6
+        pear upgrade --force --onlyreqdeps Validate-0.8.5
+        pear upgrade --force --onlyreqdeps Services_Yadis-0.5.1
+        pear upgrade --force --onlyreqdeps HTTP_OAuth-0.2.3
+        pear upgrade --force --onlyreqdeps OpenID-0.3.3
 
         echo install/upgrade Memcached
         pecl install memcached-2.0.1 || php -r "new Memcached();"
