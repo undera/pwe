@@ -40,7 +40,6 @@ PWEAutoloader::activate();
 PHPFatalException::activate();
 
 if (php_sapi_name() == 'cli') {
-    global $argv;
     $shortopts = "j:c:r:";
 
     $opts = getopt($shortopts);
