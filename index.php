@@ -40,16 +40,15 @@ PWEAutoloader::activate();
 PHPFatalException::activate();
 
 if (php_sapi_name() == 'cli') {
-    $shortopts = "j:";
-    $shortopts .= "c:";
-    $shortopts .= "r:";
+    global $argv;
+    $shortopts = "j:c:r:";
 
     $opts = getopt($shortopts);
-
 
     $registry = $opts['r'] ? $opts['r'] : '/etc/loadosophia/eg_globals.xml';
     $pwe = new CMDLinePWECore($registry);
     if ($opts['c']) {
+        PWELogger::warn("Using cfg: " . $opts['c']);
         $PWECore = $pwe;
         require $opts['c'];
     }
