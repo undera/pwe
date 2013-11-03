@@ -2,15 +2,17 @@
 
 namespace PWE\Modules;
 
+use InvalidArgumentException;
+use PWE\Core\PWECMDJob;
 use PWE\Core\PWECore;
 use PWE\Core\PWELogger;
-use PWE\Utils\PWEXML;
-use \RuntimeException;
-use \ReflectionClass;
-use \InvalidArgumentException;
 use PWE\Exceptions\PHPFatalException;
+use PWE\Utils\PWEXML;
+use ReflectionClass;
+use RuntimeException;
 
-class PWEModulesManager {
+class PWEModulesManager implements PWECMDJob
+{
 
     protected $registryFile;
     protected $registryArray;
@@ -21,23 +23,29 @@ class PWEModulesManager {
      */
     private $PWE;
 
-    public function __construct(PWECore $pwe, $registryFile = NULL) {
+    public function __construct(PWECore $pwe)
+    {
         PWELogger::debug("Loading registry");
         $this->PWE = $pwe;
-        if (!$registryFile) {
-            $registryFile = $this->PWE->getXMLDirectory() . '/eg_globals.xml';
-        }
+        $registryFile = $this->PWE->getXMLDirectory() . '/eg_globals.xml';
         $this->setRegistryFile($registryFile);
     }
 
-    public function setRegistryFile($path) {
+    public function getRegistryFile()
+    {
+        return $this->registryFile;
+    }
+
+    public function setRegistryFile($path)
+    {
         PWELogger::debug("Setting registry file to: " . $path);
         $this->registryFile = $path;
         $this->loadRegistry();
     }
 
-    protected function &getModuleNode($name) {
-        $node = &$this->registryArray['registry'][0]['!c']['classPaths'][0];
+    protected function &getModuleNode($name)
+    {
+        $node = & $this->registryArray['registry'][0]['!c']['classPaths'][0];
         $path = explode("\\", $name);
         foreach ($path as $component) {
             if (!$component)
@@ -47,16 +55,17 @@ class PWEModulesManager {
                 $node['!c'][$component][0] = array();
             }
 
-            $node = &$node['!c'][$component][0];
+            $node = & $node['!c'][$component][0];
         }
 
         //print_r($this->registryArray);
         return $node;
     }
 
-    public function registerModule($name) {
+    public function registerModule($name)
+    {
         PWELogger::debug("Registering module $name");
-        $mod = &$this->getModuleNode($name);
+        $mod = & $this->getModuleNode($name);
 
         try {
             $modClass = new ReflectionClass($name);
@@ -75,8 +84,9 @@ class PWEModulesManager {
     }
 
     // FIXME: get settings not consistent with set settings
-    public function &getModuleSettings($name) {
-        $mod = &$this->getModuleNode($name);
+    public function &getModuleSettings($name)
+    {
+        $mod = & $this->getModuleNode($name);
         return $mod;
     }
 
@@ -85,7 +95,8 @@ class PWEModulesManager {
      * @param string $moduleName
      * @return PWEModule
      */
-    public function getSingleInstanceModule($moduleName) {
+    public function getSingleInstanceModule($moduleName)
+    {
         PWELogger::debug("Module class: " . $moduleName);
         $module = new $moduleName($this->PWE);
         return $module;
@@ -94,9 +105,11 @@ class PWEModulesManager {
     /**
      *
      * @param array $structureNode
+     * @throws \InvalidArgumentException
      * @return PWEModule
      */
-    public function getMultiInstanceModule(array $structureNode) {
+    public function getMultiInstanceModule(array $structureNode)
+    {
         if (!isset($structureNode['!a']['class'])) {
             //PWELogger::debug("Node: ", $structureNode);
             throw new InvalidArgumentException("Passed structure node have no class name");
@@ -106,7 +119,8 @@ class PWEModulesManager {
         return $mod;
     }
 
-    protected function saveRegistry() {
+    protected function saveRegistry()
+    {
         try {
             PWEXML::cleanEmptyNodes($this->registryArray['registry'][0]);
         } catch (PHPFatalException $e) {
@@ -118,7 +132,9 @@ class PWEModulesManager {
         $XML->FileToArray($this->registryFile, $this->registryArray);
     }
 
-    protected function loadRegistry() {
+    protected function loadRegistry()
+    {
+        PWELogger::debug("Loading registry file: " . $this->registryFile);
         // read site structure
         $XML = new PWEXML($this->PWE->getTempDirectory());
         $this->registryArray = array();
@@ -134,6 +150,38 @@ class PWEModulesManager {
         }
     }
 
+    public function run()
+    {
+        $this->setRegistryFile($this->PWE->getModulesManager()->getRegistryFile());
+        PWELogger::debug("Dumping config");
+        $this->xml_as_options($this->registryArray);
+    }
+
+    private function xml_as_options(&$arr, $stack = array())
+    {
+        foreach ($arr ? $arr : array() as $name => $nodes) {
+            array_push($stack, $name);
+            foreach ($nodes ? $nodes : array() as $i => $node) {
+                if (sizeof($nodes) > 1) {
+                    array_push($stack, $i);
+                }
+
+                if (strlen($node['!v'])) {
+                    echo implode('.', $stack) . "=" . $node['!v'] . "\n";
+                }
+
+                foreach ($node['!a'] as $name => $val) {
+                    echo implode('.', $stack) . ".$name=$val\n";
+                }
+                if (sizeof($nodes) > 1) {
+                    array_pop($stack);
+                }
+
+                $this->xml_as_options($node['!c'], $stack);
+            }
+            array_pop($stack);
+        }
+    }
 }
 
 ?>

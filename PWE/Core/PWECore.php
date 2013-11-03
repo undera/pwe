@@ -19,7 +19,8 @@ use PWE\Utils\PWEXML;
 use PWE\Utils\PWEXMLFunctions;
 use RuntimeException;
 
-class PWECore extends AbstractPWECore implements SmartyAssociative {
+class PWECore extends AbstractPWECore implements SmartyAssociative
+{
 
     /**
      *
@@ -45,13 +46,15 @@ class PWECore extends AbstractPWECore implements SmartyAssociative {
      */
     private $currentModuleInstance;
 
-    public function __construct() {
+    public function __construct()
+    {
         PWELogger::debug("Creating PWE Core");
         parent::__construct();
         $this->errorsTemplate = 'error.tpl';
     }
 
-    public function process($uri) {
+    public function process($uri)
+    {
         try {
             $this->createModulesManager();
             $this->setURL($uri);
@@ -67,10 +70,12 @@ class PWECore extends AbstractPWECore implements SmartyAssociative {
         } catch (HTTP3xxException $e) {
             PWELogger::debug("Got 3xx exception");
             $this->sendHTTPStatusCode($e->getCode());
+            return "";
         }
     }
 
-    public function sendHTTPStatusCode($code) {
+    public function sendHTTPStatusCode($code)
+    {
         if ($this->statusSent) {
             PWELogger::warn("Trying to send HTTP status more than once for code: " . $code);
         }
@@ -84,16 +89,18 @@ class PWECore extends AbstractPWECore implements SmartyAssociative {
             PWELogger::debug("HTTP Status header: " . $status);
             header($status, true, $code);
         } else {
-            PWELogger::warn("Cannot report status, headers has been sent: " . $status);
+            PWELogger::warn("Cannot report status, headers has been sent");
         }
         $this->statusSent = true;
     }
 
-    public function isStatusSent() {
+    public function isStatusSent()
+    {
         return $this->statusSent;
     }
 
-    public function getErrorPage(\Exception $e) {
+    public function getErrorPage(\Exception $e)
+    {
         $smarty = $this->getSmarty();
         $smarty->assign('code', $e->getCode() ? $e->getCode() : HTTP5xxException::RUNTIME_ERROR);
         $smarty->assign('code_desc', PWEHTTPException::$HTTPErrorMessages[$e->getCode()]);
@@ -106,7 +113,8 @@ class PWECore extends AbstractPWECore implements SmartyAssociative {
         return $smarty->fetchAll();
     }
 
-    public function setXMLDirectory($dir) {
+    public function setXMLDirectory($dir)
+    {
         parent::setXMLDirectory($dir);
         $this->siteStructureFile = $this->getXMLDirectory() . '/out.xml';
 
@@ -115,15 +123,18 @@ class PWECore extends AbstractPWECore implements SmartyAssociative {
         }
     }
 
-    public function getStructureFile() {
+    public function getStructureFile()
+    {
         return $this->siteStructureFile;
     }
 
     /**
      *
      * @param string $uri
+     * @throws \RuntimeException
      */
-    public function setURL($uri) {
+    public function setURL($uri)
+    {
         if ($this->URL)
             throw new RuntimeException("Повторное использование метода setURL запрещено");
 
@@ -149,18 +160,22 @@ class PWECore extends AbstractPWECore implements SmartyAssociative {
 
     /**
      *
+     * @throws \PWE\Exceptions\HTTP4xxException
      * @return PWEURL
      */
-    public function getURL() {
+    public function getURL()
+    {
         if (!$this->URL)
             throw new HTTP4xxException("No URL set", HTTP4xxException::BAD_REQUEST);
         return $this->URL;
     }
 
     /**
+     * @throws \PWE\Exceptions\HTTP5xxException
      * @return string
      */
-    private function getHTML() {
+    private function getHTML()
+    {
         if (!($this->currentModuleInstance instanceof Outputable)) {
             throw new HTTP5xxException("Module class is not Outputable");
         }
@@ -178,25 +193,28 @@ class PWECore extends AbstractPWECore implements SmartyAssociative {
      * @param mixed $structureNode
      * @return PWEModule
      */
-    public function getModuleInstance($structureNode) {
+    public function getModuleInstance($structureNode)
+    {
         if (is_array($structureNode))
             return $this->modulesManager->getMultiInstanceModule($structureNode);
         else
             return $this->modulesManager->getSingleInstanceModule($structureNode);
     }
 
-    public function getSiteStructure() {
+    public function getSiteStructure()
+    {
         $XML = new PWEXML($this->getTempDirectory());
         $struct = array();
         $XML->FileToArray($this->siteStructureFile, $struct);
         return $struct;
     }
 
-    private function detectStructureNode() {
+    private function detectStructureNode()
+    {
         // 3.2. Поиск в структуре запрашиваемого узла
         $tmpNode = array('!c' => &$this->siteStructure);
         $this->structureNode = $this->recursiveNodeSearch(
-                $tmpNode, $this->URL->getFullAsArray());
+            $tmpNode, $this->URL->getFullAsArray());
 
         // calculating params and match
         $this->structureNode['!i'] = array();
@@ -204,14 +222,14 @@ class PWECore extends AbstractPWECore implements SmartyAssociative {
             $nodePointer = array('!p' => &$this->structureNode);
             $depth = 0;
         } else {
-            $nodePointer = &$this->structureNode;
+            $nodePointer = & $this->structureNode;
             $depth = 1;
         }
 
         do {
             $this->structureNode['!i'] = array_merge(
-                    isset($nodePointer['!a']) ? $nodePointer['!a'] : array(), $this->structureNode['!i']);
-            $nodePointer = &$nodePointer['!p'];
+                isset($nodePointer['!a']) ? $nodePointer['!a'] : array(), $this->structureNode['!i']);
+            $nodePointer = & $nodePointer['!p'];
             $depth++;
         } while ($nodePointer);
 
@@ -225,8 +243,7 @@ class PWECore extends AbstractPWECore implements SmartyAssociative {
                 PWELogger::warn("Defined accept limit " . $this->structureNode['!i']['accept'] . " has been exceeded: " . sizeof($this->URL->getParamsAsArray()));
                 throw new HTTP4xxException('URI parameters count exceeded', HTTP4xxException::BAD_REQUEST);
             }
-        }
-        // иначе ругаемся
+        } // иначе ругаемся
         else {
             if (sizeof($this->URL->getParamsAsArray())) {
                 throw new HTTP4xxException("Requested page not found", HTTP4xxException::NOT_FOUND);
@@ -236,7 +253,8 @@ class PWECore extends AbstractPWECore implements SmartyAssociative {
 
     // TODO: there is simplier way to do it with xml_find_attr
     // TODO: incorporate !i calculation here
-    private function recursiveNodeSearch(array &$node, array $uriArray) {
+    private function recursiveNodeSearch(array &$node, array $uriArray)
+    {
         $size = sizeof(@$node['!c']['url']);
         reset($uriArray);
         $link = current($uriArray);
@@ -249,7 +267,7 @@ class PWECore extends AbstractPWECore implements SmartyAssociative {
             if (@$node['!c']['url'][$n]['!a']['link'] == $link) {
                 //PWELogger::debug("Matched #" . $n);
 
-                $node = &$node['!c']['url'][$n];
+                $node = & $node['!c']['url'][$n];
 
                 // если кончились элементы УРЛа - то финиш
                 if (sizeof($uriArray) - 1 <= 0) {
@@ -269,11 +287,12 @@ class PWECore extends AbstractPWECore implements SmartyAssociative {
     }
 
     /**
-     * 
+     *
      * @return array
      * @throws HTTP5xxException
      */
-    public function getNode() {
+    public function getNode()
+    {
         if (!$this->structureNode) {
             throw new HTTP5xxException("Current node was not defined yet. Method setURL must be called before getting current Node");
         }
@@ -283,7 +302,8 @@ class PWECore extends AbstractPWECore implements SmartyAssociative {
     /**
      *  Jump to first child feature
      */
-    private function jumpToFirstChild() {
+    private function jumpToFirstChild()
+    {
         $eg_node = $this->structureNode;
         if (isset($this->structureNode['!a']['class']))
             return;
@@ -302,7 +322,7 @@ class PWECore extends AbstractPWECore implements SmartyAssociative {
             PWELogger::info('Jump To First Сhild: ' . $v['!a']['link']);
             $jumpTo = $v['!a']['link'] . '/';
             if (isset($_SERVER["QUERY_STRING"]) && strlen($_SERVER["QUERY_STRING"]))
-                $jumpTo.=$_SERVER["QUERY_STRING"];
+                $jumpTo .= $_SERVER["QUERY_STRING"];
             throw new HTTP3xxException($jumpTo, HTTP3xxException::REDIRECT);
         }
     }
@@ -311,12 +331,14 @@ class PWECore extends AbstractPWECore implements SmartyAssociative {
      *
      * @return string
      */
-    public function getContent() {
+    public function getContent()
+    {
         return $this->htmlContent;
     }
 
-    public function addContent(SmartyWrapper $smarty) {
-        $this->htmlContent.= $smarty->fetchAll();
+    public function addContent(SmartyWrapper $smarty)
+    {
+        $this->htmlContent .= $smarty->fetchAll();
         PWELogger::debug("Content[" . strlen($this->htmlContent) . "]: " . substr($this->htmlContent, 0, 64) . '...');
     }
 
@@ -327,7 +349,8 @@ class PWECore extends AbstractPWECore implements SmartyAssociative {
      * @param int $level level to return
      * @return array
      */
-    public function getStructLevel($level) {
+    public function getStructLevel($level)
+    {
         PWELogger::debug("Building struct level $level");
         $matched = $this->getURL()->getMatchedAsArray();
         if ($level > sizeof($matched)) {
@@ -340,7 +363,7 @@ class PWECore extends AbstractPWECore implements SmartyAssociative {
             return array();
         } else {
             $levelCount = 0;
-            $current = &$this->siteStructure['url'];
+            $current = & $this->siteStructure['url'];
             while ($levelCount <= $level) {
                 $pos = PWEXMLFunctions::findNodeWithAttributeValue($current, 'link', $matched[$levelCount]);
                 if ($pos < 0) {
@@ -354,7 +377,7 @@ class PWECore extends AbstractPWECore implements SmartyAssociative {
                 if ($levelCount == $level)
                     break;
 
-                $current = &$current[$pos]['!c']['url'];
+                $current = & $current[$pos]['!c']['url'];
                 $levelCount++;
             }
             //PWELogger::debug("Final array: ", $current);
@@ -362,32 +385,38 @@ class PWECore extends AbstractPWECore implements SmartyAssociative {
         }
     }
 
-    protected function createModulesManager(PWEModulesManager $externalManager = null) {
+    protected function createModulesManager(PWEModulesManager $externalManager = null)
+    {
         $this->modulesManager = $externalManager ? $externalManager : new PWEModulesManager($this);
     }
 
     /**
+     * @throws \BadFunctionCallException
      * @return PWEModulesManager
      */
-    public function getModulesManager() {
+    public function getModulesManager()
+    {
         if (!$this->modulesManager)
             throw new BadFunctionCallException("Not created modules manager");
 
         return $this->modulesManager;
     }
 
-    public static function getSmartyAllowedMethods() {
+    public static function getSmartyAllowedMethods()
+    {
         return array('getStructLevel', 'getContent', 'getNode', 'getCurrentModuleInstance', 'getStaticDirectory', 'getStaticHref');
     }
 
-    public function getCurrentModuleInstance() {
+    public function getCurrentModuleInstance()
+    {
         return $this->currentModuleInstance;
     }
 
     /**
      * @return SmartyWrapper
      */
-    public function getSmarty() {
+    public function getSmarty()
+    {
         $smarty = new SmartyWrapper($this);
         $smarty->addTemplateDir(dirname(__FILE__) . '/../tpl');
         $smarty->addTemplateDir($this->getDataDirectory() . '/tpl');

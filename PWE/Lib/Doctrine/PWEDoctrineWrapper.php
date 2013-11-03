@@ -34,6 +34,7 @@ class PWEDoctrineWrapper extends PWEModule implements Setupable, PWECMDJob {
     /**
      *
      * @param PWECore $PWE
+     * @param bool $forceNewConnection
      * @return Connection
      */
     public static function getConnection(PWECore $PWE, $forceNewConnection = false) {
@@ -128,7 +129,7 @@ class PWEDoctrineWrapper extends PWEModule implements Setupable, PWECMDJob {
         }
     }
 
-    public function run(array $args) {
+    public function run() {
         // prevent from interrupting the long upgrade
         set_time_limit(0);
         $this->processDBUpgrade($args[0], $args[1]);

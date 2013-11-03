@@ -20,6 +20,7 @@ use PWE\Exceptions\PHPFatalException;
 require_once dirname(__FILE__) . '/PWE/Lib/Smarty/SmartyAssociative.php';
 require_once dirname(__FILE__) . '/PWE/Modules/Setupable.php';
 require_once dirname(__FILE__) . '/PWE/Modules/Outputable.php';
+require_once dirname(__FILE__) . '/PWE/Core/PWECMDJob.php';
 
 require_once dirname(__FILE__) . '/PWE/Core/PWEURL.php';
 require_once dirname(__FILE__) . '/PWE/Modules/PWEModulesManager.php';
@@ -39,19 +40,30 @@ PWEAutoloader::activate();
 PHPFatalException::activate();
 
 if (php_sapi_name() == 'cli') {
-    $registry = $argv[1] ? $argv[1] : '/etc/loadosophia/eg_globals.xml';
+    $shortopts = "j:";
+    $shortopts .= "c:";
+    $shortopts .= "r:";
+
+    $opts = getopt($shortopts);
+
+
+    $registry = $opts['r'] ? $opts['r'] : '/etc/loadosophia/eg_globals.xml';
     $pwe = new CMDLinePWECore($registry);
-    if ($argv[2]) {
+    if ($opts['c']) {
         $PWECore = $pwe;
-        require $argv[2];
+        require $opts['c'];
     }
     PWEAutoloader::setPWE($pwe);
 
-    $job = new $argv[3]($pwe);
+    if (!$opts['j']) {
+        throw new InvalidArgumentException("-j option with full job class name required");
+    }
+
+    $job = new $opts['j']($pwe);
     if (!($job instanceof PWECMDJob)) {
         throw new InvalidArgumentException("Job class must implement PWECMDJob");
     }
-    $job->run(array_slice($argv, 4));
+    $job->run();
 } else {
     try {
         $PWECore = new PWECore();
