@@ -22,15 +22,14 @@ class FileDownloadsTest extends \PHPUnit_Framework_TestCase
         $tmp = $pwe->getTempDirectory();
         $pwe->setRootDirectory($tmp);
         $pwe->setTempDirectory($tmp);
-        PWELogger::info("Create dir " . $pwe->getTempDirectory());
+        PWELogger::info("Create dir " . $tmp);
         //mkdir($pwe->getTempDirectory(), 0x777, true);
 
-        $dir = $pwe->getTempDirectory();
-        file_put_contents($dir . '/test1', time());
-        file_put_contents($dir . '/test2', time());
+        file_put_contents($tmp . '/first', time());
+        file_put_contents($tmp . '/second', time());
 
-        PWELogger::debug(file_get_contents($dir . '/test1'));
-        PWELogger::debug(file_get_contents($dir . '/test2'));
+        PWELogger::debug("File 1 " . file_get_contents($tmp . '/first'));
+        PWELogger::debug("File 2 " . file_get_contents($tmp . '/second'));
 
         $node = $pwe->getNode();
         $node['!a']['files_base'] = '.';
@@ -39,6 +38,6 @@ class FileDownloadsTest extends \PHPUnit_Framework_TestCase
         $obj = new FileDownloads($pwe);
         $res = $obj->getDirectoryBlock('.');
         PWELogger::debug("DIR: " . $res);
-        $this->assertGreaterThan(strpos($res, 'test2'), strpos($res, 'test1'));
+        $this->assertGreaterThan(strpos($res, 'second'), strpos($res, 'first'));
     }
 }

@@ -84,9 +84,10 @@ class FileDownloads extends PWEModule implements Outputable
         /** @var $file \SplFileInfo */
         foreach ($fi as $file) {
             if (!self::filter_out_cnt($file)) {
+                PWELogger::debug("Filtered out $file");
                 continue;
             }
-            $res[$file->getMTime()] = $this->getFileBlock($subdir . '/' . $file->getBasename(), '') . "\n\n";
+            $res[$file->getMTime()." ".$file->getBasename()] = $this->getFileBlock($subdir . '/' . $file->getBasename(), '') . "\n\n";
         }
 
         krsort($res);
