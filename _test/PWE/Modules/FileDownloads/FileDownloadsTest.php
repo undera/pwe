@@ -29,6 +29,9 @@ class FileDownloadsTest extends \PHPUnit_Framework_TestCase
         file_put_contents($dir . '/test1', time());
         file_put_contents($dir . '/test2', time());
 
+        PWELogger::debug(file_get_contents($dir . '/test1'));
+        PWELogger::debug(file_get_contents($dir . '/test2'));
+
         $node = $pwe->getNode();
         $node['!a']['files_base'] = '.';
         $pwe->setNode($node);
