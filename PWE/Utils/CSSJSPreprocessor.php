@@ -63,11 +63,9 @@ class CSSJSPreprocessor implements PWECMDJob
         while (($pos = strpos($orig, $startTag, $pos)) !== false) {
             $pos_end = strpos($orig, $endTag, $pos);
             if ($pos_end !== FALSE) {
-                PWELogger::debug("Res chunk: " . substr($orig, $prevPos, $pos - $prevPos));
                 $result .= substr($orig, $prevPos, $pos - $prevPos);
 
                 $cand = substr($orig, $pos, $pos_end - $pos + strlen($endTag));
-
 
                 $marker = $this->getPreprocessMarker($cand, $tagType);
                 if ($marker) {
@@ -86,12 +84,10 @@ class CSSJSPreprocessor implements PWECMDJob
             $pos++;
         }
 
-        PWELogger::debug("Res end chunk: " . substr($orig, $prevPos, strlen($orig) - $prevPos));
         $result .= substr($orig, $prevPos, strlen($orig) - $prevPos);
 
         if ($result != $orig) {
             copy($filename, $filename . $ext . ".bak");
-            PWELogger::debug("Result: $result");
             file_put_contents($filename, $result);
         }
     }
