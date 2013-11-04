@@ -44,13 +44,17 @@ if (php_sapi_name() == 'cli') {
 
     $opts = getopt($shortopts);
 
-    $registry = $opts['r'] ? $opts['r'] : '/etc/loadosophia/eg_globals.xml';
-    $pwe = new CMDLinePWECore($registry);
+    $pwe = new CMDLinePWECore();
     if ($opts['c']) {
         PWELogger::warn("Using cfg: " . $opts['c']);
         $PWECore = $pwe;
         require $opts['c'];
     }
+
+    if ($opts['r']) {
+        $pwe->getModulesManager()->setRegistryFile($opts['r']);
+    }
+
     PWEAutoloader::setPWE($pwe);
 
     if (!$opts['j']) {
