@@ -135,7 +135,7 @@ class CSSJSPreprocessor implements PWECMDJob
 
         if (preg_match("/^{[^}]+}$/", $contents)) {
             // PWELogger::debug("Smarty value: $contents");
-            if (preg_match("/\{([^}]+)\|readfile\}/", $contents, $matches1)) {
+            if (preg_match("/\{([^}]+)\|file_get_contents\}/", $contents, $matches1)) {
                 //PWELogger::debug("Matches 1", $matches1);
                 if (preg_match('/$smarty.current_dir|cat:[\'"](.+)[\'"]/', $matches1[1], $matches2)) {
                     //PWELogger::debug("Matches 2", $matches2);
