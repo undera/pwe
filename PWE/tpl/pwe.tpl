@@ -204,7 +204,7 @@
                 {PWE->getStructLevel level=2 assign=level2}
                 {if $level2}
                     <!--menu2-->
-                    <td style="white-space: nowrap;" valign='top' class='root'>
+                    <td style="white-space: nowrap;" valign='top' class='root' id="leftSidebar">
                         {block 'menu2'}
                             <span class='menu2' style="font-weight: bold;">
                                 {math assign=upper_repeats equation='x-2' x=$urlFullCount}
