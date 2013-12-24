@@ -147,7 +147,7 @@
 
     <target name="get-amcharts">
         <mkdir dir="${basedir}/lib" />
-        <property name="amchartsVer" value="2.9.3" />
+        <property name="amchartsVer" value="3.3.6" />
         <delete includeemptydirs="true">
             <fileset dir="${basedir}/PWE/Lib/AmCharts" defaultexcludes="false" >
                 <include name="amcharts_**/" />
