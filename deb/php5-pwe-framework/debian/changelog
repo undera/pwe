@@ -1,3 +1,9 @@
+php5-pwe-framework (2.4.0) precise; urgency=low
+
+  * remove amcharts completely
+
+ -- Andrey Pohilko <undera@apc-home>  Sat, 04 Jan 2014 18:11:30 +0400
+
 php5-pwe-framework (2.3.0) precise; urgency=low
 
   * added confdump script

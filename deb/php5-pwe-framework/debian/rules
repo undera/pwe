@@ -11,7 +11,7 @@ clean:
 binary-arch:
 
 binary-indep:
-	dh_install --exclude=PWE/Lib/AmCharts/amcharts_ --exclude=.svn
+	dh_install
 	dh_installdeb
 	dh_installcron
 	dh_gencontrol

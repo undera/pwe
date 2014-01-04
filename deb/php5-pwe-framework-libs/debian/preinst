@@ -21,8 +21,6 @@ case "$1" in
     ;;
 
     install|upgrade)
-        echo Removing old amcharts libs
-        rm -rf /usr/share/php/pwe/PWE/Lib/AmCharts/amcharts_*.*.*
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)

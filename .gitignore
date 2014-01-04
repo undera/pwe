@@ -3,8 +3,6 @@
 /lib/
 /nbproject/
 /build/
-/PWE/Lib/AmCharts/amcharts_*/
-/PWE/Lib/AmCharts/amcharts-*/
 debhelper.log
 substvars
 dirs

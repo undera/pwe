@@ -131,7 +131,7 @@
         </move>
     </target>
 
-    <target name="debian-libs" depends="get-amcharts,get-smarty,get-tcpdf,get-phplot">
+    <target name="debian-libs" depends="get-smarty,get-tcpdf,get-phplot">
         <exec executable="dpkg-buildpackage" dir="${basedir}/deb/php5-pwe-framework-libs" failonerror="true">
             <!--<arg value="-S" />-->
             <arg value="-D" />
@@ -143,17 +143,6 @@
             <fileset dir="${basedir}/deb" includes="php5-pwe-framework*" />
         </move>
         
-    </target>
-
-    <target name="get-amcharts">
-        <mkdir dir="${basedir}/lib" />
-        <property name="amchartsVer" value="3.3.6" />
-        <delete includeemptydirs="true">
-            <fileset dir="${basedir}/PWE/Lib/AmCharts" defaultexcludes="false" >
-                <include name="amcharts_**/" />
-            </fileset>                
-        </delete>
-        <unzip dest="${basedir}/PWE/Lib/AmCharts/amcharts_${amchartsVer}" src="/var/tmp/amcharts_${amchartsVer}.zip" failonemptyarchive="true" stripabsolutepathspec="false"/>
     </target>
 
     <target name="get-smarty">

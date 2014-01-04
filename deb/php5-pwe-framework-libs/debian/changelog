@@ -1,3 +1,9 @@
+php5-pwe-framework-libs (0.5.0) precise; urgency=low
+
+  * remove amcharts completely
+
+ -- Andrey Pohilko <undera@apc-home>  Sat, 04 Jan 2014 18:10:43 +0400
+
 php5-pwe-framework-libs (0.4.0) precise; urgency=low
 
   * update amcharts to 3.3.6
