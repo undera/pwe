@@ -26,7 +26,7 @@ class PWECore extends AbstractPWECore implements SmartyAssociative
      *
      * @var PWEURL
      */
-    private $URL;
+    protected $URL;
     protected $structureNode = array();
     protected $siteStructureFile;
     private $statusSent = false;
