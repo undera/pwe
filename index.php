@@ -46,7 +46,6 @@ if (php_sapi_name() == 'cli') {
 
     $pwe = new CMDLinePWECore();
     if ($opts['c']) {
-        PWELogger::warn("Using cfg: " . $opts['c']);
         $PWECore = $pwe;
         require $opts['c'];
     }
@@ -67,10 +66,9 @@ if (php_sapi_name() == 'cli') {
     }
     $job->run();
 } else {
+    $PWECore = new PWECore();
+    PWEAutoloader::setPWE($PWECore);
     try {
-        $PWECore = new PWECore();
-        PWEAutoloader::setPWE($PWECore);
-
         require_once dirname($_SERVER['SCRIPT_FILENAME']) . '/cfg.php';
 
         echo $PWECore->process($_SERVER['REDIRECT_URL'] ? $_SERVER['REDIRECT_URL'] : $_SERVER['REQUEST_URI']);
