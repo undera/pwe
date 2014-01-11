@@ -170,7 +170,7 @@ class PWEModulesManager implements PWECMDJob
                     echo implode('.', $stack) . "=" . $node['!v'] . "\n";
                 }
 
-                foreach ($node['!a'] as $name => $val) {
+                foreach ($node['!a'] ? $node['!a'] : array() as $name => $val) {
                     echo implode('.', $stack) . ".$name=$val\n";
                 }
                 if (sizeof($nodes) > 1) {
