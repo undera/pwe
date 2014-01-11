@@ -26,7 +26,7 @@ class PWECore extends AbstractPWECore implements SmartyAssociative
      *
      * @var PWEURL
      */
-    private $URL;
+    protected $URL;
     protected $structureNode = array();
     protected $siteStructureFile;
     private $statusSent = false;
@@ -135,8 +135,9 @@ class PWECore extends AbstractPWECore implements SmartyAssociative
      */
     public function setURL($uri)
     {
-        if ($this->URL)
+        if ($this->URL) {
             throw new RuntimeException("Повторное использование метода setURL запрещено");
+        }
 
         PWELogger::info("=== " . $_SERVER['REQUEST_METHOD'] . " $uri");
         PWELogger::debug("Request variables", $_REQUEST);
