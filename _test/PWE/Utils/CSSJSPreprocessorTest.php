@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: undera
- * Date: 04.11.13
- * Time: 18:17
- */
-
 namespace PWE\Utils;
 
 

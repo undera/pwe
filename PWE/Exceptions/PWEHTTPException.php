@@ -2,10 +2,11 @@
 
 namespace PWE\Exceptions;
 
-use \RuntimeException;
 use PWE\Core\PWELogger;
+use RuntimeException;
 
-abstract class PWEHTTPException extends RuntimeException {
+abstract class PWEHTTPException extends RuntimeException
+{
 
     public static $HTTPErrorMessages = array(
         0 => 'Application Level Error',
@@ -13,6 +14,7 @@ abstract class PWEHTTPException extends RuntimeException {
         302 => 'Found',
         400 => 'Bad Request',
         401 => 'Unauthorized',
+        402 => 'Payment Required',
         403 => 'Forbidden',
         404 => 'Not Found',
         405 => 'Method Not Allowed',
@@ -26,7 +28,8 @@ abstract class PWEHTTPException extends RuntimeException {
         503 => 'Temporarily Unavailable',
     );
 
-    function __construct($message, $code, \Exception $previous = NULL) {
+    function __construct($message, $code, \Exception $previous = NULL)
+    {
         parent::__construct($message, $code, $previous);
         PWELogger::debug("Exception $code: " . ($code == 200 ? strlen($message) . " bytes to display" : $message));
     }

@@ -28,6 +28,7 @@ abstract class PWEUserAuthController extends PWEModule implements SmartyAssociat
     abstract public function handleLogout();
 
     /**
+     * @param \PWE\Core\PWECore $pwe
      * @return PWEUserAuthController
      */
     public static function getAuthControllerInstance(PWECore $pwe) {

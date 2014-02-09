@@ -13,6 +13,7 @@ class PWEModulesManagerTest extends \PHPUnit_Framework_TestCase
      * @var PWEModulesManager
      */
     protected $object;
+    private $pwe;
 
     protected function setUp()
     {
