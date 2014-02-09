@@ -14,6 +14,8 @@ use RecursiveIteratorIterator;
 class CSSJSPreprocessor implements PWECMDJob
 {
 
+    private $knownFiles = array();
+
     public function __construct(PWECore $PWE)
     {
 
@@ -72,10 +74,10 @@ class CSSJSPreprocessor implements PWECMDJob
                     PWELogger::info("Found block to write into: $marker$ext");
                     $dst_file = $dst . '/' . $marker . $ext;
                     $inner = $this->getInner($cand, $filename);
+                    if ($inner) {
+                        file_put_contents($dst_file, "/* $filename */\n" . $inner . "\n\n", FILE_APPEND);
+                    }
 
-                    file_put_contents($dst_file,
-                        "/* $filename */\n" . $inner . "\n\n",
-                        FILE_APPEND);
                     $pos += strlen($cand);
                 }
             }
@@ -134,18 +136,20 @@ class CSSJSPreprocessor implements PWECMDJob
         $contents = trim(substr($cand, $start, $end - $start));
 
         if (preg_match("/^{[^}]+}$/", $contents)) {
-            // PWELogger::debug("Smarty value: $contents");
             if (preg_match("/\{([^}]+)\|file_get_contents\}/", $contents, $matches1)) {
-                //PWELogger::debug("Matches 1", $matches1);
                 if (preg_match('/$smarty.current_dir|cat:[\'"](.+)[\'"]/', $matches1[1], $matches2)) {
-                    //PWELogger::debug("Matches 2", $matches2);
-                    $fname = $matches2[1];
-                    return file_get_contents(dirname($filename) . $fname);
+                    $fname = dirname($filename) . $matches2[1];
                 } elseif (preg_match('/^[\'"](.+)[\'"]$/', $matches1[1], $matches2)) {
                     $fname = $matches2[1];
-                    return file_get_contents($fname);
                 } else {
                     throw new \RuntimeException("Failed to decide what to do with: $contents");
+                }
+
+                if (!in_array($fname, $this->knownFiles)) {
+                    $this->knownFiles[] = $fname;
+                    return file_get_contents($fname);
+                } else {
+                    return false;
                 }
             } else {
                 throw new \RuntimeException("Failed to decide what to do with: $contents");
