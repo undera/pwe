@@ -1,6 +1,9 @@
 language: php
 php:
   - 5.3
+  - 5.4
+  - 5.5
+
 before_script: 
   - git clone https://github.com/laurentj/wikirenderer.git lib/wikirenderer
   - git clone https://github.com/baldurrensch/Smarty.git lib/smarty
