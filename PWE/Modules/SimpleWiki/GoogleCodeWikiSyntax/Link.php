@@ -26,7 +26,8 @@ class Link extends TagXhtml {
             $this->contents[1] = implode($this->separators[0], array_slice($this->contents, 1));
         }
 
-        $ext_label = strtolower(end(explode('.', $this->contents[1])));
+        $parts=explode('.', $this->contents[1]);
+        $ext_label = strtolower(end($parts));
         if (in_array($ext_label, self::$img_exts)) {
             $this->contents[1] = '<img src="' . $this->contents[1] . '" alt=""/>';
         } else {
@@ -37,7 +38,7 @@ class Link extends TagXhtml {
             $this->wikiContentArr[0] = $href;
         }
 
-        $ext = strtolower(end(explode('.', $href)));
+        $ext = strtolower(pathinfo($href, PATHINFO_EXTENSION));
         if (in_array($ext, self::$img_exts)) {
             if (in_array($ext_label, self::$img_exts)) {
                 $alt = '';

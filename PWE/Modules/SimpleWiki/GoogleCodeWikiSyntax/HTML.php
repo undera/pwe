@@ -16,7 +16,8 @@ class HTML extends Tag {
         'div', 'span', "img", "form", "input", "script");
 
     public function getContent() {
-        $tag = str_replace('/', '', strtolower(reset(explode(' ', $this->contents[0]))));
+        $parts=explode(' ', $this->contents[0]);
+        $tag = str_replace('/', '', strtolower(reset($parts)));
         if (in_array($tag, self::$available_tags)) {
             return $this->beginTag . implode('', $this->contents) . $this->endTag;
         } else {

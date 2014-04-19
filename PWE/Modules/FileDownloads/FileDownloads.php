@@ -33,7 +33,7 @@ class FileDownloads extends PWEModule implements Outputable
 
     public static function filter_out_cnt($current)
     {
-        $ext = strtolower(end(explode('.', $current)));
+        $ext = strtolower(pathinfo($current, PATHINFO_EXTENSION));
 
         return $ext !== 'cnt';
     }
@@ -87,7 +87,7 @@ class FileDownloads extends PWEModule implements Outputable
                 PWELogger::debug("Filtered out $file");
                 continue;
             }
-            $res[$file->getMTime()." ".$file->getBasename()] = $this->getFileBlock($subdir . '/' . $file->getBasename(), '') . "\n\n";
+            $res[$file->getMTime() . " " . $file->getBasename()] = $this->getFileBlock($subdir . '/' . $file->getBasename(), '') . "\n\n";
         }
 
         krsort($res);

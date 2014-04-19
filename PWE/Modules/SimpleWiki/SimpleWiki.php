@@ -13,17 +13,20 @@ use PWE\Modules\PWEModule;
 use PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Config;
 use WikiRenderer\Renderer;
 
-class SimpleWiki extends PWEModule implements Outputable {
+class SimpleWiki extends PWEModule implements Outputable
+{
 
     private $config;
 
-    public function __construct(\PWE\Core\PWECore $core) {
+    public function __construct(\PWE\Core\PWECore $core)
+    {
         parent::__construct($core);
         $this->config = new Config();
         $this->config->setPWE($core);
     }
 
-    public function process() {
+    public function process()
+    {
         $node = $this->PWE->getNode();
         $dir = $node['!i']['wiki_dir'];
         $start_page = $node['!i']['start_page'] ? $node['!i']['start_page'] : "list";
@@ -47,13 +50,13 @@ class SimpleWiki extends PWEModule implements Outputable {
             foreach ($files as $file) {
                 $f = end(explode('/', $file->getFilename()));
                 $f = reset(explode('.', $f));
-                $text.= "  # [$f " . $f . "]\n";
+                $text .= "  # [$f " . $f . "]\n";
             }
             $contents = $this->getRenderer()->render($text);
         } else {
             $file = $dir . '/' . $args[0];
-            if (end(explode('.', $file)) != 'wiki') {
-                $file.='.wiki';
+            if (pathinfo($file, PATHINFO_EXTENSION) != 'wiki') {
+                $file .= '.wiki';
             }
 
             if (!is_file($file)) {
@@ -68,23 +71,25 @@ class SimpleWiki extends PWEModule implements Outputable {
 
         $sidebar = $this->config->getToc();
         if (is_file($dir . '/Sidebar.wiki')) {
-            $sidebar.=$this->renderPage($dir . '/Sidebar.wiki');
+            $sidebar .= $this->renderPage($dir . '/Sidebar.wiki');
         }
         $smarty->assign("sidebar", $sidebar);
 
         $this->PWE->addContent($smarty);
     }
 
-    public function renderPage($page) {
+    public function renderPage($page)
+    {
         $text = file_get_contents($page);
         return $this->getRenderer()->render($text);
     }
 
     /**
-     * 
+     *
      * @return Renderer
      */
-    protected function getRenderer() {
+    protected function getRenderer()
+    {
         $w = new Renderer($this->config);
         return $w;
     }

@@ -2,18 +2,20 @@
 
 namespace PWE\Lib\Smarty;
 
-use \Smarty;
 use PWE\Core\PWECore;
 use PWE\Core\PWELogger;
 use PWE\Modules\Setupable;
 use PWE\Utils\FilesystemHelper;
+use Smarty;
 
-class SmartyWrapper extends Smarty implements Setupable {
+class SmartyWrapper extends Smarty implements Setupable
+{
 
     private $templateFile;
     private $PWE;
 
-    public function __construct(PWECore $PWE) {
+    public function __construct(PWECore $PWE)
+    {
         parent::__construct();
         $this->PWE = $PWE;
         $smartyDir = $this->PWE->getTempDirectory();
@@ -28,11 +30,13 @@ class SmartyWrapper extends Smarty implements Setupable {
         $this->registerPlugin('function', 'sleep', 'sleep', false); // for debug purposes
     }
 
-    public function setTemplateFile($file) {
+    public function setTemplateFile($file)
+    {
         $this->templateFile = $file;
     }
 
-    public function fetchAll() {
+    public function fetchAll()
+    {
         PWELogger::debug("Fetch all with tpl: " . $this->templateFile);
         return $this->fetch($this->templateFile);
     }
@@ -40,14 +44,16 @@ class SmartyWrapper extends Smarty implements Setupable {
     /**
      *
      * @param string $object_name
-     * @param SmartyAssociative $object 
+     * @param SmartyAssociative $object
      */
-    public function registerObject($object_name, $object) {
-        parent::registerObject($object_name, $object, $object->getSmartyAllowedMethods(), false);
+    public function registerObject($object_name, $object_impl, $allowed = array(), $smarty_args = true, $block_methods = array())
+    {
+        parent::registerObject($object_name, $object_impl, $object_impl->getSmartyAllowedMethods(), false);
     }
 
     // FIXME: why here?
-    public static function setup(PWECore $pwe, array &$registerData) {
+    public static function setup(PWECore $pwe, array &$registerData)
+    {
         PWELogger::debug("Copying into " . $pwe->getStaticDirectory() . '/design');
         FilesystemHelper::fsys_copydir(dirname(__FILE__) . '/../../design', $pwe->getStaticDirectory() . '/design');
     }
