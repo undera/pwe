@@ -1,3 +1,9 @@
+php5-pwe-framework (2.4.2) precise; urgency=medium
+
+  * allow multiple pwe content blocks via tags
+
+ -- Andrey Pohilko <undera@apc-home>  Sun, 27 Apr 2014 17:49:02 +0400
+
 php5-pwe-framework (2.4.1) precise; urgency=low
 
   * fix confdump failures

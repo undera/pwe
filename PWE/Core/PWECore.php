@@ -31,7 +31,7 @@ class PWECore extends AbstractPWECore implements SmartyAssociative
     protected $siteStructureFile;
     private $statusSent = false;
     private $siteStructure;
-    private $htmlContent = '';
+    private $htmlContent = array();
     private $errorsTemplate;
 
     /**
@@ -332,15 +332,15 @@ class PWECore extends AbstractPWECore implements SmartyAssociative
      *
      * @return string
      */
-    public function getContent()
+    public function getContent($tag = false)
     {
-        return $this->htmlContent;
+        return $this->htmlContent[$tag];
     }
 
-    public function addContent(SmartyWrapper $smarty)
+    public function addContent(SmartyWrapper $smarty, $tag = false)
     {
-        $this->htmlContent .= $smarty->fetchAll();
-        PWELogger::debug("Content[" . strlen($this->htmlContent) . "]: " . substr($this->htmlContent, 0, 64) . '...');
+        $this->htmlContent[$tag] .= $smarty->fetchAll();
+        PWELogger::debug("Content $tag [" . strlen($this->htmlContent[$tag]) . "]: " . substr($this->htmlContent[$tag], 0, 64) . '...');
     }
 
     /**
