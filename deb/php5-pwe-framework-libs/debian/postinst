@@ -30,7 +30,7 @@ case "$1" in
         pear upgrade --force --onlyreqdeps phpseclib/Crypt_RSA
 
         echo install/upgrade OpenID
-        pear upgrade --force --onlyreqdeps pear upgrade Crypt_DiffieHellman-0.2.6
+        pear upgrade --force --onlyreqdeps Crypt_DiffieHellman-0.2.6
         pear upgrade --force --onlyreqdeps Validate-0.8.5
         pear upgrade --force --onlyreqdeps Services_Yadis-0.5.1
         pear upgrade --force --onlyreqdeps HTTP_OAuth-0.2.3
