@@ -27,7 +27,7 @@ class SmartyPage extends PWEModule implements Outputable
                 throw new HTTP4xxException("This page is not ready yet", HTTP4xxException::NOT_FOUND);
             }
 
-            $part = substr($attr, 3);
+            $part = substr($attr, strlen("tpl_"));
 
             PWELogger::debug("TPL File: $part / $value");
             $smarty = $this->PWE->getSmarty();
