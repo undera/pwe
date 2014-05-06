@@ -70,8 +70,8 @@ abstract class PWELogger
             }
         }
 
-        $mtime = explode('.', microtime(true));
-        $time = sprintf('%0-4s', end($mtime));
+        $mtime = microtime(true);
+        $time = 1000 * ($mtime - intval($mtime));
 
         $trace = debug_backtrace();
         $location = $trace[2]['function'];
