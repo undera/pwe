@@ -61,9 +61,9 @@ abstract class PWELogger
     {
         array_shift($data);
         foreach ($data as $k => $v) {
-	    if (is_string($v)) {
+            if (is_string($v)) {
                 $data[$k] = str_replace("\n", ' ', $v);
-	    } elseif ($v instanceof \Exception) {
+            } elseif ($v instanceof \Exception) {
                 $data[$k] = $v->__toString();
             } elseif (!is_numeric($v)) {
                 $data[$k] = print_r($v, true);
@@ -84,9 +84,7 @@ abstract class PWELogger
 
         $id = $_SERVER['REMOTE_PORT'] ? $_SERVER['REMOTE_PORT'] : getmypid();
 
-        $str1 = vsprintf($format, $data);
-        $str2 = sprintf("[%s.%3d %s %s %s] %s\n", date('d.m.Y H:m:s'), $time, $id, $location, $level, $str1);
-        file_put_contents($file, $str2, FILE_APPEND);
+        error_log(sprintf("[%s.%3d %s %s %s] %s\n", date('d.m.Y H:m:s'), $time, $id, $location, $level, vsprintf($format, $data)), 3, $file);
     }
 
     static function debug($msg)
