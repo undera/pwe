@@ -77,7 +77,7 @@ class PWECore extends AbstractPWECore implements SmartyAssociative
     public function sendHTTPStatusCode($code)
     {
         if ($this->statusSent) {
-            PWELogger::warn("Trying to send HTTP status more than once for code: " . $code);
+            PWELogger::warn("Trying to send HTTP status more than once for code: %s", $code);
         }
 
         if (!preg_match("/^[12345][0-9][0-9]$/", $code)) {
@@ -86,7 +86,7 @@ class PWECore extends AbstractPWECore implements SmartyAssociative
 
         if (!headers_sent()) {
             $status = $_SERVER["SERVER_PROTOCOL"] . ' ' . $code;
-            PWELogger::debug("HTTP Status header: " . $status);
+            PWELogger::debug("HTTP Status header: %s", $status);
             header($status, true, $code);
         } else {
             PWELogger::warn("Cannot report status, headers has been sent");
@@ -139,8 +139,8 @@ class PWECore extends AbstractPWECore implements SmartyAssociative
             throw new RuntimeException("Повторное использование метода setURL запрещено");
         }
 
-        PWELogger::info("=== " . $_SERVER['REQUEST_METHOD'] . " $uri");
-        PWELogger::debug("Request variables", $_REQUEST);
+        PWELogger::info("=== %s %s", $_SERVER['REQUEST_METHOD'], $uri);
+        PWELogger::debug("Request variables: %s", $_REQUEST);
         $this->URL = new PWEURL($uri);
         $this->siteStructure = $this->getSiteStructure();
         $this->detectStructureNode();
@@ -185,7 +185,7 @@ class PWECore extends AbstractPWECore implements SmartyAssociative
         $smarty = $this->getSmarty();
         $smarty->setTemplateFile($this->getDisplayTemplate());
         $smarty->assign('node', $this->getNode());
-        PWELogger::info("Processing main template: " . $this->getDisplayTemplate());
+        PWELogger::info("Processing main template: %s", $this->getDisplayTemplate());
         return $smarty->fetchAll();
     }
 
@@ -241,7 +241,7 @@ class PWECore extends AbstractPWECore implements SmartyAssociative
         // если работаем с параметрами - убеждаемся что их количество допустимо
         if (isset($this->structureNode['!i']['accept'])) {
             if (sizeof($this->URL->getParamsAsArray()) > $this->structureNode['!i']['accept']) {
-                PWELogger::warn("Defined accept limit " . $this->structureNode['!i']['accept'] . " has been exceeded: " . sizeof($this->URL->getParamsAsArray()));
+                PWELogger::warn("Defined accept limit %s has been exceeded: %s", $this->structureNode['!i']['accept'], sizeof($this->URL->getParamsAsArray()));
                 throw new HTTP4xxException('URI parameters count exceeded', HTTP4xxException::BAD_REQUEST);
             }
         } // иначе ругаемся
@@ -259,7 +259,7 @@ class PWECore extends AbstractPWECore implements SmartyAssociative
         $size = sizeof(@$node['!c']['url']);
         reset($uriArray);
         $link = current($uriArray);
-        PWELogger::debug("Trying link: $link");
+        PWELogger::debug("Trying link: %s", $link);
 
         // перебираем дочерних
         for ($n = 0; $n < $size; $n++) {
@@ -320,7 +320,7 @@ class PWECore extends AbstractPWECore implements SmartyAssociative
         // перебираем чайлдов в поисках подходящего
         foreach ($eg_node['!c']['url'] as $v) {
             // если дошли до сюда - значит можно джампать
-            PWELogger::info('Jump To First Сhild: ' . $v['!a']['link']);
+            PWELogger::info('Jump To First Сhild: %s', $v['!a']['link']);
             $jumpTo = $v['!a']['link'] . '/';
             if (isset($_SERVER["QUERY_STRING"]) && strlen($_SERVER["QUERY_STRING"]))
                 $jumpTo .= $_SERVER["QUERY_STRING"];
@@ -340,7 +340,7 @@ class PWECore extends AbstractPWECore implements SmartyAssociative
     public function addContent(SmartyWrapper $smarty, $tag = false)
     {
         $this->htmlContent[$tag] .= $smarty->fetchAll();
-        PWELogger::debug("Content $tag [" . strlen($this->htmlContent[$tag]) . "]: " . substr($this->htmlContent[$tag], 0, 64) . '...');
+        PWELogger::debug("Content %s [%d]: %s...", $tag, strlen($this->htmlContent[$tag]), substr($this->htmlContent[$tag], 0, 64));
     }
 
     /**
@@ -352,7 +352,7 @@ class PWECore extends AbstractPWECore implements SmartyAssociative
      */
     public function getStructLevel($level)
     {
-        PWELogger::debug("Building struct level $level");
+        PWELogger::debug("Building struct level %s", $level);
         $matched = $this->getURL()->getMatchedAsArray();
         if ($level > sizeof($matched)) {
             if (sizeof($this->getURL()->getParamsAsArray())) {

@@ -39,7 +39,7 @@ class SimpleWiki extends PWEModule implements Outputable
             throw new HTTP5xxException("Not configured wiki source dir, or it does not exists");
         }
 
-        PWELogger::debug("Wiki dir: " . $dir);
+        PWELogger::debug("Wiki dir: %s", $dir);
 
         $args = $this->PWE->getURL()->getParamsAsArray();
         if (!$args) {
@@ -60,7 +60,7 @@ class SimpleWiki extends PWEModule implements Outputable
             }
 
             if (!is_file($file)) {
-                PWELogger::error("Not found wiki file: $file");
+                PWELogger::error("Not found wiki file: %s", $file);
                 throw new HTTP4xxException("Wiki page not found", HTTP4xxException::NOT_FOUND);
             }
             $contents = $this->renderPage($file);

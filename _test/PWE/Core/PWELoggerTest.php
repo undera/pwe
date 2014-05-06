@@ -6,46 +6,55 @@ use ExceptionExpected;
 
 require_once dirname(__FILE__) . '/../../PWEUnitTests.php';
 
-class PWELoggerTest extends \PHPUnit_Framework_TestCase {
+class PWELoggerTest extends \PHPUnit_Framework_TestCase
+{
 
-    public function testSetLevel() {
+    public function testSetLevel()
+    {
         PWELogger::setLevel(PWELogger::DEBUG);
         PWELogger::getLevelByName("debug");
         PWELogger::getLevelByName("info");
     }
 
-    public function testSetStdErr() {
+    public function testSetStdErr()
+    {
         PWELogger::setStdErr("php://stderr");
     }
 
-    public function testSetStdOut() {
+    public function testSetStdOut()
+    {
         PWELogger::setStdOut("php://stdout");
     }
 
-    public function testDebug() {
+    public function testDebug()
+    {
         PWELogger::debug("Debugging");
-        PWELogger::debug("Debugging", $this);
-        PWELogger::debug("Debugging", debug_backtrace());
-        PWELogger::debug("Debugging", debug_backtrace());
+        PWELogger::debug("Debugging: %s", array(new \DateTime()));
+        PWELogger::debug("Debugging: %s", new PWECore());
+        //PWELogger::debug("Debugging: %s", debug_backtrace());
     }
 
-    public function testInfo() {
+    public function testInfo()
+    {
         PWELogger::info("informing");
     }
 
-    public function testWarning() {
+    public function testWarning()
+    {
         PWELogger::setStdErr("php://stdout");
-        PWELogger::warning("Warn people");
+        PWELogger::warn("Warn people");
     }
 
-    public function testError() {
+    public function testError()
+    {
         PWELogger::setStdErr("php://stdout");
         PWELogger::error("Errors are bad");
     }
 
-    public function testError_exc() {
+    public function testError_exc()
+    {
         PWELogger::setStdErr("php://stdout");
-        PWELogger::error("Errors are bad", new ExceptionExpected());
+        PWELogger::error("Errors are bad: %s", new ExceptionExpected());
         PWELogger::debug(new ExceptionExpected());
     }
 

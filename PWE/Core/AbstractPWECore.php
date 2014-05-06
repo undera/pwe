@@ -20,7 +20,7 @@ abstract class AbstractPWECore {
     }
 
     public function setRootDirectory($dir) {
-        PWELogger::debug("Setting PWE root to $dir");
+        PWELogger::debug("Setting PWE root to %s", $dir);
         $this->rootFolder = $dir;
         $this->setDataDirectory($this->rootFolder . '/dat');
         $this->setStaticDirectory($this->rootFolder . '/img');
@@ -28,19 +28,19 @@ abstract class AbstractPWECore {
     }
 
     public function setDataDirectory($dir) {
-        PWELogger::debug("Setting data path to $dir");
+        PWELogger::debug("Setting data path to %s", $dir);
         $this->dataFolder = $dir;
         $this->setTempDirectory($this->dataFolder . '/tmp');
         $this->setXMLDirectory($this->dataFolder . '/xml');
     }
 
     public function setXMLDirectory($dir) {
-        PWELogger::debug("Setting XML data path to $dir");
+        PWELogger::debug("Setting XML data path to %s", $dir);
         $this->xmlFolder = $dir;
     }
 
     public function setTempDirectory($dir) {
-        PWELogger::debug("Setting tmp path to $dir");
+        PWELogger::debug("Setting tmp path to %s", $dir);
         $this->tempFolder = $dir;
     }
 

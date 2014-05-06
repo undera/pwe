@@ -9,7 +9,8 @@ use PWE\Core\PWELogger;
  *
  * @author undera
  */
-abstract class PWEXMLFunctions {
+abstract class PWEXMLFunctions
+{
 
     /**
      * функция находит в массиве узлов атрибут с именем
@@ -19,24 +20,27 @@ abstract class PWEXMLFunctions {
      * $param $val string значение атрибута
      * @return integer Индекс найденного узла. Eсли ничего не найдено - возвращаем -1
      */
-    public static function findNodeWithAttributeValue(&$nodes, $name, $val) {
+    public static function findNodeWithAttributeValue(&$nodes, $name, $val)
+    {
         foreach ($nodes ? $nodes : array() as $k => $node) {
             if ($node['!a'][$name] == $val) {
                 return $k;
             }
         }
 
-        PWELogger::debug("$name=$val not found in xml data");
+        PWELogger::debug("%s=%s not found in xml data", $name, $val);
         return -1;
     }
 
-    public static function cleanEmptyNodes(&$node) {
+    public static function cleanEmptyNodes(&$node)
+    {
         foreach ($node['!c'] ? $node['!c'] : array() as $k => $v) {
             foreach ($node['!c'][$k] ? $node['!c'][$k] : array() as $kk => $vv) {
                 self::cleanEmptyNodes($node['!c'][$k][$kk]);
                 // if only !p left - drop the node
                 if (!sizeof($node['!c'][$k][$kk]) ||
-                        (sizeof($node['!c'][$k][$kk]) == 1 && $node['!c'][$k][$kk]['!p'])) {
+                    (sizeof($node['!c'][$k][$kk]) == 1 && $node['!c'][$k][$kk]['!p'])
+                ) {
                     unset($node['!c'][$k][$kk]);
                 }
             }

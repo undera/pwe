@@ -38,7 +38,7 @@ class PWEModulesManager implements PWECMDJob
 
     public function setRegistryFile($path)
     {
-        PWELogger::debug("Setting registry file to: " . $path);
+        PWELogger::debug("Setting registry file to: %s", $path);
         $this->registryFile = $path;
         $this->loadRegistry();
     }
@@ -64,7 +64,7 @@ class PWEModulesManager implements PWECMDJob
 
     public function registerModule($name)
     {
-        PWELogger::debug("Registering module $name");
+        PWELogger::debug("Registering module %s", $name);
         $mod = & $this->getModuleNode($name);
 
         try {
@@ -72,14 +72,14 @@ class PWEModulesManager implements PWECMDJob
 
             if ($modClass->isInstantiable()) {
                 if ($modClass->implementsInterface('PWE\Modules\Setupable')) {
-                    PWELogger::debug("Setting up $name");
+                    PWELogger::debug("Setting up %s", $name);
                     $name::setup($this->PWE, $mod);
                 }
             }
 
             $this->saveRegistry();
         } catch (\ReflectionException $e) {
-            PWELogger::error("Failed to register module: $name", $e);
+            PWELogger::error("Failed to register module %s: %s", $name, $e);
         }
     }
 
@@ -97,7 +97,7 @@ class PWEModulesManager implements PWECMDJob
      */
     public function getSingleInstanceModule($moduleName)
     {
-        PWELogger::debug("Module class: " . $moduleName);
+        PWELogger::debug("Module class: %s", $moduleName);
         $module = new $moduleName($this->PWE);
         return $module;
     }
@@ -124,9 +124,9 @@ class PWEModulesManager implements PWECMDJob
         try {
             PWEXML::cleanEmptyNodes($this->registryArray['registry'][0]);
         } catch (PHPFatalException $e) {
-            PWELogger::warn("Failed cleaning empty nodes: ", $e);
+            PWELogger::warn("Failed cleaning empty nodes: %s", $e);
         }
-        PWELogger::warn("Saving registry file: " . $this->registryFile);
+        PWELogger::warn("Saving registry file: %s", $this->registryFile);
         $XML = new PWEXML($this->PWE->getTempDirectory());
         $XML->ArrayToFile($this->registryArray, $this->registryFile);
         $XML->FileToArray($this->registryFile, $this->registryArray);
@@ -134,7 +134,7 @@ class PWEModulesManager implements PWECMDJob
 
     protected function loadRegistry()
     {
-        PWELogger::debug("Loading registry file: " . $this->registryFile);
+        PWELogger::debug("Loading registry file: %s", $this->registryFile);
         // read site structure
         $XML = new PWEXML($this->PWE->getTempDirectory());
         $this->registryArray = array();
@@ -146,7 +146,7 @@ class PWEModulesManager implements PWECMDJob
                 PWELogger::setLevel(PWELogger::getLevelByName($logger['!a']['level']));
             }
         } catch (RuntimeException $e) {
-            PWELogger::warning("Cannot load registry file: " . $e->getMessage());
+            PWELogger::warn("Cannot load registry file: %s", $e->getMessage());
         }
     }
 

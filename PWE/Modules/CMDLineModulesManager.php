@@ -11,7 +11,7 @@ class CMDLineModulesManager extends PWEModulesManager
         if (is_file($this->registryFile)) {
             parent::loadRegistry();
         } else {
-            PWELogger::debug("File not found: " . $this->registryFile);
+            PWELogger::debug("File not found: %s", $this->registryFile);
         }
     }
 

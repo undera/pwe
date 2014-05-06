@@ -23,7 +23,7 @@ class SmartyWrapper extends Smarty implements Setupable
         $settings = $settings['!c']['settings'][0];
         if ($settings['!a']['cacheDir'])
             $smartyDir = $settings['!a']['cacheDir'];
-        PWELogger::debug('Smarty cache dir detected as ' . $smartyDir);
+        PWELogger::debug('Smarty cache dir detected as %s', $smartyDir);
         $this->setCacheDir($smartyDir);
         $this->setCompileDir($smartyDir);
         $this->registerPlugin('function', 'flush', 'flush', false);
@@ -37,7 +37,7 @@ class SmartyWrapper extends Smarty implements Setupable
 
     public function fetchAll()
     {
-        PWELogger::debug("Fetch all with tpl: " . $this->templateFile);
+        PWELogger::debug("Fetch all with tpl: %s", $this->templateFile);
         return $this->fetch($this->templateFile);
     }
 
@@ -54,7 +54,7 @@ class SmartyWrapper extends Smarty implements Setupable
     // FIXME: why here?
     public static function setup(PWECore $pwe, array &$registerData)
     {
-        PWELogger::debug("Copying into " . $pwe->getStaticDirectory() . '/design');
+        PWELogger::debug("Copying into %s/design", $pwe->getStaticDirectory());
         FilesystemHelper::fsys_copydir(dirname(__FILE__) . '/../../design', $pwe->getStaticDirectory() . '/design');
     }
 

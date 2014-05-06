@@ -2,10 +2,8 @@
 
 namespace PWE\Core;
 
-use PWE\Core\PWELogger;
-use RuntimeException;
-
-abstract class PWEAutoloader {
+abstract class PWEAutoloader
+{
 
     /**
      *
@@ -17,7 +15,8 @@ abstract class PWEAutoloader {
     private static $cache = array();
     private static $sourceRoots = array();
 
-    private static function readdir($dir) {
+    private static function readdir($dir)
+    {
         $res = array();
         $dirHandle = opendir($dir);
         while ($file = readdir($dirHandle)) {
@@ -29,11 +28,13 @@ abstract class PWEAutoloader {
         return $res;
     }
 
-    public static function activate() {
+    public static function activate()
+    {
         spl_autoload_register("PWE\Core\PWEAutoloader::doIt");
     }
 
-    public static function setPWE(AbstractPWECore $pwe) {
+    public static function setPWE(AbstractPWECore $pwe)
+    {
         PWELogger::debug("Set PWE core");
         self::$core = $pwe;
         if (self::getCacheFile()) {
@@ -41,26 +42,29 @@ abstract class PWEAutoloader {
         }
     }
 
-    public static function addSourceRoot($path) {
+    public static function addSourceRoot($path)
+    {
         $path = realpath($path);
         if (!is_dir($path)) {
-            PWELogger::warn("Path not exists: " . $path);
+            PWELogger::warn("Path not exists: %s", $path);
         } else {
             self::$sourceRoots[] = $path;
         }
     }
 
-    public static function doIt($name) {
+    public static function doIt($name)
+    {
         $res = self::autoloadClassFromCache($name) || self::seekAll($name) || self::seekIncludes($name) || self::seekBacktraces($name);
         if (!$res || (!class_exists($name) && !interface_exists($name))) {
-            PWELogger::warning("Class not found: " . $name);
+            PWELogger::warn("Class not found: %s", $name);
             return false;
         }
         return true;
     }
 
-    private static function autoloadClassFromCache($name) {
-        PWELogger::debug("Searching class $name in cache");
+    private static function autoloadClassFromCache($name)
+    {
+        PWELogger::debug("Searching class %s in cache", $name);
         self::loadCache();
 
         if (self::$cache) {
@@ -71,21 +75,22 @@ abstract class PWEAutoloader {
         return false;
     }
 
-    private static function putToCache($name, $path) {
-        PWELogger::info('Putting to cache path for ' . $name);
+    private static function putToCache($name, $path)
+    {
+        PWELogger::info('Putting to cache path for %s', $name);
         $cache_file = self::getCacheFile();
 
         $path = realpath($path);
         $oldpath = self::$cache[$name];
-        PWELogger::debug("Old path was: " . $oldpath . " / new path: " . $path);
+        PWELogger::debug("Old path was: %s / new path: %s", $oldpath, $path);
         if ($oldpath != $path) {
-            PWELogger::info("Module path changed for $name, needs re-register: $path");
+            PWELogger::info("Module path changed for %s, needs re-register: %s", $name, $path);
             if (isset(self::$core)) {
                 self::$core->getModulesManager()->registerModule($name);
             }
 
             self::$cache[$name] = $path;
-            PWELogger::debug("Classpath cache file: " . $cache_file);
+            PWELogger::debug("Classpath cache file: %s", $cache_file);
             if ($cache_file) {
                 file_put_contents($cache_file, serialize(self::$cache));
             }
@@ -95,14 +100,15 @@ abstract class PWEAutoloader {
         return false;
     }
 
-    private static function seekBacktraces($name) {
-        PWELogger::debug("Searching class $name in backtrace");
+    private static function seekBacktraces($name)
+    {
+        PWELogger::debug("Searching class %s in backtrace", $name);
 
         $trace = debug_backtrace();
         // is it somewhere near us?
         foreach ($trace as $trace_el) {
             if (!isset($trace_el['file'])) {
-                PWELogger::debug("Backtrace element does not have file for class $name");
+                PWELogger::debug("Backtrace element does not have file for class %s", $name);
                 continue;
             }
 
@@ -112,11 +118,12 @@ abstract class PWEAutoloader {
             }
         }
 
-        PWELogger::info("PWE Class not found in backtrace paths: $name");
+        PWELogger::info("PWE Class not found in backtrace paths: %s", $name);
         return false;
     }
 
-    private static function seekIncludes($name) {
+    private static function seekIncludes($name)
+    {
         PWELogger::debug("Searching class $name in included paths");
 
         $files = array();
@@ -132,12 +139,13 @@ abstract class PWEAutoloader {
                 return true;
         }
 
-        PWELogger::info("Class not found in includes: $name");
+        PWELogger::info("Class not found in includes: %s", $name);
         return false;
     }
 
-    private static function seekAll($name) {
-        PWELogger::debug("Searching class $name in whole sources");
+    private static function seekAll($name)
+    {
+        PWELogger::debug("Searching class %s in whole sources", $name);
         $paths = self::$sourceRoots;
 
         while ($dir = array_shift($paths)) {
@@ -152,12 +160,13 @@ abstract class PWEAutoloader {
                 $paths[] = realpath($dir . '/' . $file);
             }
         }
-        PWELogger::info("PWE Class not found in all source: $name");
+        PWELogger::info("PWE Class not found in all source: %s", $name);
 
         return false;
     }
 
-    private static function loadClassFromPath($name, $path) {
+    private static function loadClassFromPath($name, $path)
+    {
         //PWELogger::debug("Searching class $name in $path");
         if (self::$core) {
             $srcs = self::$sourceRoots;
@@ -174,7 +183,8 @@ abstract class PWEAutoloader {
         return false;
     }
 
-    private static function load2Variants($name, $path) {
+    private static function load2Variants($name, $path)
+    {
         $nameChanged = str_replace("\\", "/", $name);
         if (self::loadFile($path . '/' . $nameChanged . ".class.php")) {
             self::putToCache($name, $path . '/' . $nameChanged . ".class.php");
@@ -199,11 +209,12 @@ abstract class PWEAutoloader {
         return false;
     }
 
-    private static function loadFile($fname) {
+    private static function loadFile($fname)
+    {
         $fname = str_replace("\\", "/", $fname);
         if (is_file($fname)) {
 
-            PWELogger::debug("Autoloading $fname");
+            PWELogger::debug("Autoloading %s", $fname);
             require_once $fname;
             return true;
         } else {
@@ -211,30 +222,32 @@ abstract class PWEAutoloader {
         }
     }
 
-    private static function getCacheFile() {
+    private static function getCacheFile()
+    {
         if (self::$core) {
             if (is_writable(self::$core->getTempDirectory())) {
                 return self::$core->getTempDirectory() . '/pwe_classpath_cache.' . posix_geteuid();
             } else {
-                PWELogger::debug("Cache directory not writeable: " . self::$core->getTempDirectory());
+                PWELogger::debug("Cache directory not writeable: %s", self::$core->getTempDirectory());
             }
         }
         return false;
     }
 
-    private static function loadCache() {
+    private static function loadCache()
+    {
         // lazy load cache if needed
         if (self::$try_loading_cache) {
             $cache_file = self::getCacheFile();
             if (is_file($cache_file)) {
-                PWELogger::debug("Loading classpath cache from: " . $cache_file);
+                PWELogger::debug("Loading classpath cache from: %s", $cache_file);
                 self::$cache = array_merge(self::$cache, unserialize(file_get_contents($cache_file)));
                 self::$try_loading_cache = false;
             } else {
                 if ($cache_file) {
-                    PWELogger::warning("No classpath cache loaded: " . $cache_file);
+                    PWELogger::warn("No classpath cache loaded: %s", $cache_file);
                 } else {
-                    PWELogger::debug("No classpath cache loaded: " . $cache_file);
+                    PWELogger::debug("No classpath cache loaded: %s", $cache_file);
                 }
                 self::$cache = array();
                 self::$try_loading_cache = true;

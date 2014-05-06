@@ -76,7 +76,7 @@ if (php_sapi_name() == 'cli') {
     } catch (\Exception $e) {
         try {
             if ($e->getCode() != 404) {
-                PWELogger::error('Exception occured at page: ' . $_SERVER['REDIRECT_URL'], $e);
+                PWELogger::error('Exception occured at page %s: %s' , $_SERVER['REDIRECT_URL'], $e);
             }
             header($_SERVER["SERVER_PROTOCOL"] . ' ' . $e->getCode());
             header("Content-Type: text/html");

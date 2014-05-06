@@ -23,13 +23,13 @@ class SmartyPage extends PWEModule implements Outputable
             if (!is_file($value)) {
                 // иначе пишем во внутренний лог
                 // и культурно ругаемся
-                PWELogger::warning("File not found: " . $value);
+                PWELogger::warn("File not found: %s", $value);
                 throw new HTTP4xxException("This page is not ready yet", HTTP4xxException::NOT_FOUND);
             }
 
             $part = substr($attr, strlen("tpl_"));
 
-            PWELogger::debug("TPL File: $part / $value");
+            PWELogger::debug("TPL File: %s / %s", $part, $value);
             $smarty = $this->PWE->getSmarty();
             $smarty->setTemplateFile($value);
             $this->PWE->addContent($smarty, $part);

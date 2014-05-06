@@ -31,7 +31,7 @@ abstract class PWEHTTPException extends RuntimeException
     function __construct($message, $code, \Exception $previous = NULL)
     {
         parent::__construct($message, $code, $previous);
-        PWELogger::debug("Exception $code: " . ($code == 200 ? strlen($message) . " bytes to display" : $message));
+        PWELogger::debug("Exception %s: %s", $code, ($code == 200 ? strlen($message) . " bytes to display" : $message));
     }
 
 }

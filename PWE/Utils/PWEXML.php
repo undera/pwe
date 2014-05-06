@@ -5,7 +5,8 @@
   Author: $Author: Andrey Pohilko$
   Revision: $Revision: 9$
   Note:
- */ ?><?php
+ */
+?><?php
 
 namespace PWE\Utils;
 
@@ -17,18 +18,20 @@ use PWE\Exceptions\PHPFatalException;
 use PWE\Modules\Setupable;
 use RuntimeException;
 
-class PWEXML extends PWEXMLFunctions implements Setupable {
+class PWEXML extends PWEXMLFunctions implements Setupable
+{
 
     var $cache_dir;
     var $parsed_vals;
     var $parsed_size;
     var $use_cache = true;
 
-    function __construct($cacheFolder = false) {
+    function __construct($cacheFolder = false)
+    {
         if (!$cacheFolder)
             $this->use_cache = false;
         else {
-            PWELogger::debug("Using xml cache dir: " . $cacheFolder);
+            PWELogger::debug("Using xml cache dir: %s", $cacheFolder);
             $this->cache_dir = $cacheFolder;
             $this->use_cache = true;
         }
@@ -44,7 +47,8 @@ class PWEXML extends PWEXMLFunctions implements Setupable {
     # Выход: успешно/неуспешно                             #
     #                                                      #
     ////////////////////////////////////////////////////////
-    public function FileToArray($xmlFilename, &$arr) {
+    public function FileToArray($xmlFilename, &$arr)
+    {
         if (!file_exists($xmlFilename)) {
             // невозможно найти файл
             throw new RuntimeException("XML file not found: $xmlFilename");
@@ -73,17 +77,17 @@ class PWEXML extends PWEXMLFunctions implements Setupable {
                 // 4. decide where to get array
                 if ($md5_xml == $md5_cache) {
                     // cache hit!
-                    PWELogger::debug("XML cache hit $xmlFilename => $cache_file");
+                    PWELogger::debug("XML cache hit %s => %s", $xmlFilename, $cache_file);
                     $empty = array();
                     $this->parent_links($arr, $empty);
                     return true;
                 }
             } else {
-                PWELogger::debug("Cache not found $cache_file for " . $xmlFilename);
+                PWELogger::debug("Cache not found %s for %s", $cache_file, $xmlFilename);
             }
         }
 
-        PWELogger::debug("Parsing XML: " . $xmlFilename);
+        PWELogger::debug("Parsing XML: %s", $xmlFilename);
         // go parse
         $Parser = xml_parser_create(); // ссылка на новый парсер
         // далее зададим опции для парсинга XML
@@ -105,11 +109,11 @@ class PWEXML extends PWEXMLFunctions implements Setupable {
         $this->GetChildren($arr, $i, 1); //обратимся к Дзену!
         // build cache
         if ($this->use_cache) {
-            PWELogger::debug("Generating XML cache: " . $cache_file);
+            PWELogger::debug("Generating XML cache: %s", $cache_file);
             try {
                 $this->ArrayToPHP($arr, "\t", $cache_file, $md5_xml, array(), $xmlFilename);
             } catch (PHPFatalException $e) {
-                PWELogger::error("Cannot save parse cache", $e);
+                PWELogger::error("Cannot save parse cache %s", $e);
             }
         }
 
@@ -124,8 +128,9 @@ class PWEXML extends PWEXMLFunctions implements Setupable {
     # Выход: XML-файл на диске                             #
     #                                                      #
     ////////////////////////////////////////////////////////
-    public function ArrayToFile(array &$a, $fname, $comment = false) {
-        PWELogger::debug("Saving XML file: " . $fname);
+    public function ArrayToFile(array &$a, $fname, $comment = false)
+    {
+        PWELogger::debug("Saving XML file: %s", $fname);
         if (!is_dir(dirname($fname))) {
             throw new InvalidArgumentException("Directory for saving not exists: " . dirname($fname));
         }
@@ -136,7 +141,7 @@ class PWEXML extends PWEXMLFunctions implements Setupable {
             try {
                 unlink($bak_file);
             } catch (PHPFatalException $e) {
-                PWELogger::warning('Cannot remove old backup file: ' . $bak_file);
+                PWELogger::warn('Cannot remove old backup file: %s', $bak_file);
             }
         }
 
@@ -144,7 +149,7 @@ class PWEXML extends PWEXMLFunctions implements Setupable {
             try {
                 copy($fname, $bak_file);
             } catch (PHPFatalException $e) {
-                PWELogger::warning("Unable to create backup file " . $bak_file);
+                PWELogger::warn("Unable to create backup file: %s", $bak_file);
             }
         }
 
@@ -155,12 +160,11 @@ class PWEXML extends PWEXMLFunctions implements Setupable {
                 fputs($f, "<?xml version='1.0' encoding='UTF-8'?>");
                 if ($comment)
                     fputs($f, "\n\n<!-- $comment -->\n");
-                $this->generateNode($a, 0, $f);  //обратимся к Дзену!
+                $this->generateNode($a, 0, $f); //обратимся к Дзену!
                 fflush($f);
                 flock($f, LOCK_UN);
                 fclose($f);
-            }
-            else {
+            } else {
                 throw new Exception("Unable to create new result file $fname");
             }
 
@@ -168,7 +172,7 @@ class PWEXML extends PWEXMLFunctions implements Setupable {
             $tmp_arr = array();
             $this->FileToArray($fname, $tmp_arr);
         } catch (Exception $e) {
-            PWELogger::error("Resulting xml file is broken: " . $fname, $e);
+            PWELogger::error("Resulting xml file is broken: %s", $fname, $e);
             if (is_file($bak_file)) {
                 copy($bak_file, $fname);
             } else {
@@ -190,7 +194,8 @@ class PWEXML extends PWEXMLFunctions implements Setupable {
     # Выход: строка XML                                     #
     #                                                       #
     /////////////////////////////////////////////////////////
-    private function generateNode(array &$struct, $level, &$fp) {
+    private function generateNode(array &$struct, $level, &$fp)
+    {
         // оптимизировал все вусмерть
         $tab = str_repeat(' ', $level);
         $nn = "\n";
@@ -201,7 +206,7 @@ class PWEXML extends PWEXMLFunctions implements Setupable {
             if (!$ev)
                 continue;
             foreach ($ev as $n => $t) {
-                $l.=$tab . '<' . $ek;
+                $l .= $tab . '<' . $ek;
 
                 foreach ($t['!a'] ? $t['!a'] : array() as $k => $v) {
                     //$v=str_replace('&','&amp;',$v);
@@ -209,31 +214,32 @@ class PWEXML extends PWEXMLFunctions implements Setupable {
                         continue; // maybe it's slows us
                     }
 
-                    $l.=' ' . $k . '=' . $qq . htmlspecialchars($v) . $qq;
+                    $l .= ' ' . $k . '=' . $qq . htmlspecialchars($v) . $qq;
                 }
 
                 if (!isset($t['!c']) && (!isset($t['!v']) || !strlen(trim($t['!v'])))) //no value  - <tag />
-                    $l.=' />' . $nn;
+                    $l .= ' />' . $nn;
                 else { // container
                     $tmp = '';
                     if (isset($t['!v'])) {
                         if (strpos($t['!v'], '<') !== false) {
                             $t['!v'] = '<![CDATA[' . $t['!v'] . ']]>';
                         }
-                        $tmp.= /* $nn.' '. */$tab . str_replace($nn, $nn . ' ' . $tab, $t['!v']);
+                        $tmp .= /* $nn.' '. */
+                            $tab . str_replace($nn, $nn . ' ' . $tab, $t['!v']);
                     }
 
                     if (isset($t['!c'])) {
-                        $l.='>' . $tmp;
+                        $l .= '>' . $tmp;
                         fputs($fp, $l);
                         $this->generateNode($t['!c'], $level + 1, $fp);
                         $l = $tab;
                     } else
-                    if (!strstr(trim($tmp), $nn))// однострочные
-                        $l = rtrim($l) . '>' . trim($tmp);
-                    else  // многострочные
-                        $l.='>' . $nn . $tmp . $nn . $tab;
-                    $l.='</' . $ek . '>' . $nn;
+                        if (!strstr(trim($tmp), $nn)) // однострочные
+                            $l = rtrim($l) . '>' . trim($tmp);
+                        else // многострочные
+                            $l .= '>' . $nn . $tmp . $nn . $tab;
+                    $l .= '</' . $ek . '>' . $nn;
                 }
             }
         }
@@ -251,29 +257,30 @@ class PWEXML extends PWEXMLFunctions implements Setupable {
     # Выход: кусок иерархического массива                  #
     #                                                      #
     ////////////////////////////////////////////////////////
-    private function GetChildren(array &$res, &$i, $level) {
+    private function GetChildren(array &$res, &$i, $level)
+    {
         // 09.10.2005 17:57:22 целый день потратил на оптимизацию
         // но не зря - есть надежный прирост в производительности
         // все пришлось переделать в рекурсию памяти Асии Асхатовны Валеевой
         // в конце концов без Дзена не обошлось на выход в астрал ушел целый день
-        $parent = &$res;
+        $parent = & $res;
         if ($level > 1)
-            $res = &$res['!c'];
+            $res = & $res['!c'];
         while ($i < $this->parsed_size) {
-            $node = &$this->parsed_vals[$i++];
+            $node = & $this->parsed_vals[$i++];
             // нет смысла идти дальше - это другой уровень пошел
             if ($node['level'] !== $level)
                 break;
 
             $res[$node['tag']][] = array();
             $childno = sizeof($res[$node['tag']]) - 1;
-            $child = &$res[$node['tag']][$childno];
+            $child = & $res[$node['tag']][$childno];
 
             $child['!a'] = isset($node['attributes']) ? $node['attributes'] : array();
             $child['!v'] = isset($node['value']) ? trim($node['value']) : '';
 
             if ($level > 1)
-                $child['!p'] = &$parent;
+                $child['!p'] = & $parent;
 
             switch ($node['type']) {
                 case 'open':
@@ -286,46 +293,47 @@ class PWEXML extends PWEXMLFunctions implements Setupable {
     /**
      * рекурсивная функция формирования кэш-файла
      * для иерархического массива, ускоряющего парсинг
-     * @param comment  комментарий, который будет добавлен в начало файла кэша 
+     * @param comment комментарий, который будет добавлен в начало файла кэша
      * @param md5_xml контрольная сумма исходного ХМЛ-файла
      */
     private function ArrayToPHP(
-    array &$harray, $index, $filename = false, $md5_xml = false, $path = false, $comment = false) {
+        array &$harray, $index, $filename = false, $md5_xml = false, $path = false, $comment = false)
+    {
         $result = '';
         // цикл по типам узлов
         foreach ($harray as $ek => $ev) {
-            $result.=$index . "'$ek'=>array(\n";
+            $result .= $index . "'$ek'=>array(\n";
             // цикл по узлам
             foreach ($ev as $nk => $nv) {
-                $result.=$index . "\t$nk=>array(\n";
+                $result .= $index . "\t$nk=>array(\n";
 
                 // attributes
-                $result.=$index . "\t\t'!a'=>array(";
+                $result .= $index . "\t\t'!a'=>array(";
                 foreach ($nv['!a'] as $ak => $av)
-                    $result.="'$ak'=>\"" . $this->escapeCacheValue($av) . "\", ";
-                $result.="),\n";
+                    $result .= "'$ak'=>\"" . $this->escapeCacheValue($av) . "\", ";
+                $result .= "),\n";
 
                 // value
-                $result.=$index . "\t\t'!v'=>\"" . $this->escapeCacheValue($nv['!v']) . '",' . "\n";
+                $result .= $index . "\t\t'!v'=>\"" . $this->escapeCacheValue($nv['!v']) . '",' . "\n";
 
                 // parent
                 if (sizeof($path)) {
-                    $result.=$index . "\t\t'!p'=>&\$arr";
+                    $result .= $index . "\t\t'!p'=>&\$arr";
                     foreach ($path as $k => $v) {
-                        $result.="['$k'][$v]";
+                        $result .= "['$k'][$v]";
                     }
-                    $result.=",\n";
+                    $result .= ",\n";
                 }
 
                 // children
                 if (isset($nv['!c'])) {
                     $newpath = $path;
                     $newpath[$ek] = $nk;
-                    $result.=$index . "\t'!c'=>array(\n" . $this->ArrayToPHP($nv['!c'], $index . "\t\t", false, false, $newpath) . "),";
+                    $result .= $index . "\t'!c'=>array(\n" . $this->ArrayToPHP($nv['!c'], $index . "\t\t", false, false, $newpath) . "),";
                 }
-                $result.=$index . "\t),\n";
+                $result .= $index . "\t),\n";
             }
-            $result.=$index . "),\n";
+            $result .= $index . "),\n";
         }
 
         // сохраняем файлик
@@ -333,13 +341,13 @@ class PWEXML extends PWEXMLFunctions implements Setupable {
             $f = @fopen($filename, 'w+');
             if ($f) {
                 $res = "<?php // $comment\n";
-                $res.="\$arr=array();\n";
-                $res.="\$arr=array(\n$result);\n\n";
-                $res.='$md5_cache="' . $md5_xml . '"; // checksum' . "\n" . '?' . '>';
+                $res .= "\$arr=array();\n";
+                $res .= "\$arr=array(\n$result);\n\n";
+                $res .= '$md5_cache="' . $md5_xml . '"; // checksum' . "\n" . '?' . '>';
                 fputs($f, $res);
                 fclose($f);
             } else {
-                PWELogger::warning('Unable to save file: ' . $filename);
+                PWELogger::warn('Unable to save file: %s', $filename);
             }
             return true;
         }
@@ -347,17 +355,19 @@ class PWEXML extends PWEXMLFunctions implements Setupable {
         return $result;
     }
 
-    private function escapeCacheValue($value) {
+    private function escapeCacheValue($value)
+    {
         return addcslashes($value, '"$\\');
     }
 
-    private function parent_links(array &$harray, array &$parent) {
+    private function parent_links(array &$harray, array &$parent)
+    {
         // цикл по типам узлов
         foreach ($harray as $ek => $ev) {
             foreach ($ev as $nk => $nv) {
                 // parent
                 if ($parent)
-                    $harray[$ek][$nk]['!p'] = &$parent;
+                    $harray[$ek][$nk]['!p'] = & $parent;
 
                 // children
                 if (isset($nv['!c']))
@@ -366,7 +376,8 @@ class PWEXML extends PWEXMLFunctions implements Setupable {
         }
     }
 
-    public static function setup(PWECore $pwe, array &$registerData) {
+    public static function setup(PWECore $pwe, array &$registerData)
+    {
         if (!$registerData['!c']['cacheDir'])
             $registerData['!c']['cacheDir'][0]['!v'] = $pwe->getTempDirectory();
     }

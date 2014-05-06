@@ -44,7 +44,7 @@ class FileDownloads extends PWEModule implements Outputable
         $file_path = '/' . $this->dl_base . '/' . PWEURL::protectAgainsRelativePaths(implode('/', $params));
         $file = $this->PWE->getRootDirectory() . $file_path;
         if (!is_file($file)) {
-            PWELogger::error("File not found: $file_path");
+            PWELogger::error("File not found: %s", $file_path);
             throw new HTTP4xxException("File not found", HTTP4xxException::NOT_FOUND);
         }
 
@@ -60,7 +60,7 @@ class FileDownloads extends PWEModule implements Outputable
         if (!file_exists($f) || is_writeable($f)) {
             file_put_contents($f, $cnt + 1);
         } else {
-            PWELogger::warn("Cannot write download count to $f");
+            PWELogger::warn("Cannot write download count to %s", $f);
         }
     }
 
@@ -70,7 +70,7 @@ class FileDownloads extends PWEModule implements Outputable
         if (is_file($f)) {
             $cnt = round(file_get_contents($f));
         } else {
-            PWELogger::warn("No download count info for " . $file);
+            PWELogger::warn("No download count info for %s", $file);
             $cnt = 0;
         }
 
@@ -84,7 +84,7 @@ class FileDownloads extends PWEModule implements Outputable
         /** @var $file \SplFileInfo */
         foreach ($fi as $file) {
             if (!self::filter_out_cnt($file)) {
-                PWELogger::debug("Filtered out $file");
+                PWELogger::debug("Filtered out %s", $file);
                 continue;
             }
             $res[$file->getMTime() . " " . $file->getBasename()] = $this->getFileBlock($subdir . '/' . $file->getBasename(), '') . "\n\n";
@@ -106,7 +106,7 @@ class FileDownloads extends PWEModule implements Outputable
         $basename = basename($orig_file);
         $file = $this->getRealFile($orig_file);
         if (!is_file($file)) {
-            PWELogger::warn("Broken download: $file");
+            PWELogger::warn("Broken download: %s", $file);
 
             return '[broken download: ' . $basename . ']';
         }

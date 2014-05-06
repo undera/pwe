@@ -52,7 +52,7 @@ class PWEDoctrineWrapper extends PWEModule implements Setupable, PWECMDJob
         $config = new Configuration();
         $config->setSQLLogger(new PWEDoctrineLogger());
 
-        PWELogger::debug("Getting connection", $params);
+        PWELogger::debug("Getting connection: %s", $params);
 
         self::$connection = DriverManager::getConnection($params, $config);
 
@@ -70,7 +70,7 @@ class PWEDoctrineWrapper extends PWEModule implements Setupable, PWECMDJob
 
     public function processDBUpgrade($module, $filename_prefix = './')
     {
-        PWELogger::info("Processing DB upgrade with module " . $module . " using prefix: " . $filename_prefix);
+        PWELogger::info("Processing DB upgrade with module %s using prefix: %s", $module, $filename_prefix);
         if (!$filename_prefix)
             $filename_prefix = $module;
 
@@ -79,7 +79,7 @@ class PWEDoctrineWrapper extends PWEModule implements Setupable, PWECMDJob
             PWELogger::debug("Getting DB version number");
             $res = $this->DB->query("select dbversion from m_db_versions where module='" . ($module) . "'");
         } catch (DBALException $e) {
-            PWELogger::debug("Creating DB versions table", $e);
+            PWELogger::debug("Creating DB versions table: %s", $e);
             $this->DB->query("CREATE TABLE m_db_versions (
                   ID MEDIUMINT(8) NOT NULL AUTO_INCREMENT,
                   module VARCHAR(255) NOT NULL,
@@ -92,9 +92,9 @@ class PWEDoctrineWrapper extends PWEModule implements Setupable, PWECMDJob
 
         if ($res->rowCount()) {
             $version_row = $res->fetch();
-            PWELogger::debug("DB version number", $version_row);
+            PWELogger::debug("DB version number: %s", $version_row);
         } else {
-            PWELogger::debug("Inserting first row for module: " . $module);
+            PWELogger::debug("Inserting first row for module: %s", $module);
             $this->DB->query("insert into m_db_versions(module, dbversion) values('" . ($module) . "', 0)");
             $version_row = array('dbversion' => 0);
         }
@@ -105,15 +105,15 @@ class PWEDoctrineWrapper extends PWEModule implements Setupable, PWECMDJob
         $version++;
         while (file_exists($filename_prefix . $version . '.sql') || file_exists($filename_prefix . $version . '.php')) {
             if (file_exists($filename_prefix . $version . '.sql')) {
-                PWELogger::info("Executing file: " . $filename_prefix . $version . '.sql');
+                PWELogger::info("Executing file: %s%s.sql", $filename_prefix, $version);
                 $this->soakFile($filename_prefix . $version . '.sql');
             }
             $fname = $filename_prefix . $version . '.php';
             if (file_exists($fname)) {
-                PWELogger::info("Executing file: " . $fname);
+                PWELogger::info("Executing file: %s", $fname);
                 require $fname;
             }
-            $this->DB->query("update m_db_versions set dbversion=" . $version . " where module='" . $module . "'");
+            $this->DB->executeQuery("update m_db_versions set dbversion=? where module=?", array($version, $module));
             $version++;
         }
         PWELogger::info("Done upgrading DB");
@@ -123,7 +123,7 @@ class PWEDoctrineWrapper extends PWEModule implements Setupable, PWECMDJob
 
     public function soakFile($filename)
     {
-        PWELogger::info('Processing SQL-file: ' . $filename);
+        PWELogger::info('Processing SQL-file: %s' , $filename);
 
         $sql = file_get_contents($filename);
         $splitter = strstr($sql, ";\r\n") ? ";\r\n" : ";\n";

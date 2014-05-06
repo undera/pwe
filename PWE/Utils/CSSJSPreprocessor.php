@@ -37,7 +37,7 @@ class CSSJSPreprocessor implements PWECMDJob
 
     public function preprocess($path, $dst)
     {
-        PWELogger::info("Preprocessing " . $path . " to " . $dst);
+        PWELogger::info("Preprocessing %s to %s", $path, $dst);
         $dit = new RecursiveDirectoryIterator($path, FilesystemIterator::KEY_AS_PATHNAME | FilesystemIterator::CURRENT_AS_FILEINFO);
         $rit = new RecursiveIteratorIterator($dit);
         /** @var $file \SplFileInfo */
@@ -48,7 +48,7 @@ class CSSJSPreprocessor implements PWECMDJob
                 continue;
             }
 
-            PWELogger::info("Preprocessing $filename");
+            PWELogger::info("Preprocessing %s", $filename);
             $this->preprocess_file_css($filename, $dst);
             $this->preprocess_file_js($filename, $dst);
         }
@@ -71,7 +71,7 @@ class CSSJSPreprocessor implements PWECMDJob
 
                 $marker = $this->getPreprocessMarker($cand, $tagType);
                 if ($marker) {
-                    PWELogger::info("Found block to write into: $marker$ext");
+                    PWELogger::info("Found block to write into: %s%s", $marker, $ext);
                     $dst_file = $dst . '/' . $marker . $ext;
                     $inner = $this->getInner($cand, $filename);
                     if ($inner) {

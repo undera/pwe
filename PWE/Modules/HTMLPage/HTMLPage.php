@@ -10,16 +10,19 @@ use PWE\Modules\Outputable;
 use PWE\Modules\PWEModule;
 use PWE\Modules\Setupable;
 
-class HTMLPage extends PWEModule implements Outputable, Setupable {
+class HTMLPage extends PWEModule implements Outputable, Setupable
+{
 
     // функция проверки ХТМности имени файла
-    private function isHTMfile($f) {
+    private function isHTMfile($f)
+    {
         $file_parts = explode('.', $f);
         $tmp = strtolower(end($file_parts));
         return in_array($tmp, array('htm', 'html'));
     }
 
-    public function process() {
+    public function process()
+    {
         $eg_node = $this->PWE->getNode();
         //var_dump($eg_node);
 
@@ -36,7 +39,7 @@ class HTMLPage extends PWEModule implements Outputable, Setupable {
 
         // если таковой есть
         if (is_file($src)) {
-            PWELogger::debug("HTML File: $src");
+            PWELogger::debug("HTML File: %s", $src);
             // показываем его
             $smarty = $this->PWE->getSmarty();
             $smarty->assign('content', file_get_contents($src));
@@ -45,18 +48,20 @@ class HTMLPage extends PWEModule implements Outputable, Setupable {
         } else {
             // иначе пишем во внутренний лог
             // и культурно ругаемся
-            PWELogger::warning("File not found: " . $src);
+            PWELogger::warn("File not found: %s", $src);
             throw new HTTP4xxException("This page is not ready yet", HTTP4xxException::NOT_FOUND);
         }
     }
 
-    private static function getHTMLDirectory(PWECore $pwe) {
+    private static function getHTMLDirectory(PWECore $pwe)
+    {
         return $pwe->getDataDirectory() . '/html';
     }
 
-    public static function setup(PWECore $pwe, array &$registerData) {
+    public static function setup(PWECore $pwe, array &$registerData)
+    {
         if (!is_dir(self::getHTMLDirectory($pwe))) {
-            PWELogger::info("Creating HTML directory: " . self::getHTMLDirectory($pwe));
+            PWELogger::info("Creating HTML directory: %s", self::getHTMLDirectory($pwe));
             mkdir(self::getHTMLDirectory($pwe), null, true);
         }
     }

@@ -70,10 +70,10 @@ abstract class FilesystemHelper
     public static function fsys_copydir($from, $to, $is_deep = true, $move = false)
     {
         if (!is_dir($from)) {
-            PWELogger::warning("Source directory not exists for copy: $from");
+            PWELogger::warn("Source directory not exists for copy: %s", $from);
             return false;
         }
-        PWELogger::debug("Copying $from to $to");
+        PWELogger::debug("Copying %s to %s", $from, $to);
         // закрываем путь к директории слешем
         if (strrchr($from, '/') != '/')
             $from .= '/';
@@ -85,31 +85,31 @@ abstract class FilesystemHelper
         // при этом если отсутствует более одного уровня директорий, то вернуть ошибку
         if (!is_dir($to)) {
             if (!self::fsys_mkdir($to)) {
-                PWELogger::error("Unable to create destination directory: $to");
+                PWELogger::error("Unable to create destination directory: %s", $to);
                 return false;
             }
 
             if (!is_dir(preg_replace('!/\w+/$!', '/', $to))) {
-                PWELogger::error("Unable to use destination directory: $to");
+                PWELogger::error("Unable to use destination directory: %s", $to);
                 return false;
             }
         }
 
         // конечная директория должна давать права на запись
         if (!is_writable($to)) {
-            PWELogger::error("Destination dir '$to' is not writable");
+            PWELogger::error("Destination dir '%s' is not writable", $to);
             return false;
         }
 
         // проверка на право чтения с директории-источника и на право удаления при перемещении
         foreach ($files as $file => $is_dir) {
             if (!is_readable($from . $file)) {
-                PWELogger::error("Source '$from.$file' is not readable");
+                PWELogger::error("Source '%s.%s' is not readable", $from, $file);
                 return false;
             }
 
             if ($move && !is_writable($from . $file)) {
-                PWELogger::error("Source '$from.$file' is not writable for move");
+                PWELogger::error("Source '%s.%s' is not writable for move", $from, $file);
                 return false;
             }
         }
@@ -129,7 +129,7 @@ abstract class FilesystemHelper
                 }
             } else {
                 $copied = copy($oldpath, $newpath);
-                PWELogger::debug("Copy file " . ($copied ? 'success' : 'FAILED') . ": $oldpath -> $newpath");
+                PWELogger::debug("Copy file %s %s -> %s", ($copied ? 'success' : 'FAILED'), $oldpath, $newpath);
                 // если копируется пустой файл, то copy() возвращает false (?)
                 if (!$copied && (!file_exists($newpath) || filesize($oldpath) > 0))
                     break;
@@ -191,14 +191,14 @@ abstract class FilesystemHelper
                 if ($is_deep) {
 
                     if (!self::fsys_removedir($dir . $path, $is_deep, $leave_files)) {
-                        PWELogger::debug('Cannot delete dir: ' . $dir . $path);
+                        PWELogger::debug('Cannot delete dir: %s%s', $dir, $path);
                         return false;
                     }
                 }
             } else {
                 if (file_exists($dir . $path))
                     if (!unlink($dir . $path)) {
-                        PWELogger::debug('Cannot delete: ' . $dir . $path);
+                        PWELogger::debug('Cannot delete: %s%s', $dir, $path);
                         return false;
                     }
             }
@@ -234,11 +234,11 @@ abstract class FilesystemHelper
             $memo = array_reverse($memo);
             foreach ($memo as $cdir) {
                 if (!is_dir($cdir)) { // еще раз проверим, на всякий случай
-                    PWELogger::debug("Creating directory: $cdir");
+                    PWELogger::debug("Creating directory: %s", $cdir);
                     if (!mkdir($cdir)) { // если создать директорию не вышло, то откат
                         if ($notexisted)
                             self::fsys_removedir($notexisted);
-                        PWELogger::debug('Failed to create directory ' . $cdir);
+                        PWELogger::debug('Failed to create directory %s', $cdir);
                         return false;
                     }
                     if (!$notexisted)
@@ -247,7 +247,7 @@ abstract class FilesystemHelper
                 if (!is_writable($cdir)) { // если в директорию нельзя писать, то откат
                     if ($notexisted)
                         self::fsys_removedir($notexisted);
-                    PWELogger::debug('Directory not writable ' . $cdir);
+                    PWELogger::debug('Directory not writable %s', $cdir);
                     return false;
                 }
             }
