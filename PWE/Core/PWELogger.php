@@ -66,7 +66,7 @@ abstract class PWELogger
             } elseif ($v instanceof \Exception) {
                 $data[$k] = $v->__toString();
             } elseif (!is_numeric($v)) {
-                $data[$k] = print_r($v, true);
+                $data[$k] = str_replace("\n", " ", print_r($v, true));
             }
         }
 
