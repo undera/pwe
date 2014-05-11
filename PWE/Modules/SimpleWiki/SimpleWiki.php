@@ -48,16 +48,25 @@ class SimpleWiki extends PWEModule implements Outputable
             $files = new GlobIterator($dir . '/*.wiki');
             $text = "";
             foreach ($files as $file) {
-                $f = end(explode('/', $file->getFilename()));
-                $f = reset(explode('.', $f));
+                $f = pathinfo($file, PATHINFO_FILENAME);
                 $text .= "  # [$f " . $f . "]\n";
             }
             $contents = $this->getRenderer()->render($text);
         } else {
-            $file = $dir . '/' . $args[0];
-            if (pathinfo($file, PATHINFO_EXTENSION) != 'wiki') {
-                $file .= '.wiki';
+            if (pathinfo($args[0], PATHINFO_EXTENSION) != 'wiki') {
+                $args[0] .= '.wiki';
             }
+
+            $file = $dir . '/' . str_replace(':', DIRECTORY_SEPARATOR, $args[0]);
+            $real_file = realpath($file);
+            $pos = strpos($real_file, realpath($dir) . DIRECTORY_SEPARATOR);
+            PWELogger::debug("Test path for sanity: %s ; %s ; %s", $file, $real_file, $pos);
+            if ($pos === false) {
+                PWELogger::warn("Possible injection attempt: %s", $file);
+                throw new HTTP4xxException("Wrong wiki page specified", HTTP4xxException::NOT_FOUND);
+            }
+
+            PWELogger::info("Wiki file to show: %s", $file);
 
             if (!is_file($file)) {
                 PWELogger::error("Not found wiki file: %s", $file);
