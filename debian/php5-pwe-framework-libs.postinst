@@ -23,21 +23,6 @@ case "$1" in
         pear channel-discover pear.symfony.com || pear channel-update pear.symfony.com 
         pear channel-discover pear.doctrine-project.org || pear channel-update pear.doctrine-project.org 
         pear install --soft --onlyreqdeps doctrine/DoctrineDBAL || pear upgrade doctrine/DoctrineDBAL
-
-        echo install/upgrade phpseclib
-        pear channel-discover phpseclib.sourceforge.net || pear channel-update phpseclib.sourceforge.net
-        pear upgrade --force --onlyreqdeps PHP_Compat-1.6.0a3
-        pear upgrade --force --onlyreqdeps phpseclib/Crypt_RSA
-
-        echo install/upgrade OpenID
-        pear upgrade --force --onlyreqdeps Crypt_DiffieHellman-0.2.6
-        pear upgrade --force --onlyreqdeps Validate-0.8.5
-        pear upgrade --force --onlyreqdeps Services_Yadis-0.5.1
-        pear upgrade --force --onlyreqdeps HTTP_OAuth-0.2.3
-        pear upgrade --force --onlyreqdeps OpenID-0.3.3
-
-        echo install/upgrade Memcached
-        pecl install memcached-2.0.1 || php -r "new Memcached();"
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)

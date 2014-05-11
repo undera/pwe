@@ -3,7 +3,9 @@
 /lib/
 /nbproject/
 /build/
-debhelper.log
-substvars
+*debhelper.log
+debian/*/
+*substvars
 dirs
+debian/files
 .idea

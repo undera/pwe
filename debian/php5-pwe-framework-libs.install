@@ -1,2 +1,1 @@
-../../lib/* usr/share/php/pwe/lib/
-debian/php5-pwe-libs.ini etc/php5/conf.d
+lib/* usr/share/php/pwe/lib/
