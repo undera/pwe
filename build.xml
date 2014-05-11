@@ -110,7 +110,7 @@
         </exec>
     </target>
     
-    <target name="debian">
+    <target name="debian" depends="get-smarty,get-tcpdf,get-phplot">
         <!-- 
         <exec executable="dch" dir="${basedir}/_test" failonerror="true">
             <env key="TERM" value="linux" />

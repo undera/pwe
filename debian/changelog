@@ -1,3 +1,9 @@
+php5-pwe-framework (2.5.0) UNRELEASED; urgency=medium
+
+  * changed debianization
+
+ -- Andrey Pohilko <undera@apc-home>  Sun, 11 May 2014 20:11:04 +0400
+
 php5-pwe-framework (2.4.2) precise; urgency=medium
 
   * allow multiple pwe content blocks via tags
