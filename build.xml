@@ -127,7 +127,7 @@
             <!-- <arg value="-I**/.svn"/> -->
         </exec>
         <move todir="${basedir}/build">
-            <fileset dir="${basedir}/deb" includes="php5-pwe-framework*" />
+            <fileset dir="${basedir}/.." includes="php5-pwe-framework*" />
         </move>
     </target>
 
