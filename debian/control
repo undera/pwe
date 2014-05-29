@@ -7,10 +7,3 @@ Package: php5-pwe-framework
 Architecture: all
 Depends: php5, apache2, libapache2-mod-php5, php5-pwe-framework-libs
 Description: Pluggable Web Engine PHP 5 Framework
-
-Package: php5-pwe-framework-libs
-Architecture: all
-Depends: php5, php-pear, php5-mysql, php5-gd, php-pear,
-    libmemcached-dev, build-essential
-Conflicts: smarty3
-Description: External libraries for Pluggable Web Engine Framework

@@ -2,10 +2,11 @@
 
 use PWE\Core\PWELogger;
 use PWE\Core\PWEAutoloader;
+use PWE\Exceptions\PHPFatalException;
 
 error_reporting(E_ALL ^ E_NOTICE);
 
-$src = dirname(__FILE__) . '/..';
+$src = __DIR__ . '/..';
 require_once $src . '/PWE/Core/PWELogger.php';
 require_once $src . '/PWE/Core/PWEAutoloader.php';
 
@@ -13,22 +14,23 @@ PWELogger::setStdOut('php://stdout');
 PWELogger::setStdErr('php://stdout');
 PWELogger::setLevel(PWELogger::DEBUG);
 
-PWEAutoloader::addSourceRoot(dirname(__FILE__));
-PWEAutoloader::addSourceRoot(dirname(__FILE__) . '/..');
-if (is_dir(dirname(__FILE__) . '/../Lib'))
-    PWEAutoloader::addSourceRoot(dirname(__FILE__) . '/../Lib');
+PWEAutoloader::addSourceRoot(__DIR__);
+PWEAutoloader::addSourceRoot(__DIR__ . '/..');
+PWEAutoloader::addSourceRoot(__DIR__ . '/../vendor/');
+if (is_dir(__DIR__ . '/../Lib'))
+    PWEAutoloader::addSourceRoot(__DIR__ . '/../Lib');
 PWEAutoloader::addSourceRoot('/usr/share/php');
 PWEAutoloader::activate();
 
-require_once(dirname(__FILE__) . '/../PWE/Utils/FilesystemHelper.php');
+require_once(__DIR__ . '/../PWE/Utils/FilesystemHelper.php');
 
-\PWE\Exceptions\PHPFatalException::activate();
+PHPFatalException::activate();
 
 set_time_limit(180);
 
 $_SERVER["DOCUMENT_ROOT"] = dirname($_SERVER["SCRIPT_FILENAME"]);
 
-//require_once dirname(__FILE__) . '/PWE/Core/UnitTestPWECore.php';
+//require_once __DIR__ . '/PWE/Core/UnitTestPWECore.php';
 
 class PWEUnitTests {
 

@@ -1,3 +1,4 @@
+/composer.lock
 .directory
 /img/
 /lib/
@@ -9,3 +10,4 @@ debian/*/
 dirs
 debian/files
 .idea
+/vendor/

@@ -18,10 +18,10 @@
         <mkdir dir="${basedir}/build/pdepend"/>
     </target>
 
-    <target name="phpunit"
+    <target name="phpunit" depends="composer"
             description="Run unit tests using PHPUnit and generates junit.xml and clover.xml">
-        <exec  executable="phpunit" failonerror="true">
-            <arg value="--configuration=test/phpunit.xml" />
+        <exec executable="phpunit" failonerror="true">
+            <arg value="--configuration=test/phpunit.xml"/>
             <arg value="test"/>
         </exec>
     </target>
@@ -42,75 +42,75 @@
     <target name="pdepend"
             description="Generate jdepend.xml and software metrics charts using PHP_Depend">
         <exec executable="pdepend">
-            <arg value="--jdepend-xml=${basedir}/build/logs/jdepend.xml" />
-            <arg value="--jdepend-chart=${basedir}/build/pdepend/dependencies.svg" />
-            <arg value="--overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg" />
-            <arg path="${source}" />
+            <arg value="--jdepend-xml=${basedir}/build/logs/jdepend.xml"/>
+            <arg value="--jdepend-chart=${basedir}/build/pdepend/dependencies.svg"/>
+            <arg value="--overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg"/>
+            <arg path="${source}"/>
         </exec>
     </target>
 
     <target name="phpmd"
             description="Generate pmd.xml using PHPMD">
         <exec executable="phpmd">
-            <arg path="${source}" />
-            <arg value="xml" />
-            <arg value="${basedir}/test/phpmd.xml" />
-            <arg value="--reportfile" />
-            <arg value="${basedir}/build/logs/pmd.xml" />
+            <arg path="${source}"/>
+            <arg value="xml"/>
+            <arg value="${basedir}/test/phpmd.xml"/>
+            <arg value="--reportfile"/>
+            <arg value="${basedir}/build/logs/pmd.xml"/>
         </exec>
     </target>
 
     <target name="phpcpd"
             description="Generate pmd-cpd.xml using PHPCPD">
         <exec executable="phpcpd">
-            <arg value="--log-pmd" />
-            <arg value="${basedir}/build/logs/pmd-cpd.xml" />
-            <arg path="${source}" />
+            <arg value="--log-pmd"/>
+            <arg value="${basedir}/build/logs/pmd-cpd.xml"/>
+            <arg path="${source}"/>
         </exec>
     </target>
 
     <target name="phploc"
             description="Generate phploc.csv">
         <exec executable="phploc">
-            <arg value="--log-csv" />
-            <arg value="${basedir}/build/logs/phploc.csv" />
-            <arg path="${source}" />
+            <arg value="--log-csv"/>
+            <arg value="${basedir}/build/logs/phploc.csv"/>
+            <arg path="${source}"/>
         </exec>
     </target>
 
     <target name="phpcs"
             description="Generate checkstyle.xml using PHP_CodeSniffer">
         <exec executable="phpcs" output="/dev/null">
-            <arg value="--report=checkstyle" />
-            <arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
-            <arg value="--standard=${basedir}/build/phpcs.xml" />
-            <arg path="${source}" />
+            <arg value="--report=checkstyle"/>
+            <arg value="--report-file=${basedir}/build/logs/checkstyle.xml"/>
+            <arg value="--standard=${basedir}/build/phpcs.xml"/>
+            <arg path="${source}"/>
         </exec>
     </target>
 
     <target name="phpdoc"
             description="Generate API documentation using PHPDocumentor">
         <exec executable="phpdoc">
-            <arg value="--directory" />
-            <arg path="${source}" />
-            <arg value="--target" />
-            <arg path="${basedir}/build/api" />
+            <arg value="--directory"/>
+            <arg path="${source}"/>
+            <arg value="--target"/>
+            <arg path="${basedir}/build/api"/>
         </exec>
     </target>
 
     <target name="phpcb"
             description="Aggregate tool output with PHP_CodeBrowser">
         <exec executable="phpcb">
-            <arg value="--log" />
-            <arg path="${basedir}/build/logs" />
-            <arg value="--source" />
-            <arg path="${source}" />
-            <arg value="--output" />
-            <arg path="${basedir}/build/code-browser" />
+            <arg value="--log"/>
+            <arg path="${basedir}/build/logs"/>
+            <arg value="--source"/>
+            <arg path="${source}"/>
+            <arg value="--output"/>
+            <arg path="${basedir}/build/code-browser"/>
         </exec>
     </target>
-    
-    <target name="debian" depends="get-smarty,get-tcpdf,get-phplot,get-wikirenderer">
+
+    <target name="debian" depends="composer">
         <!-- 
         <exec executable="dch" dir="${basedir}/_test" failonerror="true">
             <env key="TERM" value="linux" />
@@ -120,68 +120,25 @@
         -->
         <exec executable="debuild" dir="${basedir}" failonerror="true">
             <!--<arg value="-S" />-->
-            <arg value="-D" />
-            <arg value="-us" />
-            <arg value="-uc" />
-            <arg value="-tc" />
+            <arg value="-D"/>
+            <arg value="-us"/>
+            <arg value="-uc"/>
+            <arg value="-tc"/>
             <!-- <arg value="-I**/.svn"/> -->
         </exec>
         <move todir="${basedir}/build">
-            <fileset dir="${basedir}/.." includes="php5-pwe-framework*" />
+            <fileset dir="${basedir}/.." includes="php5-pwe-framework*"/>
         </move>
     </target>
 
-    <target name="get-smarty">
-        <mkdir dir="${basedir}/lib" />
-        <property name="Ver" value="3.1.13"/>
-        <delete includeemptydirs="true">
-            <fileset dir="${basedir}/lib" defaultexcludes="false" >
-                <include name="Smarty_**/" />
-            </fileset>                
-        </delete>
-        <untar dest="${basedir}/lib/Smarty_${Ver}" src="/var/tmp/Smarty-${Ver}.tar.gz" failonemptyarchive="true" stripabsolutepathspec="false" compression="gzip" />
-    </target>
-
-    <target name="get-tcpdf">
-        <mkdir dir="${basedir}/lib/tcpdf" />
-        <property name="tcpdfVer" value="6_0_010" />
-        <delete includeemptydirs="true">
-            <fileset dir="${basedir}/lib/tcpdf" defaultexcludes="false" >
-                <include name="tcpdf**/" />
-            </fileset>                
-        </delete>
-        <unzip dest="${basedir}/lib" src="/var/tmp/tcpdf_${tcpdfVer}.zip" failonemptyarchive="true" stripabsolutepathspec="false"/>
-    </target>
-
-    <target name="get-phplot">
-        <mkdir dir="${basedir}/lib/phplot" />
-        <property name="phplotVer" value="6.0.0" />
-        <delete includeemptydirs="true">
-            <fileset dir="${basedir}/lib/tcpdf" defaultexcludes="false" >
-                <include name="phplot**/" />
-            </fileset>                
-        </delete>
-        <unzip dest="${basedir}/lib/phplot" src="/var/tmp/phplot-${phplotVer}.zip" failonemptyarchive="true" stripabsolutepathspec="false"/>
-    </target>
-
-    <target name="get-wikirenderer">
-        <mkdir dir="${basedir}/lib" />
-        <property name="wikirendererVer" value="dddc5ec" />
-        <delete includeemptydirs="true">
-            <fileset dir="${basedir}/lib" defaultexcludes="false" >
-                <include name="**/wikirenderer/" />
-            </fileset>
-        </delete>
-
-        <exec executable="git" dir="${basedir}/lib" failonerror="true">
-            <arg value="clone" />
-            <arg value="https://github.com/laurentj/wikirenderer.git" />
+    <target name="composer">
+        <exec executable="composer.phar" dir="${basedir}" failonerror="true">
+            <arg value="--verbose"/>
+            <arg value="--no-interaction"/>
+            <arg value="--prefer-dist"/>
+            <arg value="--no-dev"/>
+            <arg value="update"/>
         </exec>
-        <exec executable="git" dir="${basedir}/lib/wikirenderer" failonerror="true">
-            <arg value="checkout" />
-            <arg value="${wikirendererVer}" />
-        </exec>
-
     </target>
 
     <target name="build" depends="clean,parallelTasks,phpunit,phpcb,debian"/>
