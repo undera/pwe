@@ -4,8 +4,8 @@
 export DH_VERBOSE=1
 
 build:
-    curl -sS https://getcomposer.org/installer | php
-	composer.phar --no-interaction update
+	curl -sS https://getcomposer.org/installer | php
+	./composer.phar --no-interaction --prefer-dist --no-dev update
 
 clean:
 	dh_clean
