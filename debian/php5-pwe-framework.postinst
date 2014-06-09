@@ -1,0 +1,4 @@
+#! /usr/bin/sh
+
+curl -sS https://getcomposer.org/installer | php
+./composer.phar --no-interaction --prefer-dist --no-dev --working-dir /usr/share/php update
