@@ -22,7 +22,7 @@
             <meta name="description" content="{$node.$i.description|default:$node.$i.description}"/>
             {if false && $smarty.server.SERVER_ADDR==$smarty.server.REMOTE_ADDR}
                 <style type='text/css'>
-                    {include file=$smarty.server.SCRIPT_FILENAME|dirname|cat:'/src/pwe/design/styles.css'}
+                    {include file='/src/pwe/design/styles.css'}
                 </style>
             {else}
                 <link rel="stylesheet" href="{$IMG_HREF}/design/styles.css"/>
