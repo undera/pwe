@@ -42,11 +42,11 @@ abstract class PWEAutoloader
         }
     }
 
-    public static function addSourceRoot($path)
+    public static function addSourceRoot($orig_path)
     {
-        $path = realpath($path);
+        $path = realpath($orig_path);
         if (!is_dir($path)) {
-            PWELogger::warn("Path not exists: %s", $path);
+            PWELogger::warn("Path not exists: %s", $orig_path);
         } else {
             self::$sourceRoots[] = $path;
         }

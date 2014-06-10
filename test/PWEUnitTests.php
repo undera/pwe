@@ -16,7 +16,7 @@ PWELogger::setLevel(PWELogger::DEBUG);
 
 PWEAutoloader::addSourceRoot(__DIR__);
 PWEAutoloader::addSourceRoot(__DIR__ . '/..');
-PWEAutoloader::addSourceRoot(__DIR__ . '/../vendor/');
+PWEAutoloader::addSourceRoot(__DIR__ . '/../../vendor/');
 if (is_dir(__DIR__ . '/../Lib'))
     PWEAutoloader::addSourceRoot(__DIR__ . '/../Lib');
 PWEAutoloader::addSourceRoot('/usr/share/php');
