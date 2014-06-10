@@ -3,4 +3,3 @@
 *.TXT usr/share/php/pwe
 *.ico usr/share/php/pwe
 PWE usr/share/php/pwe
-vendor usr/share/php
