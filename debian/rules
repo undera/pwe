@@ -16,6 +16,7 @@ binary-indep:
 
 	dh_installdirs
 	dh_install
+	dh_fixperms
 
 	dh_installdeb
 	
