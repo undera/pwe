@@ -14,7 +14,7 @@ class SubPagesList extends PWEModule implements Outputable {
         $smarty->assign('subpages', $node['!c']['url']);
         $smarty->assign('format', $node['!a']['format']);
         $smarty->assign('columns', $node['!a']['columns'] ? $node['!a']['columns'] : self::DEFAULT_COLUMNS);
-        $smarty->setTemplateFile(dirname(__FILE__) . "/SubPagesList.tpl");
+        $smarty->setTemplateFile(__DIR__ . "/SubPagesList.tpl");
         $this->PWE->addContent($smarty);
     }
 

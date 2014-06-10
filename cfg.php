@@ -6,7 +6,7 @@ use PWE\Core\PWEAutoloader;
 header('Server: Apache');
 header('X-Powered-By: PWE');
 
-$root = str_replace('\\', '/', dirname(__FILE__));
+$root = str_replace('\\', '/', __DIR__);
 
 PWELogger::setLevel(PWELogger::WARNING);
 

@@ -75,7 +75,7 @@ class SimpleWiki extends PWEModule implements Outputable
             $contents = $this->renderPage($file);
         }
         $smarty = new SmartyWrapper($this->PWE);
-        $smarty->setTemplateFile(dirname(__FILE__) . '/wiki.tpl');
+        $smarty->setTemplateFile(__DIR__ . '/wiki.tpl');
         $smarty->assign('content', $contents);
 
         $sidebar = $this->config->getToc();

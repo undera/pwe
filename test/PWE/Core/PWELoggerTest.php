@@ -4,7 +4,7 @@ namespace PWE\Core;
 
 use ExceptionExpected;
 
-require_once dirname(__FILE__) . '/../../PWEUnitTests.php';
+require_once __DIR__ . '/../../PWEUnitTests.php';
 
 class PWELoggerTest extends \PHPUnit_Framework_TestCase
 {

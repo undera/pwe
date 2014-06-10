@@ -4,7 +4,7 @@ namespace PWE\Utils;
 
 use PWE\Core\PWEURL;
 
-require_once dirname(__FILE__) . '/../../PWEUnitTests.php';
+require_once __DIR__ . '/../../PWEUnitTests.php';
 
 class PWEUtilsTest extends \PHPUnit_Framework_TestCase {
 

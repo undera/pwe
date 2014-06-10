@@ -4,7 +4,7 @@ namespace PWE\Utils;
 
 use PWE\Core\UnitTestPWECore;
 
-require_once dirname(__FILE__) . '/../../PWEUnitTests.php';
+require_once __DIR__ . '/../../PWEUnitTests.php';
 
 /**
  * Test class for FilesystemHelper.
@@ -38,11 +38,11 @@ class FilesystemHelperTest extends \PHPUnit_Framework_TestCase {
      */
     public function testFsys_readdir() {
         $PWE = new UnitTestPWECore();
-        FilesystemHelper::fsys_readdir(dirname(__FILE__));
-        FilesystemHelper::fsys_copydir(dirname(__FILE__), $PWE->getTempDirectory());
+        FilesystemHelper::fsys_readdir(__DIR__);
+        FilesystemHelper::fsys_copydir(__DIR__, $PWE->getTempDirectory());
         FilesystemHelper::fsys_kbytes(100000);
         FilesystemHelper::fsys_filesize(__FILE__);
-        FilesystemHelper::fsys_filesize(dirname(__FILE__));
+        FilesystemHelper::fsys_filesize(__DIR__);
     }
 
 }

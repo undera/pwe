@@ -4,7 +4,7 @@ namespace PWE\Modules;
 
 use PWE\Core\UnitTestPWECore;
 
-require_once dirname(__FILE__) . '/../../PWEUnitTests.php';
+require_once __DIR__ . '/../../PWEUnitTests.php';
 
 class PWEModulesManagerTest extends \PHPUnit_Framework_TestCase
 {
@@ -18,7 +18,7 @@ class PWEModulesManagerTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->pwe = new UnitTestPWECore();
-        copy(dirname(__FILE__) . '/registry.xml', $this->pwe->getTempDirectory() . '/eg_globals.xml');
+        copy(__DIR__ . '/registry.xml', $this->pwe->getTempDirectory() . '/eg_globals.xml');
         $this->object = new PWEModulesManager($this->pwe);
     }
 

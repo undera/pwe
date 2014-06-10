@@ -15,7 +15,7 @@ class SimpleWikiTest extends \PHPUnit_Framework_TestCase
         $PWE = new UnitTestPWECore();
         $obj = new SimpleWiki($PWE);
         // Took it from http://code.google.com/p/support/source/browse/wiki/WikiSyntax.wiki
-        $res = $obj->renderPage(dirname(__FILE__) . "/GoogleSyntax.wiki");
+        $res = $obj->renderPage(__DIR__ . "/GoogleSyntax.wiki");
         PWELogger::debug($res);
     }
 
@@ -24,7 +24,7 @@ class SimpleWikiTest extends \PHPUnit_Framework_TestCase
     {
         $PWE = new UnitTestPWECore();
         $obj = new SimpleWiki($PWE);
-        $res = $obj->renderPage(dirname(__FILE__) . "/TableBug1.wiki");
+        $res = $obj->renderPage(__DIR__ . "/TableBug1.wiki");
         PWELogger::debug($res);
     }
 
@@ -32,7 +32,7 @@ class SimpleWikiTest extends \PHPUnit_Framework_TestCase
     {
         $PWE = new UnitTestPWECore();
         file_put_contents($PWE->getTempDirectory() . '/start.wiki', "");
-        $PWE->setStructFile(dirname(__FILE__) . '/SimpleWiki.xml');
+        $PWE->setStructFile(__DIR__ . '/SimpleWiki.xml');
         $PWE->setURL('/list/');
         $obj = new SimpleWiki($PWE);
         $obj->process();
@@ -44,7 +44,7 @@ class SimpleWikiTest extends \PHPUnit_Framework_TestCase
         $PWE = new UnitTestPWECore();
         mkdir($PWE->getTempDirectory() . '/subdir');
         file_put_contents($PWE->getTempDirectory() . '/subdir/test.wiki', "");
-        $PWE->setStructFile(dirname(__FILE__) . '/SimpleWiki.xml');
+        $PWE->setStructFile(__DIR__ . '/SimpleWiki.xml');
         $PWE->setURL('/subdir:test/');
         $obj = new SimpleWiki($PWE);
         $obj->process();
@@ -56,7 +56,7 @@ class SimpleWikiTest extends \PHPUnit_Framework_TestCase
         $PWE = new UnitTestPWECore();
         mkdir($PWE->getTempDirectory() . '/subdir');
         file_put_contents($PWE->getTempDirectory() . '/subdir/test.wiki', "");
-        $PWE->setStructFile(dirname(__FILE__) . '/SimpleWiki.xml');
+        $PWE->setStructFile(__DIR__ . '/SimpleWiki.xml');
         $PWE->setURL('/subdir:..:test/');
         $obj = new SimpleWiki($PWE);
         try {
@@ -70,10 +70,10 @@ class SimpleWikiTest extends \PHPUnit_Framework_TestCase
     public function testProcess_google()
     {
         $PWE = new UnitTestPWECore();
-        $PWE->setStructFile(dirname(__FILE__) . '/SimpleWiki.xml');
+        $PWE->setStructFile(__DIR__ . '/SimpleWiki.xml');
         $PWE->setURL('/GoogleSyntax/');
         $node = $PWE->getNode();
-        $node['!i']['wiki_dir'] = dirname(__FILE__);
+        $node['!i']['wiki_dir'] = __DIR__;
         $PWE->setNode($node);
         $obj = new SimpleWiki($PWE);
         $obj->process();
@@ -83,7 +83,7 @@ class SimpleWikiTest extends \PHPUnit_Framework_TestCase
     public function testProcess_redir()
     {
         $PWE = new UnitTestPWECore();
-        $PWE->setStructFile(dirname(__FILE__) . '/SimpleWiki.xml');
+        $PWE->setStructFile(__DIR__ . '/SimpleWiki.xml');
         $PWE->setURL('/');
         $obj = new SimpleWiki($PWE);
         try {

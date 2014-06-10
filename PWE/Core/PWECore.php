@@ -419,7 +419,7 @@ class PWECore extends AbstractPWECore implements SmartyAssociative
     public function getSmarty()
     {
         $smarty = new SmartyWrapper($this);
-        $smarty->addTemplateDir(dirname(__FILE__) . '/../tpl');
+        $smarty->addTemplateDir(__DIR__ . '/../tpl');
         $smarty->addTemplateDir($this->getDataDirectory() . '/tpl');
         $smarty->registerObject('PWE', $this);
         $smarty->registerObject('URL', $this->getURL());

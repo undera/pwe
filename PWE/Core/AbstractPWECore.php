@@ -16,7 +16,7 @@ abstract class AbstractPWECore {
     private $staticHref;
 
     public function __construct() {
-        $this->setRootDirectory(PWEURL::protectAgainsRelativePaths(dirname(__FILE__) . '/../../'));
+        $this->setRootDirectory(PWEURL::protectAgainsRelativePaths(__DIR__ . '/../../'));
     }
 
     public function setRootDirectory($dir) {
