@@ -1,4 +1,4 @@
-#! /usr/bin/sh
+#! /bin/sh
 
 /usr/bin/curl -sS https://getcomposer.org/installer | /usr/bin/php -- --install-dir=/tmp
 COMPOSER_PROCESS_TIMEOUT=1800 /tmp/composer.phar --no-interaction --prefer-dist --no-dev --working-dir /usr/share/php update
