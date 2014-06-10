@@ -1,4 +1,7 @@
 #! /bin/sh -xe
 
 curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp
-COMPOSER_PROCESS_TIMEOUT=1800 /tmp/composer.phar --no-interaction --prefer-dist --no-dev --working-dir /usr/share/php update
+COMPOSER_PROCESS_TIMEOUT=1800 \
+ COMPOSER=/usr/share/php/pwe/composer.json \
+ COMPOSER_VENDOR_DIR=/usr/share/php/pwe-libs \
+ /tmp/composer.phar --no-interaction --prefer-dist --no-dev update
