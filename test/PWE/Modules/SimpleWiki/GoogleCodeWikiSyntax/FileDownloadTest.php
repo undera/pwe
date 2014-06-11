@@ -14,7 +14,7 @@ class FileDownloadTest extends \PHPUnit_Framework_TestCase {
     protected function setUp() {
         $cnf = new Config();
         $pwe = new \PWE\Core\UnitTestPWECore();
-        $pwe->setXMLDirectory(dirname(__FILE__));
+        $pwe->setXMLDirectory(__DIR__);
         $cnf->setPWE($pwe);
         $pwe->setURL('/');
         $this->object = new Renderer($cnf);

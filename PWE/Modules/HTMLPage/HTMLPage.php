@@ -43,7 +43,7 @@ class HTMLPage extends PWEModule implements Outputable, Setupable
             // показываем его
             $smarty = $this->PWE->getSmarty();
             $smarty->assign('content', file_get_contents($src));
-            $smarty->setTemplateFile(dirname(__FILE__) . "/HTMLPage.tpl");
+            $smarty->setTemplateFile(__DIR__ . "/HTMLPage.tpl");
             $this->PWE->addContent($smarty);
         } else {
             // иначе пишем во внутренний лог

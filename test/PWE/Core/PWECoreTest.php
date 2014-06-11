@@ -13,7 +13,7 @@ use PWE\Modules\PWEModule;
 use PWE\Modules\PWEModulesManager;
 use PWEUnitTests;
 
-require_once dirname(__FILE__) . '/../../PWEUnitTests.php';
+require_once __DIR__ . '/../../PWEUnitTests.php';
 
 class PWECoreTest extends \PHPUnit_Framework_TestCase
 {
@@ -26,8 +26,8 @@ class PWECoreTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->object = new PWECoreEmul();
-        $this->object->setDataDirectory(dirname(__FILE__));
-        $this->object->setXMLDirectory(dirname(__FILE__) . '/coreXML');
+        $this->object->setDataDirectory(__DIR__);
+        $this->object->setXMLDirectory(__DIR__ . '/coreXML');
         $this->object->setTempDirectory(PWEUnitTests::utGetCleanTMP());
         $this->object->createModulesManager();
     }

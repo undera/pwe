@@ -2,7 +2,7 @@
 
 namespace PWE\Lib\Doctrine;
 
-require_once dirname(__FILE__) . '/../../../PWEUnitTests.php';
+require_once __DIR__ . '/../../../PWEUnitTests.php';
 
 /**
  * Test class for PWEDoctrineWrapper.

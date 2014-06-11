@@ -17,24 +17,24 @@ use PWE\Core\PWECore;
 use PWE\Core\PWELogger;
 use PWE\Exceptions\PHPFatalException;
 
-require_once dirname(__FILE__) . '/PWE/Lib/Smarty/SmartyAssociative.php';
-require_once dirname(__FILE__) . '/PWE/Modules/Setupable.php';
-require_once dirname(__FILE__) . '/PWE/Modules/Outputable.php';
-require_once dirname(__FILE__) . '/PWE/Core/PWECMDJob.php';
+require_once __DIR__ . '/PWE/Lib/Smarty/SmartyAssociative.php';
+require_once __DIR__ . '/PWE/Modules/Setupable.php';
+require_once __DIR__ . '/PWE/Modules/Outputable.php';
+require_once __DIR__ . '/PWE/Core/PWECMDJob.php';
 
-require_once dirname(__FILE__) . '/PWE/Core/PWEURL.php';
-require_once dirname(__FILE__) . '/PWE/Modules/PWEModulesManager.php';
-require_once dirname(__FILE__) . '/PWE/Utils/PWEXMLFunctions.php';
-require_once dirname(__FILE__) . '/PWE/Utils/PWEXML.php';
-require_once dirname(__FILE__) . '/PWE/Modules/PWEModule.php';
-require_once dirname(__FILE__) . '/PWE/Auth/PWEUserAuthController.php';
-require_once dirname(__FILE__) . '/PWE/Exceptions/PHPFatalException.php';
+require_once __DIR__ . '/PWE/Core/PWEURL.php';
+require_once __DIR__ . '/PWE/Modules/PWEModulesManager.php';
+require_once __DIR__ . '/PWE/Utils/PWEXMLFunctions.php';
+require_once __DIR__ . '/PWE/Utils/PWEXML.php';
+require_once __DIR__ . '/PWE/Modules/PWEModule.php';
+require_once __DIR__ . '/PWE/Auth/PWEUserAuthController.php';
+require_once __DIR__ . '/PWE/Exceptions/PHPFatalException.php';
 
-require_once dirname(__FILE__) . '/PWE/Core/AbstractPWECore.php';
-require_once dirname(__FILE__) . '/PWE/Core/PWECore.php';
+require_once __DIR__ . '/PWE/Core/AbstractPWECore.php';
+require_once __DIR__ . '/PWE/Core/PWECore.php';
 
-require_once dirname(__FILE__) . '/PWE/Core/PWELogger.php';
-require_once dirname(__FILE__) . '/PWE/Core/PWEAutoloader.php';
+require_once __DIR__ . '/PWE/Core/PWELogger.php';
+require_once __DIR__ . '/PWE/Core/PWEAutoloader.php';
 
 PWEAutoloader::activate();
 PHPFatalException::activate();

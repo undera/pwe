@@ -1,4 +1,23 @@
-#! /usr/bin/sh
+#! /bin/sh -xe
 
-/usr/bin/curl -sS https://getcomposer.org/installer | /usr/bin/php -- --install-dir=/tmp
-COMPOSER_PROCESS_TIMEOUT=1800 /tmp/composer.phar --no-interaction --prefer-dist --no-dev --working-dir /usr/share/php update
+case "$1" in
+    configure)
+        curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp
+        COMPOSER_PROCESS_TIMEOUT=1800 \
+         COMPOSER=/usr/share/php/pwe/composer.json \
+         COMPOSER_VENDOR_DIR=/usr/share/php/pwe-libs \
+         /tmp/composer.phar --no-interaction --prefer-dist --no-dev update
+    ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
+
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+#DEBHELPER#
+
+exit 0

@@ -55,7 +55,7 @@ class SmartyWrapper extends Smarty implements Setupable
     public static function setup(PWECore $pwe, array &$registerData)
     {
         PWELogger::debug("Copying into %s/design", $pwe->getStaticDirectory());
-        FilesystemHelper::fsys_copydir(dirname(__FILE__) . '/../../design', $pwe->getStaticDirectory() . '/design');
+        FilesystemHelper::fsys_copydir(__DIR__ . '/../../design', $pwe->getStaticDirectory() . '/design');
     }
 
 }

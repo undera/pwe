@@ -4,7 +4,7 @@ namespace PWE\Modules\SubPagesList;
 
 use PWE\Core\UnitTestPWECore;
 
-require_once dirname(__FILE__) . '/../../../PWEUnitTests.php';
+require_once __DIR__ . '/../../../PWEUnitTests.php';
 
 class SubPagesListTest extends \PHPUnit_Framework_TestCase {
 

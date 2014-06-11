@@ -3,3 +3,4 @@
 *.TXT usr/share/php/pwe
 *.ico usr/share/php/pwe
 PWE usr/share/php/pwe
+composer.json usr/share/php/pwe

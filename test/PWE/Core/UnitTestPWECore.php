@@ -23,7 +23,7 @@ class UnitTestPWECore extends PWECore {
         $this->setTempDirectory($tmp);
         $this->createModulesManager(new TestPWEModulesManager($this));
 
-        $this->setStructFile(dirname(__FILE__) . "/../../dummyStruct.xml");
+        $this->setStructFile(__DIR__ . "/../../dummyStruct.xml");
     }
 
     /**

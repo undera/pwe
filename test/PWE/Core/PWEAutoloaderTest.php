@@ -4,7 +4,7 @@ namespace PWE\Core;
 
 use PWE\Core\UnitTestPWECore;
 
-require_once dirname(__FILE__) . '/../../PWEUnitTests.php';
+require_once __DIR__ . '/../../PWEUnitTests.php';
 
 /**
  * Test class for PWEAutoloader.
@@ -43,7 +43,7 @@ class PWEAutoloaderTest extends \PHPUnit_Framework_TestCase {
      */
     public function testDoIt() {
         PWEAutoloader::setPWE(new UnitTestPWECore());
-        PWEAutoloader::addSourceRoot(dirname(__FILE__));
+        PWEAutoloader::addSourceRoot(__DIR__);
 
         try {
             PWEAutoloader::doIt("PWE\Core\PWEAutoloaderNotex");
@@ -52,7 +52,7 @@ class PWEAutoloaderTest extends \PHPUnit_Framework_TestCase {
         }
 
         try {
-            PWEAutoloader::addSourceRoot(dirname(__FILE__) . '/notexist');
+            PWEAutoloader::addSourceRoot(__DIR__ . '/notexist');
         } catch (\RuntimeException $e) {
             
         }

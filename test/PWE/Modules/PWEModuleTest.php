@@ -2,7 +2,7 @@
 
 namespace PWE\Modules;
 
-require_once dirname(__FILE__) . '/../../PWEUnitTests.php';
+require_once __DIR__ . '/../../PWEUnitTests.php';
 
 /**
  * Test class for PWEModule.
@@ -33,7 +33,7 @@ class PWEModuleTest extends \PHPUnit_Framework_TestCase {
 
     public function test_getBaseLink() {
         $pwe = new \PWE\Core\UnitTestPWECore();
-        $pwe->setStructFile(dirname(__FILE__) . '/modulestruct.xml');
+        $pwe->setStructFile(__DIR__ . '/modulestruct.xml');
         $pwe->setURL('/accept/');
         $this->object = new PWEModuleImpl($pwe);
         $this->assertEquals(".", $this->object->getBaseLink());
@@ -41,7 +41,7 @@ class PWEModuleTest extends \PHPUnit_Framework_TestCase {
 
     public function test_getBaseLink2() {
         $pwe = new \PWE\Core\UnitTestPWECore();
-        $pwe->setStructFile(dirname(__FILE__) . '/modulestruct.xml');
+        $pwe->setStructFile(__DIR__ . '/modulestruct.xml');
         $pwe->setURL('/accept/123/');
         $this->object = new PWEModuleImpl($pwe);
         $this->assertEquals("./..", $this->object->getBaseLink());

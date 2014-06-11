@@ -4,7 +4,7 @@ namespace PWE\Modules\FileDownloads;
 use PWE\Core\PWELogger;
 use PWE\Core\UnitTestPWECore;
 
-require_once dirname(__FILE__) . '/../../../PWEUnitTests.php';
+require_once __DIR__ . '/../../../PWEUnitTests.php';
 
 class FileDownloadsTest extends \PHPUnit_Framework_TestCase
 {
