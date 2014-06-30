@@ -434,7 +434,7 @@ class PWECore extends AbstractPWECore implements SmartyAssociative
      */
     public function getHeader($header_name)
     {
-        return $_SERVER["HTTP_" . strtoupper($header_name)];
+        return $_SERVER["HTTP_" . strtoupper(str_replace('-', '_', $header_name))];
     }
 }
 

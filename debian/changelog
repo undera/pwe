@@ -1,9 +1,13 @@
-php5-pwe-framework (2.5.1) UNRELEASED; urgency=medium
+php5-pwe-framework (2.5.2) precise; urgency=medium
 
+  [ Andrey Pohilko ]
   * changed debianization
   * use composer
 
- -- Andrey Pohilko <undera@apc-home>  Fri, 30 May 2014 00:00:42 +0400
+  [ Andrey Pohilko (undera) ]
+  * added getHeader function to PWECore
+
+ -- Andrey Pohilko (undera) <undera@yandex-team.ru>  Mon, 30 Jun 2014 20:47:48 +0400
 
 php5-pwe-framework (2.4.2) precise; urgency=medium
 

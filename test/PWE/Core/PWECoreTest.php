@@ -176,8 +176,8 @@ class PWECoreTest extends \PHPUnit_Framework_TestCase
 
     public function test_getHeader()
     {
-        $_SERVER['HTTP_TEST'] = "passed";
-        $res = $this->object->getHeader('test');
+        $_SERVER['HTTP_TEST_TEST'] = "passed";
+        $res = $this->object->getHeader('test-test');
         $this->assertEquals("passed", $res);
     }
 }
