@@ -41,7 +41,7 @@ abstract class FilesystemHelper
                             $files[$ind] = true; // название директории заканчивается слешем
 
                         if ($is_deep) { // рекурсивное чтение, если запрошено
-                            $files = array_merge($files, self::fsys_readdir($path . $file, $is_deep, false, $filter, $ind . '/'));
+                            $files += self::fsys_readdir($path . $file, $is_deep, false, $filter, $ind . '/');
                         }
                     } else
                         if ((!$filter || $filter($path . $file)))
@@ -54,7 +54,7 @@ abstract class FilesystemHelper
             // детали эелементов директории
             if ($stat)
                 foreach ($files as $f => $file)
-                    $files[$f] = array_merge(stat($path . '/' . $f), array('is_dir' => $file));
+                    $files[$f] = stat($path . '/' . $f) + array('is_dir' => $file);
         }
         return $files;
     }

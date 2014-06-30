@@ -228,8 +228,7 @@ class PWECore extends AbstractPWECore implements SmartyAssociative
         }
 
         do {
-            $this->structureNode['!i'] = array_merge(
-                isset($nodePointer['!a']) ? $nodePointer['!a'] : array(), $this->structureNode['!i']);
+            $this->structureNode['!i'] = (isset($nodePointer['!a']) ? $nodePointer['!a'] : array()) + $this->structureNode['!i'];
             $nodePointer = & $nodePointer['!p'];
             $depth++;
         } while ($nodePointer);
