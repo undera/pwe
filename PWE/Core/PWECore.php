@@ -228,7 +228,7 @@ class PWECore extends AbstractPWECore implements SmartyAssociative
         }
 
         do {
-            $this->structureNode['!i'] = (isset($nodePointer['!a']) ? $nodePointer['!a'] : array()) + $this->structureNode['!i'];
+            $this->structureNode['!i'] = $this->structureNode['!i'] + (isset($nodePointer['!a']) ? $nodePointer['!a'] : array());
             $nodePointer = & $nodePointer['!p'];
             $depth++;
         } while ($nodePointer);
@@ -329,6 +329,7 @@ class PWECore extends AbstractPWECore implements SmartyAssociative
 
     /**
      *
+     * @param mixed $tag
      * @return string
      */
     public function getContent($tag = false)
