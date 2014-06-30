@@ -427,6 +427,15 @@ class PWECore extends AbstractPWECore implements SmartyAssociative
         return $smarty;
     }
 
+
+    /**
+     * @param $header_name
+     * @return string header value
+     */
+    public function getHeader($header_name)
+    {
+        return $_SERVER["HTTP_" . strtoupper($header_name)];
+    }
 }
 
 ?>
