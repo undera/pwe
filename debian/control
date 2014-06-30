@@ -5,5 +5,5 @@ Standards-Version: 3.7.2
 
 Package: php5-pwe-framework
 Architecture: all
-Depends: php5
+Depends: php5, subversion
 Description: Pluggable Web Engine PHP 5 Framework
