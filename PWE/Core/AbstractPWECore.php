@@ -2,19 +2,22 @@
 
 namespace PWE\Core;
 
-/**
- * FIXME: this superclass have no clue...
- */
-abstract class AbstractPWECore
+use BadFunctionCallException;
+use PWE\Modules\PWEModule;
+use PWE\Modules\PWEModulesManager;
+
+abstract class AbstractPWECore implements PWECore
 {
+    /**
+     *
+     * @var PWEModulesManager
+     */
+    protected $modulesManager;
 
     private $rootFolder;
     private $dataFolder;
     private $xmlFolder;
     private $tempFolder;
-    private $displayTemplate;
-    private $staticFolder;
-    private $staticHref;
 
     public function __construct()
     {
@@ -26,8 +29,6 @@ abstract class AbstractPWECore
         PWELogger::debug("Setting PWE root to %s", $dir);
         $this->rootFolder = $dir;
         $this->setDataDirectory($this->rootFolder . '/dat');
-        $this->setStaticDirectory($this->rootFolder . '/img');
-        $this->setStaticHref('/img');
     }
 
     public function setDataDirectory($dir)
@@ -70,44 +71,34 @@ abstract class AbstractPWECore
         return $this->tempFolder;
     }
 
-    public function setDisplayTemplate($tpl)
+    /**
+     *
+     * @param mixed $structureNode
+     * @return PWEModule
+     */
+    public function getModuleInstance($structureNode)
     {
-        if (!$tpl) {
-            PWELogger::debug("No template passed, empty will be used");
-            $tpl = self::getEmptyTemplate();
-        }
-
-        $this->displayTemplate = $tpl;
+        if (is_array($structureNode))
+            return $this->modulesManager->getMultiInstanceModule($structureNode);
+        else
+            return $this->modulesManager->getSingleInstanceModule($structureNode);
     }
 
-    public function getDisplayTemplate()
+    protected function createModulesManager(PWEModulesManager $externalManager = null)
     {
-        return $this->displayTemplate;
+        $this->modulesManager = $externalManager ? $externalManager : new PWEModulesManager($this);
     }
 
-    public static function getEmptyTemplate()
+    /**
+     * @throws BadFunctionCallException
+     * @return PWEModulesManager
+     */
+    public function getModulesManager()
     {
-        return 'empty.tpl';
-    }
+        if (!$this->modulesManager)
+            throw new BadFunctionCallException("Not created modules manager");
 
-    public function getStaticDirectory()
-    {
-        return $this->staticFolder;
-    }
-
-    public function getStaticHref()
-    {
-        return $this->staticHref;
-    }
-
-    public function setStaticDirectory($dir)
-    {
-        $this->staticFolder = $dir;
-    }
-
-    public function setStaticHref($href)
-    {
-        $this->staticHref = $href;
+        return $this->modulesManager;
     }
 
 }

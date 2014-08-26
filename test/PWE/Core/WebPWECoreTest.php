@@ -4,7 +4,6 @@ namespace PWE\Core;
 
 use BadFunctionCallException;
 use Exception;
-use InvalidArgumentException;
 use PWE\Exceptions\HTTP3xxException;
 use PWE\Exceptions\HTTP4xxException;
 use PWE\Modules\MenuGenerator;
@@ -15,11 +14,11 @@ use PWEUnitTests;
 
 require_once __DIR__ . '/../../PWEUnitTests.php';
 
-class PWECoreTest extends \PHPUnit_Framework_TestCase
+class WebPWECoreTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @var PWECore
+     * @var WebPWECore
      */
     protected $object;
 
@@ -143,32 +142,6 @@ class PWECoreTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testGetModuleInstance_noParam()
-    {
-        try {
-            $arr = array();
-            $this->object->getModuleInstance($arr);
-            $this->fail();
-        } catch (InvalidArgumentException $e) {
-
-        }
-    }
-
-    public function testGetModuleInstance_SingleInstance()
-    {
-        $mod = $this->object->getModuleInstance("PWE\\Modules\\HTMLPage\\HTMLPage");
-        $this->assertTrue($mod instanceof PWEModule);
-    }
-
-    public function testGetModuleInstance_MultiInstance()
-    {
-        $node = array();
-        $node['!a']['class'] = "PWE\\Modules\\HTMLPage\\HTMLPage";
-        $node['!a']['src'] = "test.html";
-        $mod = $this->object->getModuleInstance($node);
-        $this->assertTrue($mod instanceof PWEModule);
-    }
-
     public function testGetURL()
     {
         $this->object->setURL('/accept/123/');
@@ -190,7 +163,7 @@ class PWECoreTest extends \PHPUnit_Framework_TestCase
     public function testProcess_404()
     {
         try {
-            $res = $this->object->process('/test/subnode/404/');
+            $this->object->process('/test/subnode/404/');
             $this->fail();
         } catch (HTTP4xxException $e) {
 
@@ -203,9 +176,26 @@ class PWECoreTest extends \PHPUnit_Framework_TestCase
         $res = $this->object->getHeader('test-test');
         $this->assertEquals("passed", $res);
     }
+
+    public function testSetDisplayTemplate()
+    {
+        $this->object->setDisplayTemplate('');
+    }
+
+    public function testGetDisplayTemplate()
+    {
+        $this->object->getDisplayTemplate();
+    }
+
+    public function testGetEmptyTemplate()
+    {
+        $this->object->getEmptyTemplate();
+    }
+
+
 }
 
-class PWECoreEmul extends PWECore
+class PWECoreEmul extends WebPWECore
 {
 
     public function createModulesManager(PWEModulesManager $externalManager = null)

@@ -5,9 +5,9 @@ namespace PWE\Modules\SmartyPage;
 use PWE\Core\PWELogger;
 use PWE\Exceptions\HTTP4xxException;
 use PWE\Modules\Outputable;
-use PWE\Modules\PWEModule;
+use PWE\Modules\WebPWEModule;
 
-class SmartyPage extends PWEModule implements Outputable
+class SmartyPage extends WebPWEModule implements Outputable
 {
 
     public function process()
@@ -21,8 +21,6 @@ class SmartyPage extends PWEModule implements Outputable
             }
 
             if (!is_file($value)) {
-                // иначе пишем во внутренний лог
-                // и культурно ругаемся
                 PWELogger::warn("File not found: %s", $value);
                 throw new HTTP4xxException("This page is not ready yet", HTTP4xxException::NOT_FOUND);
             }

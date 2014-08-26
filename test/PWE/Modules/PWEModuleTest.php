@@ -2,6 +2,8 @@
 
 namespace PWE\Modules;
 
+use PWE\Core\UnitTestPWECore;
+
 require_once __DIR__ . '/../../PWEUnitTests.php';
 
 /**
@@ -32,7 +34,7 @@ class PWEModuleTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function test_getBaseLink() {
-        $pwe = new \PWE\Core\UnitTestPWECore();
+        $pwe = new UnitTestPWECore();
         $pwe->setStructFile(__DIR__ . '/modulestruct.xml');
         $pwe->setURL('/accept/');
         $this->object = new PWEModuleImpl($pwe);
@@ -40,7 +42,7 @@ class PWEModuleTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function test_getBaseLink2() {
-        $pwe = new \PWE\Core\UnitTestPWECore();
+        $pwe = new UnitTestPWECore();
         $pwe->setStructFile(__DIR__ . '/modulestruct.xml');
         $pwe->setURL('/accept/123/');
         $this->object = new PWEModuleImpl($pwe);
@@ -49,12 +51,18 @@ class PWEModuleTest extends \PHPUnit_Framework_TestCase {
 
 }
 
-class PWEModuleImpl extends PWEModule {
+class PWEModuleImpl extends WebPWEModule {
 
     public function getBaseLink() {
         return parent::getBaseLink();
     }
 
+    /**
+     * @return void
+     */
+    public function process()
+    {
+    }
 }
 
 ?>

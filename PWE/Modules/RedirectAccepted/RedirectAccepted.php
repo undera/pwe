@@ -5,9 +5,9 @@ namespace PWE\Modules\RedirectAccepted;
 use PWE\Exceptions\HTTP3xxException;
 use PWE\Exceptions\HTTP4xxException;
 use PWE\Modules\Outputable;
-use PWE\Modules\PWEModule;
+use PWE\Modules\WebPWEModule;
 
-class RedirectAccepted extends PWEModule implements Outputable
+class RedirectAccepted extends WebPWEModule implements Outputable
 {
 
     public function process()

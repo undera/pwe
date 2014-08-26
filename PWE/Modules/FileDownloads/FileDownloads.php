@@ -3,23 +3,23 @@
 namespace PWE\Modules\FileDownloads;
 
 use FilesystemIterator;
-use PWE\Core\PWECore;
 use PWE\Core\PWELogger;
 use PWE\Core\PWEURL;
+use PWE\Core\WebPWECore;
 use PWE\Exceptions\HTTP3xxException;
 use PWE\Exceptions\HTTP4xxException;
 use PWE\Exceptions\HTTP5xxException;
 use PWE\Modules\Outputable;
-use PWE\Modules\PWEModule;
+use PWE\Modules\WebPWEModule;
 use PWE\Utils\FilesystemHelper;
 
-class FileDownloads extends PWEModule implements Outputable
+class FileDownloads extends WebPWEModule implements Outputable
 {
 
     private $dl_base;
     private $link_base;
 
-    public function __construct(PWECore $core)
+    public function __construct(WebPWECore $core)
     {
         parent::__construct($core);
         $node = $core->getNode();

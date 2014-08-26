@@ -2,18 +2,17 @@
 
 namespace PWE\Modules\HTMLPage;
 
+use PWE\Core\AbstractPWECore;
 use PWE\Core\PWECore;
 use PWE\Core\PWELogger;
 use PWE\Core\PWEURL;
 use PWE\Exceptions\HTTP4xxException;
 use PWE\Modules\Outputable;
-use PWE\Modules\PWEModule;
 use PWE\Modules\Setupable;
+use PWE\Modules\WebPWEModule;
 
-class HTMLPage extends PWEModule implements Outputable, Setupable
+class HTMLPage extends WebPWEModule implements Outputable, Setupable
 {
-
-    // функция проверки ХТМности имени файла
     private function isHTMfile($f)
     {
         $file_parts = explode('.', $f);
@@ -53,7 +52,7 @@ class HTMLPage extends PWEModule implements Outputable, Setupable
         }
     }
 
-    private static function getHTMLDirectory(PWECore $pwe)
+    private static function getHTMLDirectory(AbstractPWECore $pwe)
     {
         return $pwe->getDataDirectory() . '/html';
     }

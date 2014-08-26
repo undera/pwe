@@ -10,11 +10,11 @@ use PWE\Exceptions\HTTP4xxException;
 use PWE\Exceptions\HTTP5xxException;
 use PWE\Lib\Smarty\SmartyWrapper;
 use PWE\Modules\Outputable;
-use PWE\Modules\PWEModule;
 use PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Config;
+use PWE\Modules\WebPWEModule;
 use WikiRenderer\Renderer;
 
-class SimpleWiki extends PWEModule implements Outputable
+class SimpleWiki extends WebPWEModule implements Outputable
 {
 
     private $config;

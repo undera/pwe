@@ -5,6 +5,7 @@ namespace PWE\Core;
 use PWE\Exceptions\HTTP3xxException;
 use PWE\Exceptions\HTTP4xxException;
 use PWE\Lib\Smarty\SmartyAssociative;
+use PWE\Utils\PWEXMLFunctions;
 
 class PWEURL implements SmartyAssociative
 {
@@ -154,6 +155,32 @@ class PWEURL implements SmartyAssociative
             }
         }
         return implode($sep, $absolutes);
+    }
+
+    public function recursiveNodeSearch(array &$node, array $search_uri)
+    {
+        $link = array_shift($search_uri);
+        PWELogger::debug("Trying link: %s", $link);
+
+        $ix = PWEXMLFunctions::findNodeWithAttributeValue($node['!c']['url'], 'link', $link);
+
+        if ($ix >= 0) {
+            $inherited_attrs = $node['!i'];
+
+            $node = & $node['!c']['url'][$ix];
+            $node['!i'] = $inherited_attrs + (isset($node['!a']) ? $node['!a'] : array());
+
+            if (isset($node['!c']['url']) || isset($node['!c']['params'])) {
+                return $this->recursiveNodeSearch($node, $search_uri);
+            }
+        }
+
+        if ($search_uri) {
+
+        }
+
+        PWELogger::debug("Done URL to structure matching");
+        return $node;
     }
 
 }

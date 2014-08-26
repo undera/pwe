@@ -4,7 +4,7 @@ namespace PWE\Core;
 
 use PWE\Modules\CMDLineModulesManager;
 
-class CMDLinePWECore extends PWECore
+class CMDLinePWECore extends AbstractPWECore
 {
 
     public function __construct()
@@ -20,7 +20,6 @@ class CMDLinePWECore extends PWECore
     {
         return array('!a' => array('move_to_dir' => '/tmp'));
     }
-
 }
 
 ?>
