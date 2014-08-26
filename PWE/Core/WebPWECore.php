@@ -70,9 +70,11 @@ class WebPWECore extends AbstractPWECore implements SmartyAssociative
 
     public function process($uri)
     {
+        $this->siteStructure = $this->getSiteStructure();
+        $this->createModulesManager();
+        $this->setURL($uri);
+
         try {
-            $this->createModulesManager();
-            $this->setURL($uri);
             $this->currentModuleInstance = $this->getModuleInstance($this->getNode());
             return $this->getHTML();
         } catch (HTTP2xxException $e) {
@@ -155,7 +157,7 @@ class WebPWECore extends AbstractPWECore implements SmartyAssociative
      * @param string $uri
      * @throws \RuntimeException
      */
-    public function setURL($uri)
+    protected function setURL($uri)
     {
         if ($this->URL) {
             throw new RuntimeException("setURL must be called only once");
@@ -165,7 +167,7 @@ class WebPWECore extends AbstractPWECore implements SmartyAssociative
         PWELogger::debug("Request variables: %s", $_REQUEST);
         $this->URL = new PWEURL($uri, $this->siteStructure);
 
-        $node=$this->getNode();
+        $node = $this->getNode();
         $this->setDisplayTemplate($node['!i']['template']);
 
         $this->jumpToFirstChild();

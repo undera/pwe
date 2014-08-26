@@ -74,7 +74,6 @@ class SimpleWikiTest extends \PHPUnit_Framework_TestCase
         $PWE->setURL('/GoogleSyntax/');
         $node = $PWE->getNode();
         $node['!i']['wiki_dir'] = __DIR__;
-        $PWE->setNode($node);
         $obj = new SimpleWiki($PWE);
         $obj->process();
         $PWE->getContent();

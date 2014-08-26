@@ -34,7 +34,7 @@ class WebPWECoreTest extends \PHPUnit_Framework_TestCase
     public function testSetURL_RootJTFC()
     {
         try {
-            $this->object->setURL('/');
+            $this->object->process('/');
             throw new \Exception("Exception expected");
         } catch (HTTP3xxException $e) {
 
@@ -43,13 +43,13 @@ class WebPWECoreTest extends \PHPUnit_Framework_TestCase
 
     public function testSetURL_Page1Success()
     {
-        $this->object->setURL('/test/subnode/');
+        $this->object->process('/test/subnode/');
     }
 
     public function testSetURL_Redirect()
     {
         try {
-            $this->object->setURL('/../123/');
+            $this->object->process('/../123/');
             throw new Exception("Exception expected");
         } catch (HTTP3xxException $e) {
             $this->assertEquals("/123/", $e->getMessage());
@@ -58,23 +58,23 @@ class WebPWECoreTest extends \PHPUnit_Framework_TestCase
 
     public function testSetURL_AcceptParams()
     {
-        $this->object->setURL('/accept/123/');
+        $this->object->process('/accept/123/');
     }
 
     public function testEmptyTPL()
     {
-        $this->object->setURL('/notpl/');
+        $this->object->process('/notpl/');
     }
 
     public function testSetURL_AcceptParamsFile()
     {
-        $this->object->setURL('/accept/text.xml');
+        $this->object->process('/accept/text.xml');
     }
 
     public function testSetURL_AcceptParamsFile_at_root()
     {
         try {
-            $this->object->setURL('/robots.txt');
+            $this->object->process('/robots.txt');
             $this->fail();
         } catch (HTTP4xxException $e) {
             if ($e->getCode() != HTTP4xxException::NOT_FOUND) {
@@ -86,7 +86,7 @@ class WebPWECoreTest extends \PHPUnit_Framework_TestCase
     public function testSetURL_AcceptParamsExceeded()
     {
         try {
-            $this->object->setURL('/accept/123/123/123/');
+            $this->object->process('/accept/123/123/123/');
             $this->fail();
         } catch (HTTP4xxException $e) {
             if ($e->getCode() != HTTP4xxException::BAD_REQUEST) {
@@ -98,7 +98,7 @@ class WebPWECoreTest extends \PHPUnit_Framework_TestCase
     public function testSetURL_Page1FailWithParams()
     {
         try {
-            $this->object->setURL('/test/123/');
+            $this->object->process('/test/123/');
             $this->fail();
         } catch (HTTP4xxException $e) {
             if ($e->getCode() != HTTP4xxException::NOT_FOUND) {
@@ -109,18 +109,18 @@ class WebPWECoreTest extends \PHPUnit_Framework_TestCase
 
     public function testSetURL_MidParams_NotAll()
     {
-        $this->object->setURL('/midaccept/123/edit/');
+        $this->object->process('/midaccept/123/edit/');
     }
 
     public function testSetURL_MidParams_All()
     {
-        $this->object->setURL('/midaccept/123/456/edit/');
+        $this->object->process('/midaccept/123/456/edit/');
     }
 
     public function testSetURL_MidParamsExceeded()
     {
         try {
-            $this->object->setURL('/midaccept/123/123/123/edit/');
+            $this->object->process('/midaccept/123/123/123/edit/');
             $this->fail();
         } catch (HTTP4xxException $e) {
             if ($e->getCode() != HTTP4xxException::BAD_REQUEST) {
@@ -133,7 +133,7 @@ class WebPWECoreTest extends \PHPUnit_Framework_TestCase
     public function testSetURL_Notexistent()
     {
         try {
-            $this->object->setURL('/321/123/');
+            $this->object->process('/321/123/');
             $this->fail();
         } catch (HTTP4xxException $e) {
             if ($e->getCode() != HTTP4xxException::NOT_FOUND) {
@@ -144,14 +144,18 @@ class WebPWECoreTest extends \PHPUnit_Framework_TestCase
 
     public function testGetURL()
     {
-        $this->object->setURL('/accept/123/');
+        $this->object->process('/accept/123/');
         $res = $this->object->getURL();
     }
 
     public function testProcess_JTFC302()
     {
-        $res = $this->object->process('/');
-        $this->assertEquals("", $res);
+        try {
+            $this->object->process('/');
+            $this->fail();
+        } catch (HTTP3xxException $e) {
+
+        }
     }
 
     public function testProcess_ok()
@@ -198,6 +202,8 @@ class WebPWECoreTest extends \PHPUnit_Framework_TestCase
 class PWECoreEmul extends WebPWECore
 {
 
+    public $HTTPStatus;
+
     public function createModulesManager(PWEModulesManager $externalManager = null)
     {
         parent::createModulesManager($externalManager);
@@ -211,6 +217,13 @@ class PWECoreEmul extends WebPWECore
             return null;
         }
     }
+
+    public function sendHTTPStatusCode($code)
+    {
+        parent::sendHTTPStatusCode($code);
+        $this->HTTPStatus = $code;
+    }
+
 
 }
 

@@ -41,7 +41,7 @@ class FileDownloads extends WebPWEModule implements Outputable
     public function process()
     {
         $params = $this->PWE->getURL()->getParamsAsArray();
-        $file_path = '/' . $this->dl_base . '/' . PWEURL::protectAgainsRelativePaths(implode('/', $params));
+        $file_path = '/' . $this->dl_base . '/' . FilesystemHelper::protectAgainsRelativePaths(implode('/', $params));
         $file = $this->PWE->getRootDirectory() . $file_path;
         if (!is_file($file)) {
             PWELogger::error("File not found: %s", $file_path);
@@ -97,12 +97,12 @@ class FileDownloads extends WebPWEModule implements Outputable
 
     private function getRealFile($file)
     {
-        return $this->PWE->getRootDirectory() . '/' . $this->dl_base . '/' . PWEURL::protectAgainsRelativePaths($file);
+        return $this->PWE->getRootDirectory() . '/' . $this->dl_base . '/' . FilesystemHelper::protectAgainsRelativePaths($file);
     }
 
     public function getFileBlock($orig_file, $comment)
     {
-        $orig_file = PWEURL::protectAgainsRelativePaths($orig_file);
+        $orig_file = FilesystemHelper::protectAgainsRelativePaths($orig_file);
         $basename = basename($orig_file);
         $file = $this->getRealFile($orig_file);
         if (!is_file($file)) {

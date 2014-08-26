@@ -4,61 +4,70 @@ namespace PWE\Core;
 
 require_once __DIR__ . '/../../PWEUnitTests.php';
 
+use Exception;
 use PWE\Exceptions\HTTP3xxException;
 use PWE\Exceptions\HTTP4xxException;
-use \Exception;
 
-class PWEURLTest extends \PHPUnit_Framework_TestCase {
+class PWEURLTest extends \PHPUnit_Framework_TestCase
+{
+    private $struct = array();
 
-    public function testGetProposedRedirect_None() {
-        $obj = new PWEURL('/');
+    public function testGetProposedRedirect_None()
+    {
+        $obj = new PWEURL('/', $this->struct);
     }
 
-    public function testGetProposedRedirect_Dot() {
+    public function testGetProposedRedirect_Dot()
+    {
         try {
-            $obj = new PWEURL('/./');
+            $obj = new PWEURL('/./', $this->struct);
             throw new Exception("302 expected");
         } catch (HTTP3xxException $e) {
             $this->assertEquals("/", $e->getMessage());
         }
     }
 
-    public function testGetProposedRedirect_DotDot() {
+    public function testGetProposedRedirect_DotDot()
+    {
         try {
-            $obj = new PWEURL('/somepath1/../somepath2');
+            $obj = new PWEURL('/somepath1/../somepath2', $this->struct);
             throw new Exception("302 expected");
         } catch (HTTP3xxException $e) {
             $this->assertEquals("/somepath1/somepath2", $e->getMessage());
         }
     }
 
-    public function testGetProposedRedirect_no_slash_file() {
-        $obj = new PWEURL('/img/image.gif');
+    public function testGetProposedRedirect_no_slash_file()
+    {
+        $obj = new PWEURL('/img/image.gif', $this->struct);
     }
 
-    public function testGetProposedRedirect_no_slash_not_file() {
+    public function testGetProposedRedirect_no_slash_not_file()
+    {
         try {
-            $obj = new PWEURL('/img/image-gif');
+            $obj = new PWEURL('/img/image-gif', $this->struct);
             throw new Exception("302 expected");
         } catch (HTTP3xxException $e) {
             $this->assertEquals('/img/image-gif/', $e->getMessage());
         }
     }
 
-    public function testGetProposedRedirect_no_slash_get_params() {
+    public function testGetProposedRedirect_no_slash_get_params()
+    {
         $_GET['test'] = 1;
         $_GET['test2'] = 2;
         try {
-            $obj = new PWEURL('/img');
+            $obj = new PWEURL('/img', $this->struct);
             throw new Exception("302 expected");
         } catch (HTTP3xxException $e) {
             $this->assertEquals('/img/?test=1&test2=2', $e->getMessage());
         }
     }
 
-    public function testGetProposedRedirect_incorrectURI() {
+    public function testGetProposedRedirect_incorrectURI()
+    {
         try {
-            $obj = new PWEURL('/service/?refresh=:/');
+            $obj = new PWEURL('/service/?refresh=:/', $this->struct);
             // FIXME: hmmmmm... what to do?
             //throw new Exception("400 expected"); 
         } catch (HTTP4xxException $e) {
@@ -66,48 +75,43 @@ class PWEURLTest extends \PHPUnit_Framework_TestCase {
         }
     }
 
-    public function testGetProposedRedirect_incorrectURI2() {
+    public function testGetProposedRedirect_incorrectURI2()
+    {
         try {
-            $obj = new PWEURL('service');
+            $obj = new PWEURL('service', $this->struct);
             throw new Exception("400 expected");
         } catch (HTTP4xxException $e) {
             $this->assertEquals(HTTP4xxException::BAD_REQUEST, $e->getCode());
         }
     }
 
-    public function testGetFullAsArray() {
-        $obj = new PWEURL('/1/2/3/');
+    public function testGetFullAsArray()
+    {
+        $obj = new PWEURL('/1/2/3/', $this->struct);
         $this->assertEquals(array('', '1', '2', '3'), $obj->getFullAsArray());
     }
 
-    public function testGetFullAsArray_trickyEnv() {
+    public function testGetFullAsArray_trickyEnv()
+    {
         $_SERVER["DOCUMENT_ROOT"] = '/var/www';
         $_SERVER["SCRIPT_FILENAME"] = '/usr/share/php/pwe/index.php';
-        $obj = new PWEURL('/service/');
+        $obj = new PWEURL('/service/', $this->struct);
         $this->assertEquals(array('', 'service'), $obj->getFullAsArray());
     }
 
-    public function testGetFullAsArray_subdirWork() {
+    public function testGetFullAsArray_subdirWork()
+    {
         $_SERVER["DOCUMENT_ROOT"] = '/var/www';
         $_SERVER["SCRIPT_FILENAME"] = '/var/www/subdir1/subdir2/index.php';
-        $obj = new PWEURL('/subdir1/subdir2/service/');
+        $obj = new PWEURL('/subdir1/subdir2/service/', $this->struct);
         $this->assertEquals(array('', 'service'), $obj->getFullAsArray());
     }
 
-    public function testGetParamsAsArray() {
+    public function testGetParamsAsArray()
+    {
         $_SERVER["DOCUMENT_ROOT"] = dirname($_SERVER["SCRIPT_FILENAME"]);
-        $obj = new PWEURL('/1/2/3/');
+        $obj = new PWEURL('/1/2/3/', $this->struct);
         $this->assertEquals(array('', '1', '2', '3'), $obj->getFullAsArray());
-    }
-
-    public function testsetMatchedDepth() {
-        $_SERVER["DOCUMENT_ROOT"] = dirname($_SERVER["SCRIPT_FILENAME"]);
-        $obj = new PWEURL('/1/2/3/');
-
-        $obj->setMatchedDepth(3);
-
-        $this->assertEquals(array('', '1', '2'), $obj->getMatchedAsArray());
-        $this->assertEquals(array('3'), $obj->getParamsAsArray());
     }
 
 }

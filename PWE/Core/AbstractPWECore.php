@@ -5,6 +5,7 @@ namespace PWE\Core;
 use BadFunctionCallException;
 use PWE\Modules\PWEModule;
 use PWE\Modules\PWEModulesManager;
+use PWE\Utils\FilesystemHelper;
 
 abstract class AbstractPWECore implements PWECore
 {
@@ -21,7 +22,7 @@ abstract class AbstractPWECore implements PWECore
 
     public function __construct()
     {
-        $this->setRootDirectory(PWEURL::protectAgainsRelativePaths(__DIR__ . '/../../'));
+        $this->setRootDirectory(FilesystemHelper::protectAgainsRelativePaths(__DIR__ . '/../../'));
     }
 
     public function setRootDirectory($dir)
@@ -78,10 +79,11 @@ abstract class AbstractPWECore implements PWECore
      */
     public function getModuleInstance($structureNode)
     {
-        if (is_array($structureNode))
+        if (is_array($structureNode)) {
             return $this->modulesManager->getMultiInstanceModule($structureNode);
-        else
+        } else {
             return $this->modulesManager->getSingleInstanceModule($structureNode);
+        }
     }
 
     protected function createModulesManager(PWEModulesManager $externalManager = null)

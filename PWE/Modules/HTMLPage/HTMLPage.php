@@ -10,6 +10,7 @@ use PWE\Exceptions\HTTP4xxException;
 use PWE\Modules\Outputable;
 use PWE\Modules\Setupable;
 use PWE\Modules\WebPWEModule;
+use PWE\Utils\FilesystemHelper;
 
 class HTMLPage extends WebPWEModule implements Outputable, Setupable
 {
@@ -34,7 +35,7 @@ class HTMLPage extends WebPWEModule implements Outputable, Setupable
         }
 
         // файл с содержимым
-        $src = self::getHTMLDirectory($this->PWE) . '/' . PWEURL::protectAgainsRelativePaths($eg_node['!a']['src']);
+        $src = self::getHTMLDirectory($this->PWE) . '/' . FilesystemHelper::protectAgainsRelativePaths($eg_node['!a']['src']);
 
         // если таковой есть
         if (is_file($src)) {

@@ -13,6 +13,7 @@ class PWEURL implements SmartyAssociative
 
     protected $structureNode;
     private $URLArrayMatched = array();
+    private $URLArrayParams = array();
     private $URLArray;
     private $URL;
     private $baseDirectory;
@@ -21,41 +22,51 @@ class PWEURL implements SmartyAssociative
     {
         $this->parseURL($uri);
         $this->detectSubdirectory();
-        $this->URLArrayParams = $this->URLArray;
 
+        $this->structureNode = array('!c' => $structure, '!i' => array());
+        $this->recursiveNodeSearch($this->getFullAsArray());
+    }
 
-        $tmpNode = array('!c' => &$structure);
-        $tmpNode['!i'] = array();
-        $this->structureNode = $this->recursiveNodeSearch($tmpNode, $this->getFullAsArray());
+    private function recursiveNodeSearch(array $search_uri)
+    {
+        $link = reset($search_uri);
+        PWELogger::debug("Trying link: %s", $link);
 
-        // calculating params and match
-        if (isset($this->structureNode['!p']) && is_array($this->structureNode['!p'])) {
-            $nodePointer = array('!p' => &$this->structureNode);
-            $depth = 0;
-        } else {
-            $nodePointer = & $this->structureNode;
-            $depth = 1;
+        $ix = PWEXMLFunctions::findNodeWithAttributeValue($this->structureNode['!c']['url'], 'link', $link);
+
+        if ($ix >= 0) {
+            $this->URLArrayMatched[] = array_shift($search_uri);
+
+            $inherited_attrs = $this->structureNode['!i'];
+
+            $this->structureNode = & $this->structureNode['!c']['url'][$ix];
+            $this->structureNode['!i'] = $inherited_attrs + (isset($this->structureNode['!a']) ? $this->structureNode['!a'] : array());
+
+            if (isset($this->structureNode['!c']['url']) || isset($this->structureNode['!c']['params'])) {
+                $this->recursiveNodeSearch($search_uri);
+                return;
+            }
         }
 
-        do {
-            $nodePointer = & $nodePointer['!p'];
-            $depth++;
-        } while ($nodePointer);
+        if ($search_uri) {
 
-        $this->setMatchedDepth($depth - 1);
+        }
 
+        PWELogger::debug("Done URL to structure matching");
         // check params count
         if (isset($this->structureNode['!i']['accept'])) {
-            if (sizeof($this->getParamsAsArray()) > $this->structureNode['!i']['accept']) {
-                PWELogger::warn("Defined accept limit %s has been exceeded: %s", $this->structureNode['!i']['accept'], sizeof($this->getParamsAsArray()));
+            if (sizeof($search_uri) > $this->structureNode['!i']['accept']) {
+                PWELogger::warn("Defined accept limit %s has been exceeded: %s", $this->structureNode['!i']['accept'], sizeof($search_uri));
                 throw new HTTP4xxException('URI parameters count exceeded', HTTP4xxException::BAD_REQUEST);
             }
         } else {
-            if (sizeof($this->getParamsAsArray())) {
+            if (sizeof($search_uri)) {
                 throw new HTTP4xxException("Requested page not found", HTTP4xxException::NOT_FOUND);
             }
         }
+
     }
+
 
     private function parseURL($uri)
     {
@@ -112,47 +123,13 @@ class PWEURL implements SmartyAssociative
             foreach (explode('/', $this->baseDirectory) as $k => $v)
                 if ($k)
                     unset($this->URLArray[$k]);
-            $this->URLArray = array_values($this->URLArray); // чиним сбитую нумерацию
+            $this->URLArray = array_values($this->URLArray);
         }
-    }
-
-    private function recursiveNodeSearch(array &$node, array $search_uri)
-    {
-        $link = array_shift($search_uri);
-        PWELogger::debug("Trying link: %s", $link);
-
-        $ix = PWEXMLFunctions::findNodeWithAttributeValue($node['!c']['url'], 'link', $link);
-
-        if ($ix >= 0) {
-            $inherited_attrs = $node['!i'];
-
-            $node = & $node['!c']['url'][$ix];
-            $node['!i'] = $inherited_attrs + (isset($node['!a']) ? $node['!a'] : array());
-
-            if (isset($node['!c']['url']) || isset($node['!c']['params'])) {
-                return $this->recursiveNodeSearch($node, $search_uri);
-            }
-        }
-
-        if ($search_uri) {
-
-        }
-
-        PWELogger::debug("Done URL to structure matching");
-        return $node;
     }
 
     public function getFullAsArray()
     {
         return $this->URLArray;
-    }
-
-    public function setMatchedDepth($depth)
-    {
-        for ($n = 0; $n < $depth; $n++) {
-            array_push($this->URLArrayMatched, array_shift($this->URLArrayParams));
-        }
-        PWELogger::debug("Matched depth %s, params: %s", $depth, $this->URLArrayParams);
     }
 
     public function getParamsAsArray()
@@ -164,30 +141,6 @@ class PWEURL implements SmartyAssociative
     {
         return array('getFullCount', 'getMatchedCount', 'getParamsCount',
             'getFullAsArray', 'getMatchedAsArray', 'getParamsAsArray',);
-    }
-
-    public static function protectAgainsRelativePaths($path)
-    {
-        $sep = '/';
-        $absolutes = array();
-
-        $path = str_replace(array('/', '\\'), $sep, $path);
-        $exploded = explode($sep, $path);
-
-        if ($exploded[0] == '')
-            $absolutes[] = '';
-        $parts = array_filter($exploded, 'strlen');
-
-        foreach ($parts as $part) {
-            if ('.' == $part)
-                continue;
-            if ('..' == $part) {
-                array_pop($absolutes);
-            } else {
-                $absolutes[] = $part;
-            }
-        }
-        return implode($sep, $absolutes);
     }
 
     /**

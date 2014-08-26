@@ -6,13 +6,16 @@ use PWE\Modules\PWEModulesManager;
 use PWE\Modules\TestPWEModulesManager;
 use PWE\Utils\FilesystemHelper;
 
-class UnitTestPWECore extends WebPWECore {
+class UnitTestPWECore extends WebPWECore
+{
 
-    public function setStructFile($param0) {
+    public function setStructFile($param0)
+    {
         $this->siteStructureFile = $param0;
     }
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $tmp = tempnam("/tmp", "pwe-");
         unlink($tmp);
@@ -30,14 +33,15 @@ class UnitTestPWECore extends WebPWECore {
      *
      * @return PWEModulesManager
      */
-    public function getModulesManager() {
+    public function getModulesManager()
+    {
         return $this->modulesManager;
     }
 
-    public function setNode($node) {
-        $this->structureNode = $node;
+    public function setURL($uri)
+    {
+        parent::setURL($uri);
     }
-
 }
 
 ?>

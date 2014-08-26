@@ -33,7 +33,6 @@ class FileDownloadsTest extends \PHPUnit_Framework_TestCase
 
         $node = $pwe->getNode();
         $node['!a']['files_base'] = '.';
-        $pwe->setNode($node);
 
         $obj = new FileDownloads($pwe);
         $res = $obj->getDirectoryBlock('.');

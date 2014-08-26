@@ -253,6 +253,31 @@ abstract class FilesystemHelper
             return $size . ' ' . $slevel[$lvl];
     }
 
+    public static function protectAgainsRelativePaths($path)
+    {
+        $sep = '/';
+        $absolutes = array();
+
+        $path = str_replace(array('/', '\\'), $sep, $path);
+        $exploded = explode($sep, $path);
+
+        if ($exploded[0] == '')
+            $absolutes[] = '';
+        $parts = array_filter($exploded, 'strlen');
+
+        foreach ($parts as $part) {
+            if ('.' == $part)
+                continue;
+            if ('..' == $part) {
+                array_pop($absolutes);
+            } else {
+                $absolutes[] = $part;
+            }
+        }
+        return implode($sep, $absolutes);
+    }
+
+
 }
 
 ?>

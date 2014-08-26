@@ -4,7 +4,7 @@
     <url link='test' inh="child">
         <url link="subnode" class="PWE\Core\TestModule">
         </url>
-        <url link="html" module="PWE\Modules\HTMLPage\HTMLPage" src="test.html">
+        <url link="html" class="PWE\Modules\HTMLPage\HTMLPage" src="test.html">
         </url>
     </url>
     <url link='accept' inh="accept" accept="2" class="PWE\Core\TestModule">
@@ -14,6 +14,6 @@
             <url link='trailing' class="PWE\Core\TestModule"/>
         </params>
     </url>
-    <url link="htmltest" module="PWE\Modules\HTMLPage\HTMLPage"/>
-    <url link="notpl" template="" module="PWE\Modules\HTMLPage\HTMLPage"/>
+    <url link="htmltest" class="PWE\Modules\HTMLPage\HTMLPage"/>
+    <url link="notpl" template="" class="PWE\Core\TestModule"/>
 </url>
