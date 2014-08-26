@@ -1,9 +1,11 @@
 <?php
 
 namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
+use WikiRenderer\Block;
+use WikiRenderer\Renderer;
 
 /** Gestion des paragraphes avec style CSS. */
-class StyledBlock extends \WikiRenderer\Block
+class StyledBlock extends Block
 {
     public $type = 'div';
     protected $_openTag = '<div class="%s">';
@@ -41,7 +43,7 @@ class StyledBlock extends \WikiRenderer\Block
         $this->_currentContent = '';
         //traitement récursif
         $cfg = $this->engine->getConfig()->subConstruct();
-        $engine = new \WikiRenderer\Renderer($cfg);
+        $engine = new Renderer($cfg);
         $html = sprintf($this->_openTag, $this->_cssClasses) . "\n" .
             $engine->render($subContent) .
             $this->_closeTag;

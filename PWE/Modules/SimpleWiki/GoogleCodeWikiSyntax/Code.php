@@ -1,9 +1,11 @@
 <?php
 
 namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
+use GeSHi;
+use WikiRenderer\Block;
 
 /** Gestion des paragraphes de code. */
-class Code extends \WikiRenderer\Block
+class Code extends Block
 {
     public $type = 'div';
     protected $isOpen = false;
@@ -51,7 +53,7 @@ class Code extends \WikiRenderer\Block
             return ('<pre><code class="language-' . $this->_programmingLanguage . '">' . htmlspecialchars($currentContent) . '</code></pre>');
         // syntax highlighting
         if (!isset(self::$_geshi))
-            self::$_geshi = new \GeSHi('', '');
+            self::$_geshi = new GeSHi('', '');
         self::$_geshi->set_source($currentContent);
         self::$_geshi->set_language($this->_programmingLanguage, true);
         self::$_geshi->enable_classes($this->engine->getConfig()->getParam('codeInlineStyles') ? false : true);

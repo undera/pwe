@@ -60,7 +60,7 @@ class WikiList extends Block
             $str .= "</li>\n<li>";
             $this->_previousTag = substr($this->_previousTag, 0, -$d);
         } else if ($d < 0) {
-            $this->_previousTag .= $c;
+            $this->_previousTag .= ""; // FIXME: what was here?
             $str = $this->ordered ? "<ol><li>" : "<ul><li>";
         } else {
             $str = $this->_firstItem ? '<li>' : "</li>\n<li>";

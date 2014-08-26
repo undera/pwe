@@ -18,7 +18,7 @@ class Image extends TagXhtml
         $processedLink = $this->config->processLink($src, $this->name);
         $src = $processedLink[0];
         // on retourne le lien généré
-        return "<img src=\"$src\" alt=\"$alt\" />";
+        return "<img src=\"$src\" alt=\"$src\" />";
     }
 
 }

@@ -1,14 +1,18 @@
 <?php
 
 namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
+use WikiRenderer\Block;
 
 /**
  * traite les signes de type blockquote
  */
-class Blockquote extends \WikiRenderer\Block
+class Blockquote extends Block
 {
     public $type = 'bq';
     protected $regexp = "/^(\ +)(.*)/";
+    private $_previousTag;
+    private $_firstTagLen;
+    private $_firstLine;
 
     public function open()
     {

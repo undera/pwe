@@ -293,11 +293,18 @@ class PWEXML extends PWEXMLFunctions implements Setupable
     /**
      * рекурсивная функция формирования кэш-файла
      * для иерархического массива, ускоряющего парсинг
-     * @param comment комментарий, который будет добавлен в начало файла кэша
-     * @param md5_xml контрольная сумма исходного ХМЛ-файла
+     * @param array $harray
+     * @param $index
+     * @param bool $filename
+     * @param bool|$md5_xml контрольная
+     * @param array|bool $path
+     * @param bool|$comment комментарий
+     * @internal param \PWE\Utils\комментарий $comment , который будет добавлен в начало файла кэша
+     * @internal param \PWE\Utils\контрольная $md5_xml сумма исходного ХМЛ-файла
+     * @return bool|string
      */
     private function ArrayToPHP(
-        array &$harray, $index, $filename = false, $md5_xml = false, $path = false, $comment = false)
+        array &$harray, $index, $filename = false, $md5_xml = false, $path = array(), $comment = false)
     {
         $result = '';
         // цикл по типам узлов

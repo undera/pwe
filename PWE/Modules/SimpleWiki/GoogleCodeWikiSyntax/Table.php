@@ -9,7 +9,7 @@ class Table extends Block
 
     public $type = 'table';
     protected $regexp = "/^(!!|\|\|) ?(.*)/";
-    protected $_openTag = '<table class="bordered" border="1" cellspacing="0" cellpadding="3">';
+    protected $_openTag = '<table class="bordered" border="1">';
     protected $_closeTag = '</table>';
     protected $_colcount = 0;
 
@@ -26,6 +26,7 @@ class Table extends Block
         $prevPos = 0;
         $prevType = '';
         $loop = true;
+        $posTd = false;
         while ($loop) {
             if ($prevPos >= strlen($text) || (($posTh = strpos($text, '!!', $prevPos)) === false &&
                     ($posTd = strpos($text, '||', $prevPos)) === false)

@@ -1,6 +1,7 @@
 <?php
 
 namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
+use WikiRenderer\Block;
 
 /**
  * Extension sued to generate Lorem Ipsum text.
@@ -9,7 +10,7 @@ namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
  * @see    http://tinsology.net/2009/07/php-lorem-ipsum-generator/
  * @see    https://github.com/classmarkets/LipsumGenerator
  */
-class ExtLipsum extends \WikiRenderer\Block
+class ExtLipsum extends Block
 {
     /** Regular expression. */
     protected $regexp = "/^<<<lipsum(\|\d+)?>>>\s*/";
@@ -105,6 +106,7 @@ class ExtLipsum extends \WikiRenderer\Block
     /**
      * Inserts commas and periods in the given word array.
      * @param    array $sentence Array of words.
+     * @return array
      */
     private function _punctuate(&$sentence)
     {
@@ -118,6 +120,7 @@ class ExtLipsum extends \WikiRenderer\Block
             if ($index < ($count - 1) && $index > 0)
                 $sentence[$index] .= ',';
         }
+        return ($sentence);
     }
 
     /**

@@ -11,21 +11,21 @@
 
 <body>
 <h1>{$code} {$code_desc}</h1>
-<big>{$message}</big><br/>
+<span style="font-size: large">{$message}</span><br/>
 <br/>
 {if $trace}
     <fieldset>
-        <legend>Full Exception:</legend>
-        <textarea style="width: 100%;" cols="100" rows="30" readonly="readonly">{$text}</textarea>
+        <legend><label for="exc">Full Exception:</label></legend>
+        <textarea id="exc" style="width: 100%;" cols="100" rows="30" readonly="readonly">{$text}</textarea>
     </fieldset>
 {else}
     <i>That's all we have to say...</i>
 {/if}
 <hr/>
-<table style='float:right;' border='0' cellspacing='0' cellpadding='0'>
+<table style='float:right;' border='0'>
     <tr>
-        <td style='padding: 5px;'><big><b title='Mathematical sign, means "For All"'>&forall;</b></big></td>
-        <td align='right'>
+        <td style='padding: 5px;'><span style="font-size: large"><b title='Mathematical sign, means "For All"'>&forall;</b></span></td>
+        <td style="text-align: right">
             <small> Powered by
                 <a title='Pluggable Web Engine' href='http://code.google.com/p/pwe-cmf/'><b>P&nbsp;W&nbsp;E</b></a>
             </small>

@@ -248,9 +248,9 @@ class PWECore extends AbstractPWECore implements SmartyAssociative
         }
     }
 
-    private function recursiveNodeSearch(array &$node, array $uriArray)
+    private function recursiveNodeSearch(array &$node, array $search_uri)
     {
-        $link = array_shift($uriArray);
+        $link = array_shift($search_uri);
         PWELogger::debug("Trying link: %s", $link);
 
         $ix = PWEXMLFunctions::findNodeWithAttributeValue($node['!c']['url'], 'link', $link);
@@ -262,7 +262,7 @@ class PWECore extends AbstractPWECore implements SmartyAssociative
             $node['!i'] = $inherited_attrs + (isset($node['!a']) ? $node['!a'] : array());
 
             if (isset($node['!c']['url']) || isset($node['!c']['params'])) {
-                return $this->recursiveNodeSearch($node, $uriArray);
+                return $this->recursiveNodeSearch($node, $search_uri);
             }
         }
 

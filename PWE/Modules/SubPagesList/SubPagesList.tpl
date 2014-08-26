@@ -1,7 +1,7 @@
 {assign var=aKey value='!a'}
 {if $subpages}
     {if $format=='table'}
-        <table border=0 width="100%" cellspacing=0 cellpadding=20>
+        <table border=0>
             <tr>
                 {foreach from=$subpages key=iteration item=item name=items}
                 {if !$smarty.foreach.items.first && !$smarty.foreach.items.last && !($iteration % $columns)}

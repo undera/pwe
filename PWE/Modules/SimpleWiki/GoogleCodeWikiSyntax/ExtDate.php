@@ -1,9 +1,10 @@
 <?php
 
 namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
+use WikiRenderer\TagXhtml;
 
 /** Extension for date manipulation. */
-class ExtDate extends \WikiRenderer\TagXhtml
+class ExtDate extends TagXhtml
 {
     protected $name = 'image';
     public $beginTag = '<<date';
@@ -14,7 +15,7 @@ class ExtDate extends \WikiRenderer\TagXhtml
     public function getContent()
     {
         if (!isset($this->wikiContentArr[1]))
-            return;
+            return "";
         $format = $this->wikiContentArr[1];
         if (isset($this->wikiContentArr[2])) {
             $time = $this->wikiContentArr[2];

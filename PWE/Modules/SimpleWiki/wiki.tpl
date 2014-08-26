@@ -1,8 +1,8 @@
 <table class="wiki">
     <tr>
-        <td valign="top" style="width: 100%;">{$content}</td>
+        <td style="width: 100%; vertical-align: top">{$content}</td>
         {if $sidebar}
-            <td valign="top" class="sidebar">{$sidebar}</td>
+            <td style="vertical-align: top" class="sidebar">{$sidebar}</td>
         {/if}
     </tr>
 </table>

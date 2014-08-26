@@ -1,9 +1,10 @@
 <?php
 
 namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
+use WikiRenderer\Block;
 
 /** Management of paragraph blocks of text. */
-class Paragraph extends \WikiRenderer\Block
+class Paragraph extends Block
 {
 
     public $type = 'p';
