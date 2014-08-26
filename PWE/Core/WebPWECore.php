@@ -24,7 +24,6 @@ class WebPWECore extends AbstractPWECore implements SmartyAssociative
      * @var PWEURL
      */
     protected $URL;
-    protected $structureNode = array();
     protected $siteStructureFile;
     /**
      *
@@ -46,6 +45,19 @@ class WebPWECore extends AbstractPWECore implements SmartyAssociative
         $this->errorsTemplate = 'error.tpl';
     }
 
+    public static function getSmartyAllowedMethods()
+    {
+        return array('getStructLevel',
+            'getContent', 'getNode',
+            'getCurrentModuleInstance',
+            'getStaticDirectory', 'getStaticHref');
+    }
+
+    public static function getEmptyTemplate()
+    {
+        return 'empty.tpl';
+    }
+
     public function setXMLDirectory($dir)
     {
         parent::setXMLDirectory($dir);
@@ -56,17 +68,12 @@ class WebPWECore extends AbstractPWECore implements SmartyAssociative
         }
     }
 
-    public function getStructureFile()
-    {
-        return $this->siteStructureFile;
-    }
-
     public function process($uri)
     {
         try {
             $this->createModulesManager();
             $this->setURL($uri);
-            $this->currentModuleInstance = $this->getModuleInstance($this->structureNode);
+            $this->currentModuleInstance = $this->getModuleInstance($this->getNode());
             return $this->getHTML();
         } catch (HTTP2xxException $e) {
             PWELogger::debug("Got 2xx exception");
@@ -80,6 +87,16 @@ class WebPWECore extends AbstractPWECore implements SmartyAssociative
             $this->sendHTTPStatusCode($e->getCode());
             return "";
         }
+    }
+
+    /**
+     *
+     * @return array
+     * @throws HTTP5xxException
+     */
+    public function getNode()
+    {
+        return $this->URL->getNode();
     }
 
     /**
@@ -146,9 +163,11 @@ class WebPWECore extends AbstractPWECore implements SmartyAssociative
 
         PWELogger::info("=== %s %s", $_SERVER['REQUEST_METHOD'], $uri);
         PWELogger::debug("Request variables: %s", $_REQUEST);
-        $this->URL = new PWEURL($uri);
-        $this->siteStructure = $this->getSiteStructure();
-        $this->detectStructureNode();
+        $this->URL = new PWEURL($uri, $this->siteStructure);
+
+        $node=$this->getNode();
+        $this->setDisplayTemplate($node['!i']['template']);
+
         $this->jumpToFirstChild();
 
         /**
@@ -164,17 +183,19 @@ class WebPWECore extends AbstractPWECore implements SmartyAssociative
         PWELogger::debug('Done auth');
     }
 
-    /**
-     *
-     * @return array
-     * @throws HTTP5xxException
-     */
-    public function getNode()
+    public function getDisplayTemplate()
     {
-        if (!$this->structureNode) {
-            throw new HTTP5xxException("Current node was not defined yet. Method setURL must be called before getting current Node");
+        return $this->displayTemplate;
+    }
+
+    public function setDisplayTemplate($tpl)
+    {
+        if (!$tpl) {
+            PWELogger::debug("No template passed, empty will be used");
+            $tpl = self::getEmptyTemplate();
         }
-        return $this->structureNode;
+
+        $this->displayTemplate = $tpl;
     }
 
     public function sendHTTPStatusCode($code)
@@ -293,41 +314,31 @@ class WebPWECore extends AbstractPWECore implements SmartyAssociative
         return $_SERVER["HTTP_" . strtoupper(str_replace('-', '_', $header_name))];
     }
 
-    private function detectStructureNode()
+    public function setRootDirectory($dir)
     {
-        $tmpNode = array('!c' => &$this->siteStructure);
-        $tmpNode['!i'] = array();
-        $this->structureNode = $this->URL->recursiveNodeSearch($tmpNode, $this->URL->getFullAsArray());
+        parent::setRootDirectory($dir);
+        $this->setStaticDirectory($this->getRootDirectory() . '/img');
+        $this->setStaticHref('/img');
+    }
 
-        // calculating params and match
-        if (isset($this->structureNode['!p']) && is_array($this->structureNode['!p'])) {
-            $nodePointer = array('!p' => &$this->structureNode);
-            $depth = 0;
-        } else {
-            $nodePointer = & $this->structureNode;
-            $depth = 1;
-        }
+    public function setStaticDirectory($dir)
+    {
+        $this->staticFolder = $dir;
+    }
 
-        do {
-            $nodePointer = & $nodePointer['!p'];
-            $depth++;
-        } while ($nodePointer);
+    public function getStaticDirectory()
+    {
+        return $this->staticFolder;
+    }
 
-        $this->URL->setMatchedDepth($depth - 1);
+    public function getStaticHref()
+    {
+        return $this->staticHref;
+    }
 
-        $this->setDisplayTemplate($this->structureNode['!i']['template']);
-
-        // check params count
-        if (isset($this->structureNode['!i']['accept'])) {
-            if (sizeof($this->URL->getParamsAsArray()) > $this->structureNode['!i']['accept']) {
-                PWELogger::warn("Defined accept limit %s has been exceeded: %s", $this->structureNode['!i']['accept'], sizeof($this->URL->getParamsAsArray()));
-                throw new HTTP4xxException('URI parameters count exceeded', HTTP4xxException::BAD_REQUEST);
-            }
-        } else {
-            if (sizeof($this->URL->getParamsAsArray())) {
-                throw new HTTP4xxException("Requested page not found", HTTP4xxException::NOT_FOUND);
-            }
-        }
+    public function setStaticHref($href)
+    {
+        $this->staticHref = $href;
     }
 
     /**
@@ -335,8 +346,8 @@ class WebPWECore extends AbstractPWECore implements SmartyAssociative
      */
     private function jumpToFirstChild()
     {
-        $eg_node = $this->structureNode;
-        if (isset($this->structureNode['!a']['class'])
+        $eg_node = $this->getNode();
+        if (isset($eg_node['!a']['class'])
             || sizeof($this->URL->getParamsAsArray())
             || !isset($eg_node['!c']['url'])
         ) {
@@ -351,62 +362,6 @@ class WebPWECore extends AbstractPWECore implements SmartyAssociative
             }
             throw new HTTP3xxException($jumpTo, HTTP3xxException::REDIRECT);
         }
-    }
-
-    public static function getSmartyAllowedMethods()
-    {
-        return array('getStructLevel',
-            'getContent', 'getNode',
-            'getCurrentModuleInstance',
-            'getStaticDirectory', 'getStaticHref');
-    }
-
-
-    public function setDisplayTemplate($tpl)
-    {
-        if (!$tpl) {
-            PWELogger::debug("No template passed, empty will be used");
-            $tpl = self::getEmptyTemplate();
-        }
-
-        $this->displayTemplate = $tpl;
-    }
-
-    public function getDisplayTemplate()
-    {
-        return $this->displayTemplate;
-    }
-
-    public function setRootDirectory($dir)
-    {
-        parent::setRootDirectory($dir);
-        $this->setStaticDirectory($this->getRootDirectory() . '/img');
-        $this->setStaticHref('/img');
-    }
-
-    public static function getEmptyTemplate()
-    {
-        return 'empty.tpl';
-    }
-
-    public function getStaticDirectory()
-    {
-        return $this->staticFolder;
-    }
-
-    public function getStaticHref()
-    {
-        return $this->staticHref;
-    }
-
-    public function setStaticDirectory($dir)
-    {
-        $this->staticFolder = $dir;
-    }
-
-    public function setStaticHref($href)
-    {
-        $this->staticHref = $href;
     }
 
 

@@ -17,18 +17,14 @@ use PWE\Core\PWELogger;
 use PWE\Core\WebPWECore;
 use PWE\Exceptions\PHPFatalException;
 
-require_once __DIR__ . '/PWE/Lib/Smarty/SmartyAssociative.php';
 require_once __DIR__ . '/PWE/Modules/Setupable.php';
-require_once __DIR__ . '/PWE/Modules/Outputable.php';
-require_once __DIR__ . '/PWE/Core/PWECMDJob.php';
 require_once __DIR__ . '/PWE/Core/PWECore.php';
+require_once __DIR__ . '/PWE/Core/PWECMDJob.php';
 
-require_once __DIR__ . '/PWE/Core/PWEURL.php';
 require_once __DIR__ . '/PWE/Modules/PWEModulesManager.php';
 require_once __DIR__ . '/PWE/Utils/PWEXMLFunctions.php';
 require_once __DIR__ . '/PWE/Utils/PWEXML.php';
 require_once __DIR__ . '/PWE/Modules/PWEModule.php';
-require_once __DIR__ . '/PWE/Auth/PWEUserAuthController.php';
 require_once __DIR__ . '/PWE/Exceptions/PHPFatalException.php';
 
 require_once __DIR__ . '/PWE/Core/AbstractPWECore.php';
@@ -66,6 +62,11 @@ if (php_sapi_name() == 'cli') {
     }
     $job->run();
 } else {
+    require_once __DIR__ . '/PWE/Lib/Smarty/SmartyAssociative.php';
+    require_once __DIR__ . '/PWE/Modules/Outputable.php';
+    require_once __DIR__ . '/PWE/Modules/WebPWEModule.php';
+    require_once __DIR__ . '/PWE/Core/PWEURL.php';
+    require_once __DIR__ . '/PWE/Auth/PWEUserAuthController.php';
     $PWECore = new WebPWECore();
     PWEAutoloader::setPWE($PWECore);
     try {
