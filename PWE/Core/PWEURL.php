@@ -11,7 +11,7 @@ use PWE\Utils\PWEXMLFunctions;
 class PWEURL implements SmartyAssociative
 {
 
-    protected $structureNode;
+    protected $node;
     private $URLArrayMatched = array();
     private $URLArrayParams = array();
     private $URLArray;
@@ -23,8 +23,9 @@ class PWEURL implements SmartyAssociative
         $this->parseURL($uri);
         $this->detectSubdirectory();
 
-        $this->structureNode = array('!c' => $structure, '!i' => array());
+        $this->node = array('!c' => $structure, '!i' => array());
         $this->recursiveNodeSearch($this->getFullAsArray());
+        PWELogger::debug("Done URL to structure matching");
     }
 
     private function recursiveNodeSearch(array $search_uri)
@@ -32,39 +33,51 @@ class PWEURL implements SmartyAssociative
         $link = reset($search_uri);
         PWELogger::debug("Trying link: %s", $link);
 
-        $ix = PWEXMLFunctions::findNodeWithAttributeValue($this->structureNode['!c']['url'], 'link', $link);
+        $ix = PWEXMLFunctions::findNodeWithAttributeValue($this->node['!c']['url'], 'link', $link);
 
         if ($ix >= 0) {
             $this->URLArrayMatched[] = array_shift($search_uri);
 
-            $inherited_attrs = $this->structureNode['!i'];
+            $inherited_attrs = $this->node['!i'];
 
-            $this->structureNode = & $this->structureNode['!c']['url'][$ix];
-            $this->structureNode['!i'] = $inherited_attrs + (isset($this->structureNode['!a']) ? $this->structureNode['!a'] : array());
+            $this->node = & $this->node['!c']['url'][$ix];
+            $this->node['!i'] = $inherited_attrs + (isset($this->node['!a']) ? $this->node['!a'] : array());
 
-            if (isset($this->structureNode['!c']['url']) || isset($this->structureNode['!c']['params'])) {
+            if (isset($this->node['!c']['url'])) {
                 $this->recursiveNodeSearch($search_uri);
                 return;
             }
         }
 
-        if ($search_uri) {
+        if ($search_uri && isset($this->node['!c']['params'])) {
+            // FIXME: here we imply that only first 'params' node makes sense, other ideas?
+            // TODO: we just read the 'count' params, no flexibility or intelligence here
+            for ($n = 0; $search_uri && $n < $this->node['!c']['params'][0]['!a']['count']; $n++) {
+                $this->URLArrayParams[] = array_shift($search_uri);
+            }
 
+            $inherited_attrs = $this->node['!i'];
+            $this->node = & $this->node['!c']['params'][0];
+            $this->node['!i'] = $inherited_attrs + (isset($this->node['!a']) ? $this->node['!a'] : array());
+
+            if (isset($this->node['!c']['url'])) {
+                $this->recursiveNodeSearch($search_uri);
+                return;
+            }
         }
 
-        PWELogger::debug("Done URL to structure matching");
         // check params count
-        if (isset($this->structureNode['!i']['accept'])) {
-            if (sizeof($search_uri) > $this->structureNode['!i']['accept']) {
-                PWELogger::warn("Defined accept limit %s has been exceeded: %s", $this->structureNode['!i']['accept'], sizeof($search_uri));
-                throw new HTTP4xxException('URI parameters count exceeded', HTTP4xxException::BAD_REQUEST);
+        if ($search_uri && isset($this->node['!i']['accept'])) {
+            for ($n = 0; $search_uri && $n < $this->node['!i']['accept']; $n++) {
+                $this->URLArrayParams[] = array_shift($search_uri);
             }
         } else {
-            if (sizeof($search_uri)) {
-                throw new HTTP4xxException("Requested page not found", HTTP4xxException::NOT_FOUND);
-            }
+
         }
 
+        if (sizeof($search_uri)) {
+            throw new HTTP4xxException("Requested page not found", HTTP4xxException::NOT_FOUND);
+        }
     }
 
 
@@ -167,12 +180,12 @@ class PWEURL implements SmartyAssociative
         return sizeof($this->URLArrayParams);
     }
 
-    public function getNode()
+    public function &getNode()
     {
-        if (!$this->structureNode) {
+        if (!$this->node) {
             throw new HTTP5xxException("Current node was not defined yet. Method setURL must be called before getting current Node");
         }
-        return $this->structureNode;
+        return $this->node;
     }
 
 }

@@ -9,8 +9,8 @@
     </url>
     <url link='accept' inh="accept" accept="2" class="PWE\Core\TestModule">
     </url>
-    <url link='midaccept'>
-        <params count="2">
+    <url link='midaccept' class="PWE\Core\TestModule">
+        <params count="2" class="PWE\Core\TestModule">
             <url link='trailing' class="PWE\Core\TestModule"/>
         </params>
     </url>

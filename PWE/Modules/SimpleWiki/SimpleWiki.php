@@ -3,8 +3,8 @@
 namespace PWE\Modules\SimpleWiki;
 
 use GlobIterator;
-use PWE\Core\PWECore;
 use PWE\Core\PWELogger;
+use PWE\Core\WebPWECore;
 use PWE\Exceptions\HTTP3xxException;
 use PWE\Exceptions\HTTP4xxException;
 use PWE\Exceptions\HTTP5xxException;
@@ -19,7 +19,7 @@ class SimpleWiki extends WebPWEModule implements Outputable
 
     private $config;
 
-    public function __construct(PWECore $core)
+    public function __construct(WebPWECore $core)
     {
         parent::__construct($core);
         $this->config = new Config();

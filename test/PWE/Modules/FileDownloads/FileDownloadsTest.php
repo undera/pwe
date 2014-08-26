@@ -31,7 +31,7 @@ class FileDownloadsTest extends \PHPUnit_Framework_TestCase
         PWELogger::debug("File 1 " . file_get_contents($tmp . '/first'));
         PWELogger::debug("File 2 " . file_get_contents($tmp . '/second'));
 
-        $node = $pwe->getNode();
+        $node = & $pwe->getNode();
         $node['!a']['files_base'] = '.';
 
         $obj = new FileDownloads($pwe);

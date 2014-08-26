@@ -8,8 +8,8 @@ use PWE\Exceptions\HTTP3xxException;
 use PWE\Exceptions\HTTP4xxException;
 use PWE\Modules\MenuGenerator;
 use PWE\Modules\Outputable;
-use PWE\Modules\PWEModule;
 use PWE\Modules\PWEModulesManager;
+use PWE\Modules\WebPWEModule;
 use PWEUnitTests;
 
 require_once __DIR__ . '/../../PWEUnitTests.php';
@@ -44,6 +44,7 @@ class WebPWECoreTest extends \PHPUnit_Framework_TestCase
     public function testSetURL_Page1Success()
     {
         $this->object->process('/test/subnode/');
+        $this->assertEquals("/test/subnode:", $this->object->getContent());
     }
 
     public function testSetURL_Redirect()
@@ -59,16 +60,19 @@ class WebPWECoreTest extends \PHPUnit_Framework_TestCase
     public function testSetURL_AcceptParams()
     {
         $this->object->process('/accept/123/');
+        $this->assertEquals("/accept:123", $this->object->getContent());
     }
 
     public function testEmptyTPL()
     {
         $this->object->process('/notpl/');
+        $this->assertEquals("/notpl:", $this->object->getContent());
     }
 
     public function testSetURL_AcceptParamsFile()
     {
         $this->object->process('/accept/text.xml');
+        $this->assertEquals("/accept:text.xml", $this->object->getContent());
     }
 
     public function testSetURL_AcceptParamsFile_at_root()
@@ -89,7 +93,7 @@ class WebPWECoreTest extends \PHPUnit_Framework_TestCase
             $this->object->process('/accept/123/123/123/');
             $this->fail();
         } catch (HTTP4xxException $e) {
-            if ($e->getCode() != HTTP4xxException::BAD_REQUEST) {
+            if ($e->getCode() != HTTP4xxException::NOT_FOUND) {
                 throw $e;
             }
         }
@@ -109,26 +113,27 @@ class WebPWECoreTest extends \PHPUnit_Framework_TestCase
 
     public function testSetURL_MidParams_NotAll()
     {
-        $this->object->process('/midaccept/123/edit/');
+        $this->object->process('/midaccept/123/');
+        $this->assertEquals("/midaccept:123", $this->object->getContent());
     }
 
     public function testSetURL_MidParams_All()
     {
-        $this->object->process('/midaccept/123/456/edit/');
+        $this->object->process('/midaccept/123/456/trailing/');
+        $this->assertEquals("/midaccept/trailing:123/456", $this->object->getContent());
     }
 
     public function testSetURL_MidParamsExceeded()
     {
         try {
-            $this->object->process('/midaccept/123/123/123/edit/');
+            $this->object->process('/midaccept/123/123/123/trailing/');
             $this->fail();
         } catch (HTTP4xxException $e) {
-            if ($e->getCode() != HTTP4xxException::BAD_REQUEST) {
+            if ($e->getCode() != HTTP4xxException::NOT_FOUND) {
                 throw $e;
             }
         }
     }
-
 
     public function testSetURL_Notexistent()
     {
@@ -145,7 +150,7 @@ class WebPWECoreTest extends \PHPUnit_Framework_TestCase
     public function testGetURL()
     {
         $this->object->process('/accept/123/');
-        $res = $this->object->getURL();
+        $this->object->getURL();
     }
 
     public function testProcess_JTFC302()
@@ -227,12 +232,15 @@ class PWECoreEmul extends WebPWECore
 
 }
 
-class TestModule extends PWEModule implements Outputable, MenuGenerator
+class TestModule extends WebPWEModule implements Outputable, MenuGenerator
 {
 
     public function process()
     {
-
+        $smarty = $this->PWE->getSmarty();
+        $smarty->setTemplateFile(__DIR__ . '/flat.tpl');
+        $smarty->assign('content', implode('/', $this->PWE->getURL()->getMatchedAsArray()) . ':' . implode('/', $this->PWE->getURL()->getParamsAsArray()));
+        $this->PWE->addContent($smarty);
     }
 
     public function getMenuLevel($level)

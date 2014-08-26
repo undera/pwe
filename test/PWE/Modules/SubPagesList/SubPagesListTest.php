@@ -22,7 +22,8 @@ class SubPagesListTest extends \PHPUnit_Framework_TestCase {
         $PWE = new UnitTestPWECore();
         $PWE->setURL("/");
         $this->object = new SubPagesList($PWE);
-        $res = $this->object->process();
+        $this->object->process();
+        $res=$this->object->getPWE()->getContent();
         $this->assertFalse(strstr($res, "<"));
     }
 

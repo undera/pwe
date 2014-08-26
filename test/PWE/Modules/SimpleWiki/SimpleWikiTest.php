@@ -72,7 +72,7 @@ class SimpleWikiTest extends \PHPUnit_Framework_TestCase
         $PWE = new UnitTestPWECore();
         $PWE->setStructFile(__DIR__ . '/SimpleWiki.xml');
         $PWE->setURL('/GoogleSyntax/');
-        $node = $PWE->getNode();
+        $node = & $PWE->getNode();
         $node['!i']['wiki_dir'] = __DIR__;
         $obj = new SimpleWiki($PWE);
         $obj->process();

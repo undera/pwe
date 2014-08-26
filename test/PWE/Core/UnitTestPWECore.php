@@ -12,6 +12,7 @@ class UnitTestPWECore extends WebPWECore
     public function setStructFile($param0)
     {
         $this->siteStructureFile = $param0;
+        file_get_contents($this->siteStructureFile);
     }
 
     public function __construct()

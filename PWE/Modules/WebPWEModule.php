@@ -3,6 +3,7 @@
 namespace PWE\Modules;
 
 
+use PWE\Core\PWECore;
 use PWE\Core\WebPWECore;
 
 abstract class WebPWEModule extends PWEModule
@@ -29,4 +30,9 @@ abstract class WebPWEModule extends PWEModule
         $res .= str_repeat("/..", sizeof($this->PWE->getURL()->getParamsAsArray()));
         return $res;
     }
-} 
+
+    public function getPWE()
+    {
+        return $this->PWE;
+    }
+}
