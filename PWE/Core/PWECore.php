@@ -214,11 +214,10 @@ class PWECore extends AbstractPWECore implements SmartyAssociative
     {
         // 3.2. Поиск в структуре запрашиваемого узла
         $tmpNode = array('!c' => &$this->siteStructure);
-        $this->structureNode = $this->recursiveNodeSearch(
-            $tmpNode, $this->URL->getFullAsArray());
+        $tmpNode['!i'] = array();
+        $this->structureNode = $this->recursiveNodeSearch($tmpNode, $this->URL->getFullAsArray());
 
         // calculating params and match
-        $this->structureNode['!i'] = array();
         if (isset($this->structureNode['!p']) && is_array($this->structureNode['!p'])) {
             $nodePointer = array('!p' => &$this->structureNode);
             $depth = 0;
@@ -228,7 +227,6 @@ class PWECore extends AbstractPWECore implements SmartyAssociative
         }
 
         do {
-            $this->structureNode['!i'] = $this->structureNode['!i'] + (isset($nodePointer['!a']) ? $nodePointer['!a'] : array());
             $nodePointer = & $nodePointer['!p'];
             $depth++;
         } while ($nodePointer);
@@ -237,48 +235,34 @@ class PWECore extends AbstractPWECore implements SmartyAssociative
 
         $this->setDisplayTemplate($this->structureNode['!i']['template']);
 
-        // если работаем с параметрами - убеждаемся что их количество допустимо
+        // check params count
         if (isset($this->structureNode['!i']['accept'])) {
             if (sizeof($this->URL->getParamsAsArray()) > $this->structureNode['!i']['accept']) {
                 PWELogger::warn("Defined accept limit %s has been exceeded: %s", $this->structureNode['!i']['accept'], sizeof($this->URL->getParamsAsArray()));
                 throw new HTTP4xxException('URI parameters count exceeded', HTTP4xxException::BAD_REQUEST);
             }
-        } // иначе ругаемся
-        else {
+        } else {
             if (sizeof($this->URL->getParamsAsArray())) {
                 throw new HTTP4xxException("Requested page not found", HTTP4xxException::NOT_FOUND);
             }
         }
     }
 
-    // TODO: there is simplier way to do it with xml_find_attr
-    // TODO: incorporate !i calculation here
     private function recursiveNodeSearch(array &$node, array $uriArray)
     {
-        $size = sizeof(@$node['!c']['url']);
-        reset($uriArray);
-        $link = current($uriArray);
+        $link = array_shift($uriArray);
         PWELogger::debug("Trying link: %s", $link);
 
-        // перебираем дочерних
-        for ($n = 0; $n < $size; $n++) {
-            //PWELogger::debug("Testing " . @$node['!c']['url'][$n]['!a']['link']);
-            // если совпал компонент
-            if (@$node['!c']['url'][$n]['!a']['link'] == $link) {
-                //PWELogger::debug("Matched #" . $n);
+        $ix = PWEXMLFunctions::findNodeWithAttributeValue($node['!c']['url'], 'link', $link);
 
-                $node = & $node['!c']['url'][$n];
+        if ($ix >= 0) {
+            $inherited_attrs = $node['!i'];
 
-                // если кончились элементы УРЛа - то финиш
-                if (sizeof($uriArray) - 1 <= 0) {
-                    break;
-                }
+            $node = & $node['!c']['url'][$ix];
+            $node['!i'] = $inherited_attrs + (isset($node['!a']) ? $node['!a'] : array());
 
-                // углубляемся в структуру
-                if (isset($node['!c']['url'])) {
-                    array_shift($uriArray);
-                    return $this->recursiveNodeSearch($node, $uriArray);
-                }
+            if (isset($node['!c']['url']) || isset($node['!c']['params'])) {
+                return $this->recursiveNodeSearch($node, $uriArray);
             }
         }
 
@@ -310,10 +294,6 @@ class PWECore extends AbstractPWECore implements SmartyAssociative
         if (sizeof($this->URL->getParamsAsArray()))
             return;
         if (!isset($eg_node['!c']['url']))
-            return;
-
-        // FIXME old-style module definiton, need to decide
-        if (isset($this->structureNode['!a']['mod']))
             return;
 
         // перебираем чайлдов в поисках подходящего

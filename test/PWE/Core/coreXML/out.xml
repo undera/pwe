@@ -1,14 +1,19 @@
 <?xml version='1.0' encoding='UTF-8'?>
 
 <url inh="root" template="pwe.tpl">
-   <url link='test' inh="child">
-      <url link="subnode" class="PWE\Core\TestModule">
-      </url>
-      <url link="html" module="PWE\Modules\HTMLPage\HTMLPage" src="test.html">
-      </url>
-   </url>
-   <url link='accept' inh="accept" accept="2" class="PWE\Core\TestModule">
-   </url>
-   <url link="htmltest" module="PWE\Modules\HTMLPage\HTMLPage"/>
-   <url link="notpl" template="" module="PWE\Modules\HTMLPage\HTMLPage"/>
+    <url link='test' inh="child">
+        <url link="subnode" class="PWE\Core\TestModule">
+        </url>
+        <url link="html" module="PWE\Modules\HTMLPage\HTMLPage" src="test.html">
+        </url>
+    </url>
+    <url link='accept' inh="accept" accept="2" class="PWE\Core\TestModule">
+    </url>
+    <url link='midaccept'>
+        <params count="2">
+            <url link='trailing' class="PWE\Core\TestModule"/>
+        </params>
+    </url>
+    <url link="htmltest" module="PWE\Modules\HTMLPage\HTMLPage"/>
+    <url link="notpl" template="" module="PWE\Modules\HTMLPage\HTMLPage"/>
 </url>

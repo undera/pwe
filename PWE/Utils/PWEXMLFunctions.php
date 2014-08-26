@@ -17,8 +17,9 @@ abstract class PWEXMLFunctions
      */
     public static function findNodeWithAttributeValue(&$nodes, $name, $val)
     {
-        foreach ($nodes ? $nodes : array() as $k => $node) {
-            if ($node['!a'][$name] == $val) {
+        $cnt = sizeof($nodes ? $nodes : array());
+        for ($k = 0; $k < $cnt; $k++) {
+            if ($nodes[$k]['!a'][$name] == $val) {
                 return $k;
             }
         }

@@ -108,6 +108,29 @@ class PWECoreTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    public function testSetURL_MidParams_NotAll()
+    {
+        $this->object->setURL('/midaccept/123/edit/');
+    }
+
+    public function testSetURL_MidParams_All()
+    {
+        $this->object->setURL('/midaccept/123/456/edit/');
+    }
+
+    public function testSetURL_MidParamsExceeded()
+    {
+        try {
+            $this->object->setURL('/midaccept/123/123/123/edit/');
+            $this->fail();
+        } catch (HTTP4xxException $e) {
+            if ($e->getCode() != HTTP4xxException::BAD_REQUEST) {
+                throw $e;
+            }
+        }
+    }
+
+
     public function testSetURL_Notexistent()
     {
         try {
