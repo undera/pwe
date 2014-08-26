@@ -6,7 +6,8 @@ namespace PWE\Modules;
  * Defines PWEModule as accessible from Web
  * @author undera
  */
-interface Outputable {
+interface Outputable
+{
 
     /**
      * @return void

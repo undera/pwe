@@ -4,7 +4,8 @@ namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
 
 use WikiRenderer\TagXhtml;
 
-class Underline extends TagXhtml {
+class Underline extends TagXhtml
+{
 
     protected $name = 'u';
     public $beginTag = '__';

@@ -4,7 +4,8 @@ namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
 
 use WikiRenderer\Block;
 
-class Pragma extends Block {
+class Pragma extends Block
+{
 
     public $type = 'comment';
     protected $regexp = "/^(#(labels|summary)\s.*)$/";
@@ -12,7 +13,8 @@ class Pragma extends Block {
     protected $_closeTag = '-->';
     private $seen = false;
 
-    public function getRenderedLine() {
+    public function getRenderedLine()
+    {
         $text = $this->_detectMatch[0];
         if (!strstr($text, '{{{') && !strstr($text, '}}}')) {
             return $text;
@@ -21,7 +23,8 @@ class Pragma extends Block {
         }
     }
 
-    public function detect($string, $inBlock = false) {
+    public function detect($string, $inBlock = false)
+    {
         if ($this->seen) {
             return false;
         }

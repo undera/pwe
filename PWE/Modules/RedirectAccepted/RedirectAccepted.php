@@ -7,9 +7,11 @@ use PWE\Exceptions\HTTP4xxException;
 use PWE\Modules\Outputable;
 use PWE\Modules\PWEModule;
 
-class RedirectAccepted extends PWEModule implements Outputable {
+class RedirectAccepted extends PWEModule implements Outputable
+{
 
-    public function process() {
+    public function process()
+    {
         $node = $this->PWE->getNode();
         $params = $this->PWE->getURL()->getParamsAsArray();
 
@@ -26,7 +28,7 @@ class RedirectAccepted extends PWEModule implements Outputable {
         }
 
         if (!strstr(end($params), '.') && !$node['!a']['no_final_slash']) {
-            $uri.="/";
+            $uri .= "/";
         }
 
         // добавление trailer

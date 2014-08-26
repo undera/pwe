@@ -2,7 +2,8 @@
 
 namespace PWE\Exceptions;
 
-class HTTP2xxException extends PWEHTTPException {
+class HTTP2xxException extends PWEHTTPException
+{
 
     const OK = 200;
     const CREATED = 201;
@@ -12,15 +13,18 @@ class HTTP2xxException extends PWEHTTPException {
 
     private $usingTemplate = false;
 
-    function __construct($message, $code = self::OK) {
+    function __construct($message, $code = self::OK)
+    {
         parent::__construct($message, $code);
     }
 
-    public function isUsingTemplate() {
+    public function isUsingTemplate()
+    {
         return $this->usingTemplate;
     }
 
-    public function setUsingTemplate($flag) {
+    public function setUsingTemplate($flag)
+    {
         $this->usingTemplate = $flag;
     }
 

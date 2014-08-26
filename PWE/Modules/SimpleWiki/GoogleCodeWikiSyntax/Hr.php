@@ -5,13 +5,15 @@ namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
 /**
  * traite les signes de types hr
  */
-class Hr extends \WikiRenderer\Block {
-	public $type = 'hr';
-	protected $regexp = '/^-{4,}$/';
-	protected $_closeNow = true;
+class Hr extends \WikiRenderer\Block
+{
+    public $type = 'hr';
+    protected $regexp = '/^-{4,}$/';
+    protected $_closeNow = true;
 
-	public function getRenderedLine() {
-		return '<hr />';
-	}
+    public function getRenderedLine()
+    {
+        return '<hr />';
+    }
 }
 

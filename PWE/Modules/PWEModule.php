@@ -4,7 +4,8 @@ namespace PWE\Modules;
 
 use PWE\Core\PWECore;
 
-abstract class PWEModule {
+abstract class PWEModule
+{
 
     /**
      *
@@ -12,7 +13,8 @@ abstract class PWEModule {
      */
     protected $PWE;
 
-    public function __construct(PWECore $core) {
+    public function __construct(PWECore $core)
+    {
         $this->PWE = $core;
     }
 
@@ -20,7 +22,8 @@ abstract class PWEModule {
      *
      * @return PWECore
      */
-    public function getPWE() {
+    public function getPWE()
+    {
         return $this->PWE;
     }
 
@@ -29,9 +32,10 @@ abstract class PWEModule {
      * to your base structure node
      * @return string relative path to node base
      */
-    protected function getBaseLink() {
+    protected function getBaseLink()
+    {
         $res = '.';
-        $res.=str_repeat("/..", sizeof($this->PWE->getURL()->getParamsAsArray()));
+        $res .= str_repeat("/..", sizeof($this->PWE->getURL()->getParamsAsArray()));
         return $res;
     }
 

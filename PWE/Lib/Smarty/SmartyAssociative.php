@@ -6,7 +6,8 @@ namespace PWE\Lib\Smarty;
  *
  * @author undera
  */
-interface SmartyAssociative {
+interface SmartyAssociative
+{
 
     public static function getSmartyAllowedMethods();
 }

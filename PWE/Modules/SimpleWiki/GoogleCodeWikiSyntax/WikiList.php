@@ -4,7 +4,8 @@ namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
 
 use WikiRenderer\Block;
 
-class WikiList extends Block {
+class WikiList extends Block
+{
 
     public $type = 'list';
     protected $_previousTag;
@@ -15,20 +16,23 @@ class WikiList extends Block {
 
     /**
      * test si la chaine correspond au debut ou au contenu d'un bloc
-     * @param	string	$string
-     * @param	bool	$inBlock	(optional) True if the parser is already in the block.
-     * @return	boolean	true: appartient au bloc
+     * @param    string $string
+     * @param    bool $inBlock (optional) True if the parser is already in the block.
+     * @return    boolean    true: appartient au bloc
      */
-    public function detect($string, $inBlock = false) {
+    public function detect($string, $inBlock = false)
+    {
         if (!preg_match($this->regexp, $string, $this->_detectMatch))
             return (0);
         if ($inBlock !== true && ((substr($string, 0, 2) == '**' && strpos($string, '**', 2) !== false) ||
-                (substr($string, 0, 2) == '##' && strpos($string, '##', 2) !== false)))
+                (substr($string, 0, 2) == '##' && strpos($string, '##', 2) !== false))
+        )
             return (0);
         return (1);
     }
 
-    public function open() {
+    public function open()
+    {
         $this->_previousTag = $this->_detectMatch[1];
         $this->_firstTagLen = strlen($this->_previousTag);
         $this->_firstItem = true;
@@ -41,11 +45,13 @@ class WikiList extends Block {
         }
     }
 
-    public function close() {
+    public function close()
+    {
         return $this->ordered ? "</li></ol>\n" : "</li></ul>\n";
     }
 
-    public function getRenderedLine() {
+    public function getRenderedLine()
+    {
         $t = $this->_previousTag;
         $d = strlen($t) - strlen($this->_detectMatch[1]);
         $str = '';

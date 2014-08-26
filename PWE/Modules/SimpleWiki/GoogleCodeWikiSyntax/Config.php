@@ -2,14 +2,17 @@
 
 namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
 
+use PWE\Core\PWECore;
+
 /**
  * took it from Skriv https://github.com/Amaury/SkrivMarkup
  */
-class Config extends \WikiRenderer\Config {
+class Config extends \WikiRenderer\Config
+{
 
     /**
      *
-     * @var \PWE\Core\PWECore
+     * @var PWECore
      */
     private $PWE;
 
@@ -82,29 +85,30 @@ class Config extends \WikiRenderer\Config {
 
     /**
      * Constructor.
-     * @param	array	$param		(optionnel) Hash containing specific configuration parameters.
-     * 		- bool		shortenLongUrl		Specifies if we must shorten URLs longer than 40 characters. (default: true)
-     * 		- bool		convertSmileys		Specifies if we must convert smileys. (default: true)
-     * 		- bool		convertSymbols		Specifies if we must convert symbols. (default: true)
-     * 		- Closure	urlProcessFunction	URLs processing function. (default: null)
-     * 		- Closure	preParseFunction	Function for pre-parse process. (default: null)
-     * 		- Closure	postParseFunction	Function for post-parse process. (default: null)
-     * 		- Closure	titleToIdFunction	Function that converts title strings into HTML identifiers. (default: null)
-     * 		- string	anchorsPrefix		Prefix of anchors' identifiers. (default: "skriv-" + random value)
-     * 		- string	footnotesPrefix		Prefix of footnotes' identifiers. (default: "skriv-notes-" + random value)
-     * 		- bool		codeSyntaxHighlight	Activate code highlighting. (default: true)
-     * 		- bool		codeLineNumbers		Line numbers in code blocks. (default: true)
-     * 		- int		firstTitleLevel		Offset of first level titles. (default: 1)
-     * 		- bool		targetBlank		Add "target='_blank'" to every links.
-     * 		- bool		nofollow		Add "rel='nofollow'" to every links.
-     * 		- bool		addFootnotes		Add footnotes' content at the end of the page.
-     * 		- bool		codeInlineStyles	Activate inline styles in code blocks. (default: false)
-     * 		- bool		debugMode		Activate the debug mode, for development purposes. (default: false)
-     * 		- bool		ext-lipsum		Activate the <<<lipsum>>> extension. (default: true)
-     * 		- bool		ext-date		Activate the <<date>> extension. (default: true)
-     * @param	\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Config	parentConfig	Parent configuration object, for recursive calls.
+     * @param    array $param (optionnel) Hash containing specific configuration parameters.
+     *        - bool        shortenLongUrl        Specifies if we must shorten URLs longer than 40 characters. (default: true)
+     *        - bool        convertSmileys        Specifies if we must convert smileys. (default: true)
+     *        - bool        convertSymbols        Specifies if we must convert symbols. (default: true)
+     *        - Closure    urlProcessFunction    URLs processing function. (default: null)
+     *        - Closure    preParseFunction    Function for pre-parse process. (default: null)
+     *        - Closure    postParseFunction    Function for post-parse process. (default: null)
+     *        - Closure    titleToIdFunction    Function that converts title strings into HTML identifiers. (default: null)
+     *        - string    anchorsPrefix        Prefix of anchors' identifiers. (default: "skriv-" + random value)
+     *        - string    footnotesPrefix        Prefix of footnotes' identifiers. (default: "skriv-notes-" + random value)
+     *        - bool        codeSyntaxHighlight    Activate code highlighting. (default: true)
+     *        - bool        codeLineNumbers        Line numbers in code blocks. (default: true)
+     *        - int        firstTitleLevel        Offset of first level titles. (default: 1)
+     *        - bool        targetBlank        Add "target='_blank'" to every links.
+     *        - bool        nofollow        Add "rel='nofollow'" to every links.
+     *        - bool        addFootnotes        Add footnotes' content at the end of the page.
+     *        - bool        codeInlineStyles    Activate inline styles in code blocks. (default: false)
+     *        - bool        debugMode        Activate the debug mode, for development purposes. (default: false)
+     *        - bool        ext-lipsum        Activate the <<<lipsum>>> extension. (default: true)
+     *        - bool        ext-date        Activate the <<date>> extension. (default: true)
+     * @param    \PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Config parentConfig Parent configuration object, for recursive calls.
      */
-    public function __construct(array $param = null, Config $parentConfig = null) {
+    public function __construct(array $param = null, Config $parentConfig = null)
+    {
         // creation of the default parameters array
         $randomId = base_convert(rand(0, 50000), 10, 36);
         $this->_params = array(
@@ -150,7 +154,8 @@ class Config extends \WikiRenderer\Config {
         if (isset($param['codeLineNumbers']) && $param['codeLineNumbers'] === false)
             $this->_params['codeLineNumbers'] = false;
         if (isset($param['firstTitleLevel']) && is_numeric($param['firstTitleLevel']) &&
-                $param['firstTitleLevel'] >= 1 && $param['firstTitleLevel'] <= 6)
+            $param['firstTitleLevel'] >= 1 && $param['firstTitleLevel'] <= 6
+        )
             $this->_params['firstTitleLevel'] = $param['firstTitleLevel'];
         if (isset($param['targetBlank']) && is_bool($param['targetBlank']))
             $this->_params['targetBlank'] = $param['targetBlank'];
@@ -193,9 +198,10 @@ class Config extends \WikiRenderer\Config {
 
     /**
      * Build an object of the same type, "child" of the current object.
-     * @return	\Skriv\Markup\\Html\Config	The new configuration object.
+     * @return    Config    The new configuration object.
      */
-    public function subConstruct() {
+    public function subConstruct()
+    {
         return (new Config($this->_params, $this));
     }
 
@@ -203,10 +209,11 @@ class Config extends \WikiRenderer\Config {
 
     /**
      * Returns a specific configuration parameter. If a parent configuration object exists, the parameter is asked to it.
-     * @param	string	$param	Parameter's name.
-     * @return	mixed	Value of the configuration parameter.
+     * @param    string $param Parameter's name.
+     * @return    mixed    Value of the configuration parameter.
      */
-    public function getParam($param) {
+    public function getParam($param)
+    {
         if (isset($this->_parentConfig))
             return ($this->_parentConfig->getParam($param));
         return (isset($this->_params[$param]) ? $this->_params[$param] : null);
@@ -216,24 +223,26 @@ class Config extends \WikiRenderer\Config {
 
     /**
      * Convert title string to a usable HTML identifier.
-     * @param	int	$depth	Depth of the title.
-     * @param	string	$text	Input string.
-     * @return	string	The converted string.
+     * @param    int $depth Depth of the title.
+     * @param    string $text Input string.
+     * @return    string    The converted string.
      */
-    public function titleToIdentifier($depth, $text) {
+    public function titleToIdentifier($depth, $text)
+    {
         $func = $this->getParam('titleToIdFunction');
-        if (isset($func))
+        if (isset($func)) {
             return ($func($depth, $text));
+        }
         // conversion of accented characters
         // see http://www.weirdog.com/blog/php/supprimer-les-accents-des-caracteres-accentues.html
         $text = htmlentities($text, ENT_NOQUOTES, 'utf-8');
         $text = preg_replace('#&([A-za-z])(?:acute|cedil|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $text);
         $text = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $text); // for ligatures e.g. '&oelig;'
         $text = preg_replace('#&([lr]s|sb|[lrb]d)(quo);#', ' ', $text); // for *quote (http://www.degraeve.com/reference/specialcharacters.php)
-        $text = str_replace('&nbsp;', ' ', $text);                      // for non breaking space
-        $text = preg_replace('#&[^;]+;#', '', $text);                   // strips other characters
+        $text = str_replace('&nbsp;', ' ', $text); // for non breaking space
+        $text = preg_replace('#&[^;]+;#', '', $text); // strips other characters
 
-        $text = preg_replace("/[^a-zA-Z0-9_-]/", ' ', $text);           // remove any other characters
+        $text = preg_replace("/[^a-zA-Z0-9_-]/", ' ', $text); // remove any other characters
         $text = str_replace(' ', '-', $text);
         $text = preg_replace('/\s+/', " ", $text);
         $text = preg_replace('/-+/', "-", $text);
@@ -248,10 +257,11 @@ class Config extends \WikiRenderer\Config {
 
     /**
      * Method called for pre-parse processing.
-     * @param	string	$text	The input text.
-     * @return	string	The text that will be parsed.
+     * @param    string $text The input text.
+     * @return    string    The text that will be parsed.
      */
-    public function onStart($text) {
+    public function onStart($text)
+    {
         // process of smileys and other special characters
         if ($this->getParam('convertSmileys'))
             $text = Smiley::convertSmileys($text);
@@ -267,10 +277,11 @@ class Config extends \WikiRenderer\Config {
 
     /**
      * Method called for post-parse processing.
-     * @param	string	$finalText	The generated text.
-     * @return	string	The text after post-processing.
+     * @param    string $finalText The generated text.
+     * @return    string    The text after post-processing.
      */
-    public function onParse($finalText) {
+    public function onParse($finalText)
+    {
         // if a specific post-parse function was defined, it is called
         $func = $this->getParam('postParseFunction');
         if (isset($func))
@@ -286,14 +297,15 @@ class Config extends \WikiRenderer\Config {
 
     /**
      * Links processing.
-     * @param	string	$url		The URL to process.
-     * @param	string	$tagName	Name of the calling tag.
-     * @return	array	Array with the processed URL and the generated label.
-     * 			Third parameter is about blank targeting of the link. It could be
-     * 			null (use the default behaviour), true (add a blank targeting) or
-     * 			false (no blank targeting).
+     * @param    string $url The URL to process.
+     * @param    string $tagName Name of the calling tag.
+     * @return    array    Array with the processed URL and the generated label.
+     *            Third parameter is about blank targeting of the link. It could be
+     *            null (use the default behaviour), true (add a blank targeting) or
+     *            false (no blank targeting).
      */
-    public function processLink($url, $tagName = '') {
+    public function processLink($url, $tagName = '')
+    {
         $label = $url = trim($url);
         $targetBlank = $this->getParam('targetBlank');
         $nofollow = $this->getParam('nofollow');
@@ -325,11 +337,12 @@ class Config extends \WikiRenderer\Config {
 
     /**
      * Add a TOC entry.
-     * @param	int	$depth		Depth in the tree.
-     * @param	string	$title		Name of the new entry.
-     * @param	string	$identifier	Identifier of the new entry.
+     * @param    int $depth Depth in the tree.
+     * @param    string $title Name of the new entry.
+     * @param    string $identifier Identifier of the new entry.
      */
-    public function addTocEntry($depth, $title, $identifier) {
+    public function addTocEntry($depth, $title, $identifier)
+    {
         if (!isset($this->_toc))
             $this->_toc = array();
         $this->_addTocSubEntry($depth, $depth, $title, $identifier, $this->_toc);
@@ -338,10 +351,11 @@ class Config extends \WikiRenderer\Config {
     /**
      * Returns the TOC content. By default, the rendered HTML is returned, but the
      * raw TOC tree is available.
-     * @param	bool	$raw	(optional) Set to True to get the raw TOC tree. False by default.
-     * @return	string|array	The TOC rendered HTML or the TOC tree.
+     * @param    bool $raw (optional) Set to True to get the raw TOC tree. False by default.
+     * @return    string|array    The TOC rendered HTML or the TOC tree.
      */
-    public function getToc($raw = false) {
+    public function getToc($raw = false)
+    {
         if ($raw === true)
             return ($this->_toc['sub']);
         $html = "<b>On this page:</b>" . $this->_getRenderedToc($this->_toc['sub']);
@@ -352,12 +366,13 @@ class Config extends \WikiRenderer\Config {
 
     /**
      * Add a footnote.
-     * @param	string	$text	Footnote's text.
-     * @param	string	$label	(optionnel) Footnote's label. If not given, an auto-incremented
-     * 				number will be used.
-     * @return	array	Hash with 'id' and 'index' keys.
+     * @param    string $text Footnote's text.
+     * @param    string $label (optionnel) Footnote's label. If not given, an auto-incremented
+     *                number will be used.
+     * @return    array    Hash with 'id' and 'index' keys.
      */
-    public function addFootnote($text, $label = null) {
+    public function addFootnote($text, $label = null)
+    {
         if (isset($this->_parentConfig))
             return ($this->_parentConfig->addFootnote($text, $label));
         if (is_null($label))
@@ -371,17 +386,18 @@ class Config extends \WikiRenderer\Config {
         return (array(
             'id' => $this->getParam('footnotesPrefix') . "-$index",
             'index' => $index
-                ));
+        ));
     }
 
     /**
      * Returns the footnotes content. By default, the rendered HTML is returned, but the
      * raw list of footnotes is available.
-     * @param	bool	$raw	(optional) Set to True to get the raw list of footnotes.
-     * 				False by default.
-     * @return	string|array	The footnotes' rendered HTML or the list of footnotes.
+     * @param    bool $raw (optional) Set to True to get the raw list of footnotes.
+     *                False by default.
+     * @return    string|array    The footnotes' rendered HTML or the list of footnotes.
      */
-    public function getFootnotes($raw = false) {
+    public function getFootnotes($raw = false)
+    {
         if ($raw === true)
             return ($this->_footnotes);
         if (empty($this->_footnotes))
@@ -407,13 +423,14 @@ class Config extends \WikiRenderer\Config {
 
     /**
      * Add a sub-TOC entry.
-     * @param	int	$depth		Depth in the tree.
-     * @param	int	$level		Level of the title.
-     * @param	string	$title		Name of the new entry.
-     * @param	string	$identifier	Identifier of the new entry.
-     * @param	array	$list		List of sibbling nodes.
+     * @param    int $depth Depth in the tree.
+     * @param    int $level Level of the title.
+     * @param    string $title Name of the new entry.
+     * @param    string $identifier Identifier of the new entry.
+     * @param    array $list List of sibbling nodes.
      */
-    private function _addTocSubEntry($depth, $level, $title, $identifier, &$list) {
+    private function _addTocSubEntry($depth, $level, $title, $identifier, &$list)
+    {
         if (!isset($list['sub']))
             $list['sub'] = array();
         $offset = count($list['sub']);
@@ -432,11 +449,12 @@ class Config extends \WikiRenderer\Config {
 
     /**
      * Returns a chunk of rendered TOC.
-     * @param	array	$list	List of TOC entries.
-     * @param	int	$depth	(optional) Depth in the tree. 1 by default.
-     * @return	string	The rendered chunk.
+     * @param    array $list List of TOC entries.
+     * @param    int $depth (optional) Depth in the tree. 1 by default.
+     * @return    string    The rendered chunk.
      */
-    private function _getRenderedToc($list, $depth = 1) {
+    private function _getRenderedToc($list, $depth = 1)
+    {
         if (!isset($list) || empty($list))
             return ('');
         $html = "<ul class=\"toc-list toc-list$depth\">\n";
@@ -451,15 +469,17 @@ class Config extends \WikiRenderer\Config {
         return ($html);
     }
 
-    public function setPWE(\PWE\Core\PWECore $pwe) {
+    public function setPWE(PWECore $pwe)
+    {
         $this->PWE = $pwe;
     }
 
     /**
-     * 
-     * @return \PWE\Core\PWECore
+     *
+     * @return PWECore
      */
-    public function getPWE() {
+    public function getPWE()
+    {
         return $this->PWE;
     }
 

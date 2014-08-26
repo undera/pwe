@@ -10,6 +10,9 @@ class PWEURL implements SmartyAssociative
 {
 
     private $URLArrayMatched = array();
+    private $URLArray;
+    private $URL;
+    private $baseDirectory;
 
     public function __construct($uri)
     {

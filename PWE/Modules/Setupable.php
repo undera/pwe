@@ -8,7 +8,8 @@ use PWE\Core\PWECore;
  *
  * @author undera
  */
-interface Setupable {
+interface Setupable
+{
 
     public static function setup(PWECore $pwe, array &$registerData);
 }

@@ -4,7 +4,8 @@ namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
 
 use WikiRenderer\Block;
 
-class Pre extends Block {
+class Pre extends Block
+{
 
     public $type = 'pre';
     protected $regexp = "";
@@ -12,7 +13,8 @@ class Pre extends Block {
     protected $_closeTag = '</pre>';
     private $inBlock = false;
 
-    public function getRenderedLine() {
+    public function getRenderedLine()
+    {
         $text = $this->_detectMatch[0];
         if (strstr($text, '{{{') || strstr($text, '}}}')) {
             return '';
@@ -21,7 +23,8 @@ class Pre extends Block {
         }
     }
 
-    public function detect($string, $inBlock = false) {
+    public function detect($string, $inBlock = false)
+    {
         if ($this->inBlock) {
             $this->regexp = '/}}}/';
             if (parent::detect($string, $inBlock)) {
@@ -42,7 +45,8 @@ class Pre extends Block {
         }
     }
 
-    public function mustClone() {
+    public function mustClone()
+    {
         return false;
     }
 

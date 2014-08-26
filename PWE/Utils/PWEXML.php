@@ -338,7 +338,7 @@ class PWEXML extends PWEXMLFunctions implements Setupable
 
         // сохраняем файлик
         if ($filename) {
-            $f = @fopen($filename, 'w+');
+            $f = fopen($filename, 'w+');
             if ($f) {
                 $res = "<?php // $comment\n";
                 $res .= "\$arr=array();\n";

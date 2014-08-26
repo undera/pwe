@@ -4,7 +4,8 @@ namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
 
 use WikiRenderer\Block;
 
-class Table extends Block {
+class Table extends Block
+{
 
     public $type = 'table';
     protected $regexp = "/^(!!|\|\|) ?(.*)/";
@@ -12,20 +13,23 @@ class Table extends Block {
     protected $_closeTag = '</table>';
     protected $_colcount = 0;
 
-    public function open() {
+    public function open()
+    {
         $this->_colcount = 0;
         return ($this->_openTag);
     }
 
-    public function getRenderedLine() {
+    public function getRenderedLine()
+    {
         $str = '';
         $text = ' ' . $this->_detectMatch[0];
         $prevPos = 0;
         $prevType = '';
         $loop = true;
         while ($loop) {
-            if ($prevPos>=strlen($text) || (($posTh = strpos($text, '!!', $prevPos)) === false &&
-                    ($posTd = strpos($text, '||', $prevPos)) === false)) {
+            if ($prevPos >= strlen($text) || (($posTh = strpos($text, '!!', $prevPos)) === false &&
+                    ($posTd = strpos($text, '||', $prevPos)) === false)
+            ) {
                 $posTh = false;
                 $posTd = strlen($text);
                 $loop = false;

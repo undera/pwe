@@ -4,7 +4,8 @@ namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
 
 use WikiRenderer\TagXhtml;
 
-class Link extends TagXhtml {
+class Link extends TagXhtml
+{
 
     protected $name = 'a';
     public $beginTag = '[';
@@ -13,7 +14,8 @@ class Link extends TagXhtml {
     public $separators = array(' ');
     static $img_exts = array('png', 'jpg', 'gif');
 
-    public function getContent() {
+    public function getContent()
+    {
         // management of single parameter
         if ($this->separatorCount == 0) {
             $this->separatorCount = 1;
@@ -26,7 +28,7 @@ class Link extends TagXhtml {
             $this->contents[1] = implode($this->separators[0], array_slice($this->contents, 1));
         }
 
-        $parts=explode('.', $this->contents[1]);
+        $parts = explode('.', $this->contents[1]);
         $ext_label = strtolower(end($parts));
         if (in_array($ext_label, self::$img_exts)) {
             $this->contents[1] = '<img src="' . $this->contents[1] . '" alt=""/>';
@@ -53,7 +55,8 @@ class Link extends TagXhtml {
             if (!isset($targetBlank) || !isset($nofollow)) {
                 // no targetBlank behaviour defined, check the link
                 if ((isset($href[0]) && isset($href[1]) && $href[0] === '/' && $href[1] === '/') ||
-                        strpos($href, '://') !== false) {
+                    strpos($href, '://') !== false
+                ) {
                     if (!isset($targetBlank))
                         $targetBlank = true;
                     if (!isset($nofollow))
@@ -73,11 +76,13 @@ class Link extends TagXhtml {
         }
     }
 
-    public function isOtherTagAllowed() {
+    public function isOtherTagAllowed()
+    {
         return false;
     }
 
-    protected function _doEscape($string) {
+    protected function _doEscape($string)
+    {
         return $string;
     }
 
@@ -86,7 +91,8 @@ class Link extends TagXhtml {
      * and breaks links with params
      */
 
-    public function getContent_copied() {
+    public function getContent_copied()
+    {
         $attr = '';
         $cntattr = count($this->attribute);
         $count = ($this->separatorCount >= $cntattr) ? ($cntattr - 1) : $this->separatorCount;
@@ -96,7 +102,7 @@ class Link extends TagXhtml {
             if (in_array($this->attribute[$i], $this->ignoreAttribute))
                 continue;
             if ($this->attribute[$i] != '$$') {
-                $attr.= ' ' . $this->attribute[$i] . '="' . $this->wikiContentArr[$i] . '"';
+                $attr .= ' ' . $this->attribute[$i] . '="' . $this->wikiContentArr[$i] . '"';
             } else {
                 $content = $this->contents[$i];
             }

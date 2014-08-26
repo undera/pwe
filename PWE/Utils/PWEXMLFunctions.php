@@ -4,11 +4,6 @@ namespace PWE\Utils;
 
 use PWE\Core\PWELogger;
 
-/**
- * Description of PWEXMLFunctions
- *
- * @author undera
- */
 abstract class PWEXMLFunctions
 {
 
@@ -17,7 +12,7 @@ abstract class PWEXMLFunctions
      * $name и значением этого атрибута $val и возвращает его индекс
      * @param $nodes array массив узлов для поиска
      * @param $name string имя атрибута
-     * $param $val string значение атрибута
+     * @param $val string значение атрибута
      * @return integer Индекс найденного узла. Eсли ничего не найдено - возвращаем -1
      */
     public static function findNodeWithAttributeValue(&$nodes, $name, $val)

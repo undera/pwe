@@ -2,8 +2,6 @@
 
 namespace PWE\Auth;
 
-use PWE\Utils\FilesystemHelper;
-use PWE\Core\PWECore;
 use PWE\Core\PWELogger;
 
 /**
@@ -11,21 +9,26 @@ use PWE\Core\PWELogger;
  *
  * @author undera
  */
-final class NoneAuthController extends PWEUserAuthController {
+final class NoneAuthController extends PWEUserAuthController
+{
 
-    public function getUserID() {
+    public function getUserID()
+    {
         return false;
     }
 
-    public function handleAuth() {
+    public function handleAuth()
+    {
         PWELogger::debug("None auth");
     }
 
-    public function getUserName() {
+    public function getUserName()
+    {
         return "No authentication required";
     }
 
-    public function handleLogout() {
+    public function handleLogout()
+    {
         PWELogger::debug("None logout");
     }
 

@@ -2,7 +2,8 @@
 
 namespace PWE\Modules;
 
-interface BreadcrumbsGenerator {
+interface BreadcrumbsGenerator
+{
 
     public function generateBreadcrumbs();
 }

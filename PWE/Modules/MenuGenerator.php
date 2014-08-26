@@ -2,7 +2,8 @@
 
 namespace PWE\Modules;
 
-interface MenuGenerator {
+interface MenuGenerator
+{
 
     public function getMenuLevel($level);
 }

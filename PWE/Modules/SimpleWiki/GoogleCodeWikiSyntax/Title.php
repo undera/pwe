@@ -4,13 +4,15 @@ namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
 
 use WikiRenderer\Block;
 
-class Title extends Block {
+class Title extends Block
+{
 
     public $type = 'title';
     protected $regexp = "/^(={1,6})(.*)\s*$/";
     protected $_closeNow = true;
 
-    public function getRenderedLine() {
+    public function getRenderedLine()
+    {
         $equals = $this->_detectMatch[1];
         $text = trim($this->_detectMatch[2]);
         $level = strlen($equals);

@@ -123,7 +123,7 @@ class PWEDoctrineWrapper extends PWEModule implements Setupable, PWECMDJob
 
     public function soakFile($filename)
     {
-        PWELogger::info('Processing SQL-file: %s' , $filename);
+        PWELogger::info('Processing SQL-file: %s', $filename);
 
         $sql = file_get_contents($filename);
         $splitter = strstr($sql, ";\r\n") ? ";\r\n" : ";\n";

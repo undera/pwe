@@ -2,13 +2,15 @@
 
 namespace PWE\Modules\SubPagesList;
 
-use PWE\Modules\PWEModule;
 use PWE\Modules\Outputable;
+use PWE\Modules\PWEModule;
 
-class SubPagesList extends PWEModule implements Outputable {
-    const DEFAULT_COLUMNS=3;
+class SubPagesList extends PWEModule implements Outputable
+{
+    const DEFAULT_COLUMNS = 3;
 
-    public function process() {
+    public function process()
+    {
         $smarty = $this->PWE->getSmarty();
         $node = $this->PWE->getNode();
         $smarty->assign('subpages', $node['!c']['url']);

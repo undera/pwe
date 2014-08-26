@@ -2,7 +2,8 @@
 
 namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
 
-class Em extends \WikiRenderer\TagXhtml {
+class Em extends \WikiRenderer\TagXhtml
+{
 
     protected $name = 'em';
     public $beginTag = "_";
