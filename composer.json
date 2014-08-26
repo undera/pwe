@@ -11,8 +11,8 @@
     ],
     "require": {
         "php": ">=5.3.0",
-        "doctrine/dbal": "2.3.4",
-        "smarty/smarty": "v3.1.18",
+        "doctrine/dbal": "2.4.2",
+        "smarty/smarty": "v3.1.19",
         "amaury/wikirenderer": "dev-master"
     }
 }
