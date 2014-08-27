@@ -4,7 +4,7 @@ namespace PWE\Core;
 
 use PWE\Modules\CMDLineModulesManager;
 
-class CMDLinePWECore extends AbstractPWECore
+class CMDLinePWECore extends PWECore
 {
 
     public function __construct()
@@ -16,7 +16,7 @@ class CMDLinePWECore extends AbstractPWECore
         $this->createModulesManager($mgr);
     }
 
-    public function getNode()
+    public function &getNode()
     {
         return array('!a' => array('move_to_dir' => '/tmp'));
     }

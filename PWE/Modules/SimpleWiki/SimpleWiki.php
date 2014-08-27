@@ -4,22 +4,22 @@ namespace PWE\Modules\SimpleWiki;
 
 use GlobIterator;
 use PWE\Core\PWELogger;
-use PWE\Core\WebPWECore;
+use PWE\Core\PWECore;
 use PWE\Exceptions\HTTP3xxException;
 use PWE\Exceptions\HTTP4xxException;
 use PWE\Exceptions\HTTP5xxException;
 use PWE\Lib\Smarty\SmartyWrapper;
 use PWE\Modules\Outputable;
 use PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Config;
-use PWE\Modules\WebPWEModule;
+use PWE\Modules\PWEModule;
 use WikiRenderer\Renderer;
 
-class SimpleWiki extends WebPWEModule implements Outputable
+class SimpleWiki extends PWEModule implements Outputable
 {
 
     private $config;
 
-    public function __construct(WebPWECore $core)
+    public function __construct(PWECore $core)
     {
         parent::__construct($core);
         $this->config = new Config();

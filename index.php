@@ -14,7 +14,7 @@ use PWE\Core\CMDLinePWECore;
 use PWE\Core\PWEAutoloader;
 use PWE\Core\PWECMDJob;
 use PWE\Core\PWELogger;
-use PWE\Core\WebPWECore;
+use PWE\Core\PWECore;
 use PWE\Exceptions\PHPFatalException;
 
 require_once __DIR__ . '/PWE/Modules/Setupable.php';
@@ -27,7 +27,7 @@ require_once __DIR__ . '/PWE/Utils/PWEXML.php';
 require_once __DIR__ . '/PWE/Modules/PWEModule.php';
 require_once __DIR__ . '/PWE/Exceptions/PHPFatalException.php';
 
-require_once __DIR__ . '/PWE/Core/AbstractPWECore.php';
+require_once __DIR__ . '/PWE/Core/PWECore.php';
 
 require_once __DIR__ . '/PWE/Core/PWELogger.php';
 require_once __DIR__ . '/PWE/Core/PWEAutoloader.php';
@@ -64,10 +64,9 @@ if (php_sapi_name() == 'cli') {
 } else {
     require_once __DIR__ . '/PWE/Lib/Smarty/SmartyAssociative.php';
     require_once __DIR__ . '/PWE/Modules/Outputable.php';
-    require_once __DIR__ . '/PWE/Modules/WebPWEModule.php';
     require_once __DIR__ . '/PWE/Core/PWEURL.php';
     require_once __DIR__ . '/PWE/Auth/PWEUserAuthController.php';
-    $PWECore = new WebPWECore();
+    $PWECore = new PWECore();
     PWEAutoloader::setPWE($PWECore);
     try {
         require_once dirname($_SERVER['SCRIPT_FILENAME']) . '/cfg.php';

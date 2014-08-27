@@ -3,9 +3,9 @@
 namespace PWE\Modules\SubPagesList;
 
 use PWE\Modules\Outputable;
-use PWE\Modules\WebPWEModule;
+use PWE\Modules\PWEModule;
 
-class SubPagesList extends WebPWEModule implements Outputable
+class SubPagesList extends PWEModule implements Outputable
 {
     const DEFAULT_COLUMNS = 3;
 

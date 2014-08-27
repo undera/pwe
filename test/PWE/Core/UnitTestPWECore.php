@@ -6,7 +6,7 @@ use PWE\Modules\PWEModulesManager;
 use PWE\Modules\TestPWEModulesManager;
 use PWE\Utils\FilesystemHelper;
 
-class UnitTestPWECore extends WebPWECore
+class UnitTestPWECore extends PWECore
 {
 
     public function setStructFile($param0)

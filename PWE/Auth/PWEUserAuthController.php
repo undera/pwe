@@ -3,17 +3,17 @@
 namespace PWE\Auth;
 
 use PWE\Core\PWELogger;
-use PWE\Core\WebPWECore;
+use PWE\Core\PWECore;
 use PWE\Exceptions\HTTP5xxException;
 use PWE\Lib\Smarty\SmartyAssociative;
-use PWE\Modules\WebPWEModule;
+use PWE\Modules\PWEModule;
 
 /**
  * Description of PWEUserAuthController
  *
  * @author undera
  */
-abstract class PWEUserAuthController extends WebPWEModule implements SmartyAssociative
+abstract class PWEUserAuthController extends PWEModule implements SmartyAssociative
 {
 
     public static function getSmartyAllowedMethods()
@@ -30,10 +30,10 @@ abstract class PWEUserAuthController extends WebPWEModule implements SmartyAssoc
     abstract public function handleLogout();
 
     /**
-     * @param \PWE\Core\WebPWECore $pwe
+     * @param \PWE\Core\PWECore $pwe
      * @return PWEUserAuthController
      */
-    public static function getAuthControllerInstance(WebPWECore $pwe)
+    public static function getAuthControllerInstance(PWECore $pwe)
     {
         try {
             $node = $pwe->getNode();

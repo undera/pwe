@@ -5,9 +5,9 @@ namespace PWE\Modules\SmartyPage;
 use PWE\Core\PWELogger;
 use PWE\Exceptions\HTTP4xxException;
 use PWE\Modules\Outputable;
-use PWE\Modules\WebPWEModule;
+use PWE\Modules\PWEModule;
 
-class SmartyPage extends WebPWEModule implements Outputable
+class SmartyPage extends PWEModule implements Outputable
 {
 
     public function process()
