@@ -69,7 +69,7 @@ abstract class PWEAutoloader
 
         if (self::$cache) {
             if (isset(self::$cache[$name])) {
-                return self::loadFile(self::$cache[$name]);
+                return self::loadFile(self::$cache[$name], $name);
             }
         }
         return false;
@@ -186,22 +186,22 @@ abstract class PWEAutoloader
     private static function load2Variants($name, $path)
     {
         $nameChanged = str_replace("\\", "/", $name);
-        if (self::loadFile($path . '/' . $nameChanged . ".class.php")) {
+        if (self::loadFile($path . '/' . $nameChanged . ".class.php", $name)) {
             self::putToCache($name, $path . '/' . $nameChanged . ".class.php");
             return true;
         }
-        if (self::loadFile($path . '/' . $nameChanged . ".php")) {
+        if (self::loadFile($path . '/' . $nameChanged . ".php", $name)) {
             self::putToCache($name, $path . '/' . $nameChanged . ".php");
             return true;
         }
-        if (self::loadFile($path . '/' . strtolower($nameChanged) . ".php")) {
+        if (self::loadFile($path . '/' . strtolower($nameChanged) . ".php", $name)) {
             self::putToCache($name, $path . '/' . strtolower($nameChanged) . ".php");
             return true;
         }
 
         if (!strstr($nameChanged, '/')) {
             $nameChangedUnderscores = str_replace("_", "/", $name);
-            if (self::loadFile($path . '/' . $nameChangedUnderscores . ".php")) {
+            if (self::loadFile($path . '/' . $nameChangedUnderscores . ".php", $name)) {
                 self::putToCache($name, $path . '/' . $nameChangedUnderscores . ".php");
                 return true;
             }
@@ -209,17 +209,18 @@ abstract class PWEAutoloader
         return false;
     }
 
-    private static function loadFile($fname)
+    private static function loadFile($fname, $name)
     {
         $fname = str_replace("\\", "/", $fname);
         if (is_file($fname)) {
 
             PWELogger::debug("Autoloading %s", $fname);
             require_once $fname;
-            return true;
-        } else {
-            return false;
+            if (class_exists($name) || interface_exists($name)) {
+                return true;
+            }
         }
+        return false;
     }
 
     private static function getCacheFile()
