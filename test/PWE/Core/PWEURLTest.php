@@ -94,30 +94,57 @@ class PWEURLTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFullAsArray()
     {
-        $obj = new PWEURL('/1/2/3/', $this->struct);
-        $this->assertEquals(array(''), $obj->getFullAsArray());
+        $n3 = array('!a' => array('link' => '3'));
+        $n2 = array('!a' => array('link' => '2'));
+        $n2['!c']['url']=array($n3);
+        $n1 = array('!a' => array('link' => '1'));
+        $n1['!c']['url']=array($n2);
+        $n0 = array('!a' => array());
+        $n0['!c']['url']=array($n1);
+        $struct = array('url' => array($n0));
+        $obj = new PWEURL('/1/2/3/', $struct);
+        $this->assertEquals(array('', '1', '2', '3'), $obj->getFullAsArray());
     }
 
     public function testGetFullAsArray_trickyEnv()
     {
+        $n1 = array('!a' => array('link' => 'service'));
+        $n0 = array('!a' => array());
+        $n0['!c']['url']=array($n1);
+        $struct = array('url' => array($n0));
+
         $_SERVER["DOCUMENT_ROOT"] = '/var/www';
         $_SERVER["SCRIPT_FILENAME"] = '/usr/share/php/pwe/index.php';
-        $obj = new PWEURL('/service/', $this->struct);
+        $obj = new PWEURL('/service/', $struct);
         $this->assertEquals(array('', 'service'), $obj->getFullAsArray());
     }
 
     public function testGetFullAsArray_subdirWork()
     {
+        $n1 = array('!a' => array('link' => 'service'));
+        $n0 = array('!a' => array());
+        $n0['!c']['url']=array($n1);
+        $struct = array('url' => array($n0));
+
         $_SERVER["DOCUMENT_ROOT"] = '/var/www';
         $_SERVER["SCRIPT_FILENAME"] = '/var/www/subdir1/subdir2/index.php';
-        $obj = new PWEURL('/subdir1/subdir2/service/', $this->struct);
+        $obj = new PWEURL('/subdir1/subdir2/service/',$struct);
         $this->assertEquals(array('', 'service'), $obj->getFullAsArray());
     }
 
     public function testGetParamsAsArray()
     {
+        $n3 = array('!a' => array('link' => '3'));
+        $n2 = array('!a' => array('link' => '2'));
+        $n2['!c']['url']=array($n3);
+        $n1 = array('!a' => array('link' => '1'));
+        $n1['!c']['url']=array($n2);
+        $n0 = array('!a' => array());
+        $n0['!c']['url']=array($n1);
+        $struct = array('url' => array($n0));
+
         $_SERVER["DOCUMENT_ROOT"] = dirname($_SERVER["SCRIPT_FILENAME"]);
-        $obj = new PWEURL('/1/2/3/', $this->struct);
+        $obj = new PWEURL('/1/2/3/', $struct);
         $this->assertEquals(array('', '1', '2', '3'), $obj->getFullAsArray());
     }
 

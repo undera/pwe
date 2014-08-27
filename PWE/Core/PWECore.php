@@ -184,6 +184,9 @@ class PWECore
      */
     public function &getNode()
     {
+        if ($this->URL==null) {
+            throw new HTTP5xxException("No URL set");
+        }
         return $this->URL->getNode();
     }
 

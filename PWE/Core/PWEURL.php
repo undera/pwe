@@ -25,13 +25,12 @@ class PWEURL implements SmartyAssociative
 
         $this->node = array('!c' => $structure, '!i' => array());
         $this->recursiveNodeSearch($this->getFullAsArray());
-        PWELogger::debug("Done URL to structure matching");
+        PWELogger::debug("Done URL to structure matching: %s", $this->node['!i']);
     }
 
     private function recursiveNodeSearch(array $search_uri)
     {
         $link = reset($search_uri);
-        PWELogger::debug("Trying link: %s", $link);
 
         $ix = PWEXMLFunctions::findNodeWithAttributeValue($this->node['!c']['url'], 'link', $link);
 
@@ -41,9 +40,9 @@ class PWEURL implements SmartyAssociative
             $inherited_attrs = $this->node['!i'];
 
             $this->node = & $this->node['!c']['url'][$ix];
-            $this->node['!i'] = $inherited_attrs + (isset($this->node['!a']) ? $this->node['!a'] : array());
+            $this->node['!i'] = (isset($this->node['!a']) ? $this->node['!a'] : array()) + $inherited_attrs;
 
-            if (isset($this->node['!c']['url'])) {
+            if ($search_uri && isset($this->node['!c']['url'])) {
                 $this->recursiveNodeSearch($search_uri);
                 return;
             }
@@ -58,9 +57,9 @@ class PWEURL implements SmartyAssociative
 
             $inherited_attrs = $this->node['!i'];
             $this->node = & $this->node['!c']['params'][0];
-            $this->node['!i'] = $inherited_attrs + (isset($this->node['!a']) ? $this->node['!a'] : array());
+            $this->node['!i'] = (isset($this->node['!a']) ? $this->node['!a'] : array()) + $inherited_attrs;
 
-            if (isset($this->node['!c']['url'])) {
+            if ($search_uri && isset($this->node['!c']['url'])) {
                 $this->recursiveNodeSearch($search_uri);
                 return;
             }

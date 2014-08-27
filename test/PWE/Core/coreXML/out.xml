@@ -2,18 +2,19 @@
 
 <url inh="root" template="pwe.tpl">
     <url link='test' inh="child">
-        <url link="subnode" class="PWE\Core\TestModule">
+        <url link="subnode" class="PWE\Core\DummyModule">
         </url>
         <url link="html" class="PWE\Modules\HTMLPage\HTMLPage" src="test.html">
         </url>
     </url>
-    <url link='accept' inh="accept" accept="2" class="PWE\Core\TestModule">
+    <url link='accept' inh="accept" accept="2" class="PWE\Core\DummyModule">
     </url>
-    <url link='midaccept' class="PWE\Core\TestModule">
-        <params count="2" class="PWE\Core\TestModule">
-            <url link='trailing' class="PWE\Core\TestModule"/>
+    <url link='midaccept' class="PWE\Core\DummyModule">
+        <params count="2" class="PWE\Core\DummyModule">
+            <url link='trailing' class="PWE\Core\DummyModule"/>
         </params>
     </url>
     <url link="htmltest" class="PWE\Modules\HTMLPage\HTMLPage"/>
-    <url link="notpl" template="" class="PWE\Core\TestModule"/>
+    <url link="notpl" template="" class="PWE\Core\DummyModule"/>
+    <url link="inheritance" template="empty.tpl" class="PWE\Core\DummyModule"/>
 </url>

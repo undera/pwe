@@ -6,6 +6,8 @@ use BadFunctionCallException;
 use Exception;
 use InvalidArgumentException;
 use PWE\Exceptions\HTTP4xxException;
+use PWE\Modules\MenuGenerator;
+use PWE\Modules\Outputable;
 use PWE\Modules\PWEModule;
 use PWE\Modules\PWEModulesManager;
 use PWEUnitTests;
@@ -138,6 +140,14 @@ class PWECoreTest extends \PHPUnit_Framework_TestCase
     {
         $this->object->process('/accept/text.xml');
         $this->assertEquals("/accept:text.xml", $this->object->getContent());
+    }
+
+    public function test_Attr_Inheritance()
+    {
+        $this->object->process('/inheritance/');
+        $this->assertEquals("/inheritance:", $this->object->getContent());
+        $node=$this->object->getNode();
+        $this->assertEquals("empty.tpl", $node['!i']['template']);
     }
 
     public function testSetURL_AcceptParamsFile_at_root()
@@ -292,8 +302,20 @@ class PWECoreImpl extends PWECore
 }
 
 
-class DummyModule extends PWEModule
+class DummyModule extends PWEModule implements Outputable, MenuGenerator
 {
+    public function process()
+    {
+        $smarty = $this->PWE->getSmarty();
+        $smarty->setTemplateFile(__DIR__ . '/flat.tpl');
+        $smarty->assign('content', implode('/', $this->PWE->getURL()->getMatchedAsArray()) . ':' . implode('/', $this->PWE->getURL()->getParamsAsArray()));
+        $this->PWE->addContent($smarty);
+    }
+
+    public function getMenuLevel($level)
+    {
+
+    }
 }
 
 ?>

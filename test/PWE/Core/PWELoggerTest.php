@@ -30,7 +30,7 @@ class PWELoggerTest extends \PHPUnit_Framework_TestCase
     {
         PWELogger::debug("Debugging");
         PWELogger::debug("Debugging: %s", array(new \DateTime()));
-        PWELogger::debug("Debugging: %s", new PWECoreEmul());
+        PWELogger::debug("Debugging: %s", new PWECore());
     }
 
     public function testInfo()
