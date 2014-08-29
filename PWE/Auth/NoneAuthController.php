@@ -12,6 +12,11 @@ use PWE\Core\PWELogger;
 final class NoneAuthController extends PWEUserAuthController
 {
 
+    public static function getClassName()
+    {
+        return __CLASS__;
+    }
+
     public function getUserID()
     {
         return false;

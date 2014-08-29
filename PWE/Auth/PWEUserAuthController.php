@@ -2,8 +2,8 @@
 
 namespace PWE\Auth;
 
-use PWE\Core\PWELogger;
 use PWE\Core\PWECore;
+use PWE\Core\PWELogger;
 use PWE\Exceptions\HTTP5xxException;
 use PWE\Lib\Smarty\SmartyAssociative;
 use PWE\Modules\PWEModule;
@@ -43,7 +43,10 @@ abstract class PWEUserAuthController extends PWEModule implements SmartyAssociat
 
         if (!isset($node['!i']['authController']) || $node['!i']['authController'] == 'none')
             return new NoneAuthController($pwe);
-        PWELogger::info('Page requires auth: %s', $node['!i']['authController']);
+
+        if ($node['!i']['authController'] != NoneAuthController::getClassName()) {
+            PWELogger::info('Page requires auth: %s', $node['!i']['authController']);
+        }
         return new $node['!i']['authController']($pwe);
     }
 
