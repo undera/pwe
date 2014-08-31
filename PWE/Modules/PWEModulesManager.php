@@ -126,7 +126,7 @@ class PWEModulesManager implements PWECMDJob
         } catch (PHPFatalException $e) {
             PWELogger::warn("Failed cleaning empty nodes: %s", $e);
         }
-        PWELogger::warn("Saving registry file: %s", $this->registryFile);
+        PWELogger::info("Saving registry file: %s", $this->registryFile);
         $XML = new PWEXML($this->PWE->getTempDirectory());
         $XML->ArrayToFile($this->registryArray, $this->registryFile);
         $XML->FileToArray($this->registryFile, $this->registryArray);
