@@ -184,7 +184,7 @@ class PWECore
      */
     public function &getNode()
     {
-        if ($this->URL==null) {
+        if ($this->URL == null) {
             throw new HTTP5xxException("No URL set");
         }
         return $this->URL->getNode();
@@ -318,6 +318,11 @@ class PWECore
     public function isStatusSent()
     {
         return $this->statusSent;
+    }
+
+    public function sendHTTPHeader($header, $replace = null, $http_response_code = null)
+    {
+        header($header, $replace, $http_response_code);
     }
 
     public function getErrorPage(\Exception $e)
