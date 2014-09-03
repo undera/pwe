@@ -33,6 +33,14 @@ abstract class PWEAutoloader
         spl_autoload_register("PWE\Core\PWEAutoloader::doIt");
     }
 
+    /**
+     * @return PWECore
+     */
+    public static function getPWE()
+    {
+        return self::$core;
+    }
+
     public static function setPWE(PWECore $pwe)
     {
         PWELogger::debug("Set PWE core");

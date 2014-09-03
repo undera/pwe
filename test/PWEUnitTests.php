@@ -1,7 +1,8 @@
 <?php
 
-use PWE\Core\PWELogger;
 use PWE\Core\PWEAutoloader;
+use PWE\Core\PWECore;
+use PWE\Core\PWELogger;
 use PWE\Exceptions\PHPFatalException;
 
 error_reporting(E_ALL ^ E_NOTICE);
@@ -17,8 +18,6 @@ PWELogger::setLevel(PWELogger::DEBUG);
 PWEAutoloader::addSourceRoot(__DIR__);
 PWEAutoloader::addSourceRoot(__DIR__ . '/..');
 PWEAutoloader::addSourceRoot(__DIR__ . '/../../vendor/');
-if (is_dir(__DIR__ . '/../Lib'))
-    PWEAutoloader::addSourceRoot(__DIR__ . '/../Lib');
 PWEAutoloader::addSourceRoot('/usr/share/php');
 PWEAutoloader::activate();
 
@@ -32,16 +31,19 @@ $_SERVER["DOCUMENT_ROOT"] = dirname($_SERVER["SCRIPT_FILENAME"]);
 
 //require_once __DIR__ . '/PWE/Core/UnitTestPWECore.php';
 
-class PWEUnitTests {
+class PWEUnitTests
+{
 
-    public static function dumpArrayToFile($arr2, $toFile) {
+    public static function dumpArrayToFile($arr2, $toFile)
+    {
         ob_start();
         print_r($arr2);
         file_put_contents($toFile, ob_get_contents());
         ob_end_clean();
     }
 
-    static function utGetCleanTMP() {
+    static function utGetCleanTMP()
+    {
         $tmpfile = tempnam("dummy", "");
         $path = dirname($tmpfile) . '/pweTest_' . time();
         if (!is_dir($path))
@@ -50,8 +52,10 @@ class PWEUnitTests {
         return $path;
     }
 
-    static function getTestPWECore() {
+    static function getTestPWECore()
+    {
         $pwe = new PWECore();
+        PWEAutoloader::setPWE($pwe);
         $temp = PWEUnitTests::utGetCleanTMP();
         $pwe->setDataDirectory($temp);
         $pwe->setTempDirectory($temp);
@@ -62,9 +66,11 @@ class PWEUnitTests {
 
 }
 
-class ExceptionExpected extends Exception {
+class ExceptionExpected extends Exception
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct("Exception expected");
     }
 
