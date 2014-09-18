@@ -385,7 +385,7 @@ class PWECore
             return array();
         } else {
             $levelCount = 0;
-            $current = & $this->siteStructure['url'];
+            $current = &$this->siteStructure['url'];
             while ($levelCount <= $level) {
                 $pos = PWEXMLFunctions::findNodeWithAttributeValue($current, 'link', $matched[$levelCount]);
                 if ($pos < 0) {
@@ -399,7 +399,7 @@ class PWECore
                 if ($levelCount == $level)
                     break;
 
-                $current = & $current[$pos]['!c']['url'];
+                $current = &$current[$pos]['!c']['url'];
                 $levelCount++;
             }
             //PWELogger::debug("Final array: ", $current);
@@ -459,7 +459,15 @@ class PWECore
         }
     }
 
+    public function startSession()
+    {
+        session_start();
+    }
 
+    public function endSession()
+    {
+        session_destroy();
+    }
 }
 
 ?>
