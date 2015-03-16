@@ -13,8 +13,8 @@ use InvalidArgumentException;
 use PWE\Core\CMDLinePWECore;
 use PWE\Core\PWEAutoloader;
 use PWE\Core\PWECMDJob;
-use PWE\Core\PWELogger;
 use PWE\Core\PWECore;
+use PWE\Core\PWELogger;
 use PWE\Exceptions\PHPFatalException;
 
 require_once __DIR__ . '/PWE/Modules/Setupable.php';
@@ -41,18 +41,19 @@ if (php_sapi_name() == 'cli') {
     $opts = getopt($shortopts);
 
     $pwe = new CMDLinePWECore();
-    if ($opts['c']) {
+    if (isset($opts['c'])) {
         $PWECore = $pwe;
+        PWELogger::debug("CMDLineCore: %s", $PWECore);
         require $opts['c'];
     }
 
-    if ($opts['r']) {
+    if (isset($opts['r'])) {
         $pwe->getModulesManager()->setRegistryFile($opts['r']);
     }
 
     PWEAutoloader::setPWE($pwe);
 
-    if (!$opts['j']) {
+    if (!isset($opts['j'])) {
         throw new InvalidArgumentException("-j option with full job class name required");
     }
 
