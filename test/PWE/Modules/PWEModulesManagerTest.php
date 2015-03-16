@@ -27,6 +27,13 @@ class PWEModulesManagerTest extends \PHPUnit_Framework_TestCase
         $this->object->getModuleSettings(__CLASS__);
     }
 
+    public function testSetModuleSettings()
+    {
+        $this->object->setModuleSettings(__CLASS__, array('!a' => array('k' => 'v')));
+        $settings = $this->object->getModuleSettings(__CLASS__);
+        $this->assertEquals('v', $settings['!a']['k']);
+    }
+
     public function testGetSingleInstanceModule()
     {
         $this->object->getSingleInstanceModule(__CLASS__);

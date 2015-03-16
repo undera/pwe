@@ -45,27 +45,26 @@ class PWEModulesManager implements PWECMDJob
 
     protected function &getModuleNode($name)
     {
-        $node = & $this->registryArray['registry'][0]['!c']['classPaths'][0];
+        $node = &$this->registryArray['registry'][0]['!c']['classPaths'][0];
         $path = explode("\\", $name);
         foreach ($path as $component) {
             if (!$component)
                 continue;
 
             if (!$node['!c'][$component][0]) {
-                $node['!c'][$component][0] = array();
+                $node['!c'][$component][0] = array('!p' => &$node);
             }
 
-            $node = & $node['!c'][$component][0];
+            $node = &$node['!c'][$component][0];
         }
 
-        //print_r($this->registryArray);
         return $node;
     }
 
     public function registerModule($name)
     {
         PWELogger::debug("Registering module %s", $name);
-        $mod = & $this->getModuleNode($name);
+        $mod = &$this->getModuleNode($name);
 
         try {
             $modClass = new ReflectionClass($name);
@@ -83,11 +82,20 @@ class PWEModulesManager implements PWECMDJob
         }
     }
 
-    // FIXME: get settings not consistent with set settings
     public function &getModuleSettings($name)
     {
-        $mod = & $this->getModuleNode($name);
+        $mod = &$this->getModuleNode($name);
         return $mod;
+    }
+
+    public function setModuleSettings($name, $settings)
+    {
+        $mod = &$this->getModuleNode($name);
+        $parent = $mod['!p'];
+        $parts = explode('\\', $name);
+        $className = end($parts);
+        $parent['!c'][$className][0] = $settings;
+        $this->saveRegistry();
     }
 
     /**
