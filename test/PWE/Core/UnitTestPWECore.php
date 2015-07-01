@@ -4,7 +4,6 @@ namespace PWE\Core;
 
 use PWE\Modules\PWEModulesManager;
 use PWE\Modules\TestPWEModulesManager;
-use PWE\Utils\FilesystemHelper;
 
 class UnitTestPWECore extends PWECore
 {
@@ -18,7 +17,7 @@ class UnitTestPWECore extends PWECore
     public function __construct()
     {
         parent::__construct();
-        $tmp=\PWEUnitTests::utGetCleanTMP();
+        $tmp = \PWEUnitTests::utGetCleanTMP();
 
         $this->setDataDirectory($tmp);
         $this->setXMLDirectory($tmp);
