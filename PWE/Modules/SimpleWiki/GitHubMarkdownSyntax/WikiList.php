@@ -13,7 +13,8 @@ class WikiList extends Block
     protected $_firstTagLen;
     protected $regexp = self::REGEXP;
     private $ordered;
-    const REGEXP = '/^( )+([0-9]+\.)\s*(.*)/';
+    private $level;
+    const REGEXP = '/^(\s*)([0-9]+\.|\-|\*|\+)\s*([^*]*)/';
 
     /**
      * test si la chaine correspond au debut ou au contenu d'un bloc
@@ -23,12 +24,14 @@ class WikiList extends Block
      */
     public function detect($string, $inBlock = false)
     {
-        if (!preg_match($this->regexp, $string, $this->_detectMatch))
+        if (!preg_match($this->regexp, $string, $this->_detectMatch)) {
             return (0);
-        if ($inBlock !== true && ((substr($string, 0, 2) == '**' && strpos($string, '**', 2) !== false) ||
-                (substr($string, 0, 2) == '##' && strpos($string, '##', 2) !== false))
-        )
-            return (0);
+        }
+
+        if ($inBlock) {
+
+        }
+
         return (1);
     }
 
@@ -37,7 +40,8 @@ class WikiList extends Block
         $this->_previousTag = $this->_detectMatch[1];
         $this->_firstTagLen = strlen($this->_previousTag);
         $this->_firstItem = true;
-        if (substr($this->_detectMatch[2], -1, 1) == '#') {
+        $char = substr($this->_detectMatch[2], -1, 1);
+        if (!in_array($char, array('*', '-', '+'))) {
             $this->ordered = true;
             return ("<ol>\n");
         } else {
@@ -53,20 +57,19 @@ class WikiList extends Block
 
     public function getRenderedLine()
     {
-        $t = $this->_previousTag;
-        $d = strlen($t) - strlen($this->_detectMatch[1]);
+        $indent = strlen($this->_detectMatch[1]) - strlen(ltrim($this->_detectMatch[1]));
         $str = '';
-        if ($d > 0) {
-            $str .= $this->ordered ? "</li></ol>\n" : "</li></ul>\n";
+        if ($indent < $this->level) {
+            $str .= $this->close();
             $str .= "</li>\n<li>";
-            $this->_previousTag = substr($this->_previousTag, 0, -$d);
-        } else if ($d < 0) {
-            $this->_previousTag .= ""; // FIXME: what was here?
-            $str = $this->ordered ? "<ol><li>" : "<ul><li>";
+        } else if ($indent > $this->level) {
+            $str = $this->open().'<li>';
         } else {
             $str = $this->_firstItem ? '<li>' : "</li>\n<li>";
         }
         $this->_firstItem = false;
+
+        $this->level = $indent;
         return ($str . $this->_renderInlineTag($this->_detectMatch[3]));
     }
 
