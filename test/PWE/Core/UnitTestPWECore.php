@@ -18,9 +18,7 @@ class UnitTestPWECore extends PWECore
     public function __construct()
     {
         parent::__construct();
-        $tmp = tempnam("/tmp", "pwe-");
-        unlink($tmp);
-        FilesystemHelper::fsys_mkdir($tmp);
+        $tmp=\PWEUnitTests::utGetCleanTMP();
 
         $this->setDataDirectory($tmp);
         $this->setXMLDirectory($tmp);

@@ -4,6 +4,7 @@ use PWE\Core\PWEAutoloader;
 use PWE\Core\PWECore;
 use PWE\Core\PWELogger;
 use PWE\Exceptions\PHPFatalException;
+use PWE\Utils\FilesystemHelper;
 
 error_reporting(E_ALL ^ E_NOTICE);
 
@@ -44,12 +45,15 @@ class PWEUnitTests
 
     static function utGetCleanTMP()
     {
-        $tmpfile = tempnam("dummy", "");
-        $path = dirname($tmpfile) . '/pweTest_' . time();
-        if (!is_dir($path))
-            mkdir($path);
-        unlink($tmpfile);
-        return $path;
+        $tmpdir = "/tmp/pwe-test";
+        if (!is_dir($tmpdir)) {
+            mkdir($tmpdir, 0777, true);
+        }
+        $tmp = tempnam($tmpdir, "pwe-");
+        unlink($tmp);
+        FilesystemHelper::fsys_mkdir($tmp);
+
+        return $tmp;
     }
 
     static function getTestPWECore()
