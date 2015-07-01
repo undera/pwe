@@ -26,12 +26,20 @@ class Config extends \WikiRenderer\Config implements PWEConnected, TOCProvider
     public $textLineContainers = array(
         '\WikiRenderer\HtmlTextLine' => array(
             '\PWE\Modules\SimpleWiki\GitHubMarkdownSyntax\Link',
+            '\PWE\Modules\SimpleWiki\GitHubMarkdownSyntax\Strong',
+            '\PWE\Modules\SimpleWiki\GitHubMarkdownSyntax\Strong2',
+            '\PWE\Modules\SimpleWiki\GitHubMarkdownSyntax\Strikeout',
+            '\PWE\Modules\SimpleWiki\GitHubMarkdownSyntax\Em',
+            '\PWE\Modules\SimpleWiki\GitHubMarkdownSyntax\Em2',
+
         )
     );
 
     /** List of block markups. */
     public $blocktags = array(
         '\PWE\Modules\SimpleWiki\GitHubMarkdownSyntax\Title',
+        '\PWE\Modules\SimpleWiki\GitHubMarkdownSyntax\Code',
+        '\PWE\Modules\SimpleWiki\GitHubMarkdownSyntax\Paragraph',
     );
     // list of extensions and their default configuration
     private $_extensions = array(

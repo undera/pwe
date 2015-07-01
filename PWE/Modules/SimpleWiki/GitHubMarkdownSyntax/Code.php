@@ -1,6 +1,7 @@
 <?php
 
 namespace PWE\Modules\SimpleWiki\GitHubMarkdownSyntax;
+
 use GeSHi;
 use WikiRenderer\Block;
 
@@ -46,18 +47,21 @@ class Code extends Block
         else if (isset($last2[1]) && ($last2[1] == "\r" || $last2[1] == "\n"))
             $currentContent = substr($currentContent, 0, -1);
         // if no programming language was defined, it's a verbatim block
-        if (empty($this->_programmingLanguage))
+        if (empty($this->_programmingLanguage)) {
             return ('<pre>' . htmlspecialchars($currentContent) . '</pre>');
+        }
+
         // is syntax highlighting disabled?
         if (!$this->engine->getConfig()->getParam('codeSyntaxHighlight') || !class_exists('\GeSHi'))
             return ('<pre><code class="language-' . $this->_programmingLanguage . '">' . htmlspecialchars($currentContent) . '</code></pre>');
         // syntax highlighting
-        if (!isset(self::$_geshi))
+        if (!isset(self::$_geshi)) {
             self::$_geshi = new GeSHi('', '');
+        }
         self::$_geshi->set_source($currentContent);
         self::$_geshi->set_language($this->_programmingLanguage, true);
         self::$_geshi->enable_classes($this->engine->getConfig()->getParam('codeInlineStyles') ? false : true);
-        self::$_geshi->enable_line_numbers($this->engine->getConfig()->getParam('codeLineNumbers') ? GESHI_NORMAL_LINE_NUMBERS : GESHI_NO_LINE_NUMBERS);
+        //self::$_geshi->enable_line_numbers($this->engine->getConfig()->getParam('codeLineNumbers') ? GESHI_NORMAL_LINE_NUMBERS : GESHI_NO_LINE_NUMBERS);
         $result = self::$_geshi->parse_code();
         $start = '<pre class="' . $this->_programmingLanguage . '"';
         if (substr($result, 0, strlen($start)) == $start)
@@ -84,19 +88,21 @@ class Code extends Block
     {
         $this->_detectMatch = false;
         if ($this->isOpen) {
-            if (isset($string[2]) && $string[0] === '`' && $string[1] === '`' && $string[2] === '``') {
+            if (isset($string[2]) && $string[0] === '`' && $string[1] === '`' && $string[2] === '`') {
                 $this->_recursionDepth--;
                 if ($this->_recursionDepth === 0)
                     $this->isOpen = false;
             } else if (isset($string[2]) && $string[0] === '`' && $string[1] === '`' && $string[2] === '`')
                 $this->_recursionDepth++;
-            if ($this->isOpen)
+            if ($this->isOpen) {
                 $this->_currentContent .= $string . "\n";
+            }
             return true;
         }
         if (isset($string[2]) && $string[0] === '`' && $string[1] === '`' && $string[2] === '`') {
-            if ($this->_recursionDepth === 0)
+            if ($this->_recursionDepth === 0) {
                 $this->_programmingLanguage = trim(substr($string, 3));
+            }
             $this->_recursionDepth++;
             return true;
         }

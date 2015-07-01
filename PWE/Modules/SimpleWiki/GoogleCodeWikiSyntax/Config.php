@@ -25,6 +25,7 @@ class Config extends \WikiRenderer\Config implements PWEConnected, TOCProvider
     public $textLineContainers = array(
         '\WikiRenderer\HtmlTextLine' => array(
             '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Strong', // **strong**
+            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Strong', // **strong**
             '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Em', // ''em''
             '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Strikeout', // ~~strikeout~~
             '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Underline', // __underline__
