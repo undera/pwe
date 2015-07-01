@@ -66,7 +66,7 @@ abstract class PWELogger
             } elseif ($v instanceof \Exception) {
                 $data[$k] = $v->__toString();
             } elseif (!is_numeric($v)) {
-                $data[$k] = str_replace("\n", " ", print_r($v, true));
+                $data[$k] = str_replace("\n", " ", json_encode($v));
             }
         }
 
@@ -85,7 +85,7 @@ abstract class PWELogger
         $id = isset($_SERVER['REMOTE_PORT']) ? $_SERVER['REMOTE_PORT'] : getmypid();
 
         $msg = sizeof($data) ? vsprintf($format, $data) : $format;
-        error_log(sprintf("[%s.%03d %s %s %s] %s\n", date('d.m.Y H:m:s'), $time, $id, $location, $level, $msg), 3, $file);
+        error_log(sprintf("[%s.%03d %s %s %s] %s\n", date('d.m.Y H:m:s'), $time, $id, $level, $location, $msg), 3, $file);
     }
 
     static function debug($msg)
