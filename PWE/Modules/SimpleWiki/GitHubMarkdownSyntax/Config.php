@@ -31,6 +31,7 @@ class Config extends \WikiRenderer\Config implements PWEConnected, TOCProvider
             '\PWE\Modules\SimpleWiki\GitHubMarkdownSyntax\Strikeout',
             '\PWE\Modules\SimpleWiki\GitHubMarkdownSyntax\Em',
             '\PWE\Modules\SimpleWiki\GitHubMarkdownSyntax\Em2',
+            '\PWE\Modules\SimpleWiki\GitHubMarkdownSyntax\Inliner',
 
         )
     );
