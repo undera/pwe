@@ -3,15 +3,15 @@
 namespace PWE\Modules\SimpleWiki;
 
 use GlobIterator;
-use PWE\Core\PWELogger;
 use PWE\Core\PWECore;
+use PWE\Core\PWELogger;
 use PWE\Exceptions\HTTP3xxException;
 use PWE\Exceptions\HTTP4xxException;
 use PWE\Exceptions\HTTP5xxException;
 use PWE\Lib\Smarty\SmartyWrapper;
 use PWE\Modules\Outputable;
-use PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Config;
 use PWE\Modules\PWEModule;
+use PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Config;
 use WikiRenderer\Renderer;
 
 class SimpleWiki extends PWEModule implements Outputable
@@ -22,20 +22,26 @@ class SimpleWiki extends PWEModule implements Outputable
     public function __construct(PWECore $core)
     {
         parent::__construct($core);
-        $this->config = new Config();
-        $this->config->setPWE($core);
+        $node = $this->PWE->getNode();
+        $class = $node['!i']['syntax'] ?: Config::class;
+        $this->config = new $class();
+        if ($this->config instanceof Config) {
+            $this->config->setPWE($core);
+        }
     }
 
     public function process()
     {
         $node = $this->PWE->getNode();
         $dir = $node['!i']['wiki_dir'];
-        $start_page = $node['!i']['start_page'] ? $node['!i']['start_page'] : "list";
+        $ext = $node['!i']['wiki_file_ext'] ?: "wiki";
+        $start_page = $node['!i']['start_page'] ?: "list";
 
         if ($dir[0] != DIRECTORY_SEPARATOR) {
             $dir = $this->PWE->getDataDirectory() . '/' . $dir;
         }
 
+        PWELogger::debug("Wiki dir: %s", $dir);
         if (!is_dir($dir)) {
             throw new HTTP5xxException("Not configured wiki source dir, or it does not exists");
         }
@@ -46,7 +52,7 @@ class SimpleWiki extends PWEModule implements Outputable
         if (!$args) {
             throw new HTTP3xxException($start_page . "/");
         } elseif ($args[0] == 'list') {
-            $files = new GlobIterator($dir . '/*.wiki');
+            $files = new GlobIterator($dir . '/*' . $ext);
             $text = "";
             foreach ($files as $file) {
                 $f = pathinfo($file, PATHINFO_FILENAME);
@@ -54,8 +60,8 @@ class SimpleWiki extends PWEModule implements Outputable
             }
             $contents = $this->getRenderer()->render($text);
         } else {
-            if (pathinfo($args[0], PATHINFO_EXTENSION) != 'wiki') {
-                $args[0] .= '.wiki';
+            if (pathinfo($args[0], PATHINFO_EXTENSION) != $ext) {
+                $args[0] .= '.' . $ext;
             }
 
             $file = $dir . '/' . str_replace(':', DIRECTORY_SEPARATOR, $args[0]);
@@ -79,9 +85,13 @@ class SimpleWiki extends PWEModule implements Outputable
         $smarty->setTemplateFile(__DIR__ . '/wiki.tpl');
         $smarty->assign('content', $contents);
 
-        $sidebar = $this->config->getToc();
-        if (is_file($dir . '/Sidebar.wiki')) {
-            $sidebar .= $this->renderPage($dir . '/Sidebar.wiki');
+        if ($node['!i']['enable_toc']) {
+            $sidebar = $this->config->getToc();
+        } else {
+            $sidebar="";
+        }
+        if (is_file($dir . '/Sidebar.' . $ext)) {
+            $sidebar .= $this->renderPage($dir . '/Sidebar.' . $ext);
         }
         $smarty->assign("sidebar", $sidebar);
 
