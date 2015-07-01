@@ -71,7 +71,7 @@ class SimpleWikiTest extends \PHPUnit_Framework_TestCase
     {
         $PWE = new UnitTestPWECore();
         $PWE->setStructFile(__DIR__ . '/SimpleWiki.xml');
-        $PWE->setURL('/GoogleSyntax/');
+        $PWE->setURL('/google/GoogleSyntax/');
         $node = & $PWE->getNode();
         $node['!i']['wiki_dir'] = __DIR__;
         $obj = new SimpleWiki($PWE);
@@ -90,6 +90,18 @@ class SimpleWikiTest extends \PHPUnit_Framework_TestCase
         } catch (HTTP3xxException $e) {
             $this->assertEquals('list/', $e->getMessage());
         }
+    }
+
+    public function testProcess_github()
+    {
+        $PWE = new UnitTestPWECore();
+        $PWE->setStructFile(__DIR__ . '/SimpleWiki.xml');
+        $PWE->setURL('/github/GitHubMarkdown/');
+        $node = & $PWE->getNode();
+        $node['!i']['wiki_dir'] = __DIR__;
+        $obj = new SimpleWiki($PWE);
+        $obj->process();
+        $PWE->getContent();
     }
 
 }

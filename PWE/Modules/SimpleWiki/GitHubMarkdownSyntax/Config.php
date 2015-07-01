@@ -3,11 +3,14 @@
 namespace PWE\Modules\SimpleWiki\GitHubMarkdownSyntax;
 
 use PWE\Core\PWECore;
+use PWE\Modules\PWEConnected;
+use PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Smiley;
+use PWE\Modules\SimpleWiki\TOCProvider;
 
 /**
  * took it from Skriv https://github.com/Amaury/SkrivMarkup
  */
-class Config extends \WikiRenderer\Config
+class Config extends \WikiRenderer\Config implements PWEConnected, TOCProvider
 {
 
     /**
@@ -30,7 +33,7 @@ class Config extends \WikiRenderer\Config
             '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Superscript', // ^^superscript^^
             '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Subscript', // ,,subscript,,
             //'\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Abbr', // ??abbr|text??
-            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Link', // [[link|url]]		[[url]]
+            '\PWE\Modules\SimpleWiki\GitHubMarkdownSyntax\Link', // [[link|url]]		[[url]]
 //            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Image', // {{image|url}}	{{url}}
 //            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Footnote', // ((footnote))		((label|footnote))
 //            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Anchor', // ~#anchor#~
@@ -45,7 +48,7 @@ class Config extends \WikiRenderer\Config
         '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Pragma',
         '\PWE\Modules\SimpleWiki\GitHubMarkdownSyntax\Title',
         '\PWE\Modules\SimpleWiki\GitHubMarkdownSyntax\WikiList',
-        '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Code',
+        '\PWE\Modules\SimpleWiki\GitHubMarkdownSyntax\Code',
         '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Pre',
         '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Hr',
         //'\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Blockquote',
