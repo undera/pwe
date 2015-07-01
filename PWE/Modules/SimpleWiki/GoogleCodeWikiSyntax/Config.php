@@ -3,11 +3,13 @@
 namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
 
 use PWE\Core\PWECore;
+use PWE\Modules\PWEConnected;
+use PWE\Modules\SimpleWiki\TOCProvider;
 
 /**
  * took it from Skriv https://github.com/Amaury/SkrivMarkup
  */
-class Config extends \WikiRenderer\Config
+class Config extends \WikiRenderer\Config implements PWEConnected, TOCProvider
 {
 
     /**

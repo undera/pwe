@@ -21,7 +21,6 @@ class SimpleWiki extends PWEModule implements Outputable
 
     public function process()
     {
-        // FIXME: refactor this method!
         $node = $this->PWE->getNode();
         $class = $node['!i']['syntax'] ?: Config::class;
         $this->config = new $class();
@@ -40,21 +39,8 @@ class SimpleWiki extends PWEModule implements Outputable
         } else {
             $contents = $this->getRenderedPage($args, $ext, $dir);
         }
-        $smarty = new SmartyWrapper($this->PWE);
-        $smarty->setTemplateFile(__DIR__ . '/wiki.tpl');
-        $smarty->assign('content', $contents);
 
-        if ($this->config instanceof TOCProvider) {
-            $sidebar = $this->config->getToc();
-        } else {
-            $sidebar = "";
-        }
-        if (is_file($dir . '/Sidebar.' . $ext)) {
-            $sidebar .= $this->renderPage($dir . '/Sidebar.' . $ext);
-        }
-        $smarty->assign("sidebar", $sidebar);
-
-        $this->PWE->addContent($smarty);
+        $this->processSmarty($contents, $dir, $ext);
     }
 
     public function renderPage($page)
@@ -141,6 +127,30 @@ class SimpleWiki extends PWEModule implements Outputable
 
         PWELogger::debug("Wiki dir: %s", $dir);
         return array($dir, $ext);
+    }
+
+    /**
+     * @param $contents
+     * @param $dir
+     * @param $ext
+     */
+    private function processSmarty($contents, $dir, $ext)
+    {
+        $smarty = new SmartyWrapper($this->PWE);
+        $smarty->setTemplateFile(__DIR__ . '/wiki.tpl');
+        $smarty->assign('content', $contents);
+
+        if ($this->config instanceof TOCProvider) {
+            $sidebar = $this->config->getToc();
+        } else {
+            $sidebar = "";
+        }
+        if (is_file($dir . '/Sidebar.' . $ext)) {
+            $sidebar .= $this->renderPage($dir . '/Sidebar.' . $ext);
+        }
+        $smarty->assign("sidebar", $sidebar);
+
+        $this->PWE->addContent($smarty);
     }
 
 }
