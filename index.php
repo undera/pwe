@@ -24,6 +24,7 @@ require_once __DIR__ . '/PWE/Core/PWECMDJob.php';
 require_once __DIR__ . '/PWE/Modules/PWEModulesManager.php';
 require_once __DIR__ . '/PWE/Utils/PWEXMLFunctions.php';
 require_once __DIR__ . '/PWE/Utils/PWEXML.php';
+require_once __DIR__ . '/PWE/Modules/PWEConnected.php';
 require_once __DIR__ . '/PWE/Modules/PWEModule.php';
 require_once __DIR__ . '/PWE/Exceptions/PHPFatalException.php';
 

@@ -4,7 +4,7 @@ namespace PWE\Modules;
 
 use PWE\Core\PWECore;
 
-abstract class PWEModule
+abstract class PWEModule implements PWEConnected
 {
 
     /**
@@ -25,6 +25,11 @@ abstract class PWEModule
     public function getPWE()
     {
         return $this->PWE;
+    }
+
+    public function setPWE(PWECore $core)
+    {
+        $this->PWE = $core;
     }
 
     /**
