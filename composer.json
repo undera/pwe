@@ -14,7 +14,8 @@
     "doctrine/dbal": "2.4.2",
     "smarty/smarty": "v3.1.19",
     "amaury/wikirenderer": "dev-master",
-    "geshi/geshi": "dev-master"
+    "geshi/geshi": "dev-master",
+    "phpunit/phpunit": "4.7.6"
   },
   "autoload": {
     "psr-0": {
