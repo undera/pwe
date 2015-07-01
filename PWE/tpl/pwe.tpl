@@ -32,6 +32,7 @@
 {/block}
 {* {flush} sometimes it causes problems with headers already sent*}
 <body>
+
 <table border='0' width="100%" cellspacing='0' cellpadding='0'>
 {URL->getParamsCount assign=paramsCount}
 {URL->getMatchedCount assign=matchCount}

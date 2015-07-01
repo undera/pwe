@@ -30,7 +30,7 @@ abstract class PWEAutoloader
 
     public static function activate()
     {
-        spl_autoload_register("PWE\Core\PWEAutoloader::doIt");
+        spl_autoload_register('PWE\\Core\\PWEAutoloader::doIt');
     }
 
     /**
@@ -89,7 +89,7 @@ abstract class PWEAutoloader
         $cache_file = self::getCacheFile();
 
         $path = realpath($path);
-        $oldpath = isset(self::$cache[$name])?self::$cache[$name]:false;
+        $oldpath = isset(self::$cache[$name]) ? self::$cache[$name] : false;
         PWELogger::debug("Old path was: %s / new path: %s", $oldpath, $path);
         if ($oldpath != $path) {
             PWELogger::info("Module path changed for %s, needs re-register: %s", $name, $path);
