@@ -229,6 +229,7 @@ class Config extends \WikiRenderer\Config
      */
     public function titleToIdentifier($depth, $text)
     {
+        /** @var callable $func */
         $func = $this->getParam('titleToIdFunction');
         if (isset($func)) {
             return ($func($depth, $text));
@@ -269,6 +270,7 @@ class Config extends \WikiRenderer\Config
             $text = Smiley::convertSymbols($text);
 
         // if a specific pre-parse function was defined, it is called
+        /** @var callable $func */
         $func = $this->getParam('preParseFunction');
         if (isset($func))
             $text = $func($text);
@@ -283,6 +285,7 @@ class Config extends \WikiRenderer\Config
     public function onParse($finalText)
     {
         // if a specific post-parse function was defined, it is called
+        /** @var callable $func */
         $func = $this->getParam('postParseFunction');
         if (isset($func))
             $finalText = $func($finalText);
@@ -325,6 +328,7 @@ class Config extends \WikiRenderer\Config
                 $targetBlank = $nofollow = false;
             }
             // if a specific URL process function was defined, it is called
+            /** @var callable $func */
             $func = $this->getParam('urlProcessFunction');
             if (isset($func))
                 list($url, $label, $targetBlank, $nofollow) = $func($url, $label, $targetBlank, $nofollow);
