@@ -106,4 +106,17 @@ class SimpleWikiTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(strstr($content, '<a href="http://daringfireball.net/projects/markdown/">John Gruber\'s original spec</a>'));
     }
 
+    public function testProcess_github_small()
+    {
+        $PWE = new UnitTestPWECore();
+        $PWE->setStructFile(__DIR__ . '/SimpleWiki.xml');
+        $PWE->setURL('/github/GitHubMarkdownSmall/');
+        $node = &$PWE->getNode();
+        $node['!i']['wiki_dir'] = __DIR__;
+        $obj = new SimpleWiki($PWE);
+        $obj->process();
+        $content = $PWE->getContent();
+        PWELogger::debug("Rendered: %s", $content);
+    }
+
 }

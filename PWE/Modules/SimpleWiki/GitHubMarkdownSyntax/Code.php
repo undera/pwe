@@ -55,17 +55,20 @@ class Code extends Block
         if (!$this->engine->getConfig()->getParam('codeSyntaxHighlight') || !class_exists('\GeSHi'))
             return ('<pre><code class="language-' . $this->_programmingLanguage . '">' . htmlspecialchars($currentContent) . '</code></pre>');
         // syntax highlighting
-        if (!isset(self::$_geshi)) {
+        //if (!isset(self::$_geshi)) {
             self::$_geshi = new GeSHi('', '');
-        }
+        //}
         self::$_geshi->set_source($currentContent);
         self::$_geshi->set_language($this->_programmingLanguage, true);
         self::$_geshi->enable_classes($this->engine->getConfig()->getParam('codeInlineStyles') ? false : true);
         //self::$_geshi->enable_line_numbers($this->engine->getConfig()->getParam('codeLineNumbers') ? GESHI_NORMAL_LINE_NUMBERS : GESHI_NO_LINE_NUMBERS);
         $result = self::$_geshi->parse_code();
+
         $start = '<pre class="' . $this->_programmingLanguage . '"';
         if (substr($result, 0, strlen($start)) == $start)
-            $result = '<pre class="language-' . $this->_programmingLanguage . '"' . substr($result, strlen($start));
+            $result = '<pre class="'.$this->_programmingLanguage.' language-' . $this->_programmingLanguage . '"' . substr($result, strlen($start));
+
+        $result.='<style type="text/css">'.self::$_geshi->get_stylesheet(true).'</style>';
         return ($result);
     }
 

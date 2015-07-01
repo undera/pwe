@@ -1,6 +1,7 @@
 <?php
 
 namespace PWE\Modules\SimpleWiki\GitHubMarkdownSyntax;
+
 use WikiRenderer\Block;
 
 /** Management of paragraph blocks of text. */
@@ -26,16 +27,17 @@ class Paragraph extends Block
             return (false);
         }
         if (
-            //substr_compare($string, '```', 0, 3) === 0 ||
             substr_compare($string, '[[[', 0, 3) === 0 ||
             substr_compare($string, '<<<', 0, 3) === 0 ||
             substr_compare($string, '{{{', 0, 2) === 0 ||
             substr_compare($string, '||', 0, 2) === 0 ||
             substr_compare($string, '!!', 0, 2) === 0
-        )
+        ) {
             return (false);
+        }
+
         if (!preg_match("/^\s*\*{2}.*\*{2}\s*.*$/", $string) &&
-            !preg_match("/^\s*#{2}.*#{2}\s*.*$/", $string) &&
+            !preg_match(WikiList::REGEXP, $string) &&
             preg_match("/^\s*[\*#\- \t>;=].*/", $string)
         ) {
             return (false);

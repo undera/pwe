@@ -11,8 +11,9 @@ class WikiList extends Block
     protected $_previousTag;
     protected $_firstItem = false;
     protected $_firstTagLen;
-    protected $regexp = '/^( )+([0-9]+\.)\s*(.*)/';
+    protected $regexp = self::REGEXP;
     private $ordered;
+    const REGEXP = '/^( )+([0-9]+\.)\s*(.*)/';
 
     /**
      * test si la chaine correspond au debut ou au contenu d'un bloc
