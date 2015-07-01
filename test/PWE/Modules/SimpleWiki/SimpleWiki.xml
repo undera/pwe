@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <url class="PWE\Modules\SimpleWiki\SimpleWiki" wiki_dir="." accept="1">
     <url link='google' class="PWE\Modules\SimpleWiki\SimpleWiki"/>
-    <url link='github' class="PWE\Modules\SimpleWiki\SimpleWiki" wiki_file_ext="md"/>
+    <url link='github' class="PWE\Modules\SimpleWiki\SimpleWiki" syntax="PWE\Modules\SimpleWiki\GitHubMarkdownSyntax\Config" wiki_file_ext="md"/>
 </url>

@@ -25,36 +25,13 @@ class Config extends \WikiRenderer\Config implements PWEConnected, TOCProvider
     /** List of inline markups. */
     public $textLineContainers = array(
         '\WikiRenderer\HtmlTextLine' => array(
-            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Strong', // **strong**
-            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Em', // ''em''
-            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Strikeout', // ~~strikeout~~
-            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Underline', // __underline__
-            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Monospace', // ##monospace##
-            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Superscript', // ^^superscript^^
-            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Subscript', // ,,subscript,,
-            //'\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Abbr', // ??abbr|text??
-            '\PWE\Modules\SimpleWiki\GitHubMarkdownSyntax\Link', // [[link|url]]		[[url]]
-//            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Image', // {{image|url}}	{{url}}
-//            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Footnote', // ((footnote))		((label|footnote))
-//            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Anchor', // ~#anchor#~
-            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\FileDownload',
-            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\FileDownloadDir',
-            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\HTML',
+            '\PWE\Modules\SimpleWiki\GitHubMarkdownSyntax\Link',
         )
     );
 
     /** List of block markups. */
     public $blocktags = array(
-        '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Pragma',
         '\PWE\Modules\SimpleWiki\GitHubMarkdownSyntax\Title',
-        '\PWE\Modules\SimpleWiki\GitHubMarkdownSyntax\WikiList',
-        '\PWE\Modules\SimpleWiki\GitHubMarkdownSyntax\Code',
-        '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Pre',
-        '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Hr',
-        //'\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Blockquote',
-        '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Table',
-        //'\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\StyledBlock',
-        '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Paragraph',
     );
     // list of extensions and their default configuration
     private $_extensions = array(

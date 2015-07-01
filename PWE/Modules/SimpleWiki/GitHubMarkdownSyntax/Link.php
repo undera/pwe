@@ -11,21 +11,23 @@ class Link extends TagXhtml
     public $beginTag = '[';
     public $endTag = ')';
     protected $attribute = array('href', '$$',);
-    public $separators = array(' ');
+    public $separators = array('](');
     static $img_exts = array('png', 'jpg', 'gif');
 
     public function getContent()
     {
         // management of single parameter
         if ($this->separatorCount == 0) {
+            throw new \RuntimeException("Not supported");
             $this->separatorCount = 1;
             $href = $this->wikiContentArr[0];
             list($href, $label, $targetBlank, $nofollow) = $this->config->processLink($href, $this->name);
             $this->contents[1] = $label;
         } else {
-            $href = $this->wikiContentArr[0];
+            $href_split=explode(' ', $this->wikiContentArr[1]);
+            $href = $href_split[0];
             list($href, $label, $targetBlank, $nofollow) = $this->config->processLink($href, $this->name);
-            $this->contents[1] = implode($this->separators[0], array_slice($this->contents, 1));
+            $this->contents[1] = implode($this->separators[0], array_slice($this->contents, 0, 1));
         }
 
         $parts = explode('.', $this->contents[1]);
