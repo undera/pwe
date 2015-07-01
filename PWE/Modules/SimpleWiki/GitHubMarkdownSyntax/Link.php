@@ -10,8 +10,8 @@ class Link extends TagXhtml
     protected $name = 'a';
     public $beginTag = '[';
     public $endTag = ')';
-    protected $attribute = array('href', '$$',);
     public $separators = array('](');
+    protected $attribute = array('href', '$$',);
     static $img_exts = array('png', 'jpg', 'gif');
 
     public function getContent()

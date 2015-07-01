@@ -86,6 +86,8 @@ class SimpleWiki extends PWEModule implements Outputable
     {
         if (pathinfo($args[0], PATHINFO_EXTENSION) != $ext) {
             $args[0] .= '.' . $ext;
+        } else {
+            throw new HTTP3xxException(substr($args[0], 0, strlen($args[0])-strlen($ext)-1));
         }
 
         $file = $dir . '/' . str_replace(':', DIRECTORY_SEPARATOR, $args[0]);

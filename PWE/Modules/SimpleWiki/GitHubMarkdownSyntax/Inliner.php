@@ -10,5 +10,6 @@ class Inliner extends TagXhtml
     protected $name = 'tt';
     public $beginTag = "`";
     public $endTag = "`";
+    protected $checkWikiWordIn = array();
 }
 

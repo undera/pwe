@@ -27,6 +27,7 @@ class Paragraph extends Block
             return (false);
         }
         if (
+            substr_compare($string, '```', 0, 3) === 0 ||
             substr_compare($string, '[[[', 0, 3) === 0 ||
             substr_compare($string, '<<<', 0, 3) === 0 ||
             substr_compare($string, '{{{', 0, 2) === 0 ||

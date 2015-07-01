@@ -13,8 +13,8 @@ class WikiList extends Block
     protected $_firstTagLen;
     protected $regexp = self::REGEXP;
     private $ordered;
-    private $level;
-    const REGEXP = '/^(\s*)([0-9]+\.|\-|\*|\+)\s*([^*]*)/';
+    private $level = -1;
+    const REGEXP = '/^(\s*)([0-9]+\.|\-|\*|\+)\s*([^\*]*)$/';
 
     /**
      * test si la chaine correspond au debut ou au contenu d'un bloc
@@ -26,10 +26,6 @@ class WikiList extends Block
     {
         if (!preg_match($this->regexp, $string, $this->_detectMatch)) {
             return (0);
-        }
-
-        if ($inBlock) {
-
         }
 
         return (1);
@@ -59,11 +55,11 @@ class WikiList extends Block
     {
         $indent = strlen($this->_detectMatch[1]) - strlen(ltrim($this->_detectMatch[1]));
         $str = '';
-        if ($indent < $this->level) {
+        if ($indent < $this->level && $this->level >= 0) {
             $str .= $this->close();
             $str .= "</li>\n<li>";
-        } else if ($indent > $this->level) {
-            $str = $this->open().'<li>';
+        } else if ($indent > $this->level && $this->level >= 0) {
+            $str = $this->open() . '<li>';
         } else {
             $str = $this->_firstItem ? '<li>' : "</li>\n<li>";
         }
