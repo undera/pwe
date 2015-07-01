@@ -1,1 +1,1 @@
-[`execution`](ExecutionSettings.md)
+![BlazeMeter Report](blazemeter.png)

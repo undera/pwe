@@ -14,7 +14,7 @@ class WikiList extends Block
     protected $regexp = self::REGEXP;
     private $ordered;
     private $level = -1;
-    const REGEXP = '/^(\s*)([0-9]+\.|\-|\*|\+)\s*([^\*]*)$/';
+    const REGEXP = '/^(\s*)([0-9]+\.|\-|\*|\+)\s*(.*)[^\*]?$/';
 
     /**
      * test si la chaine correspond au debut ou au contenu d'un bloc

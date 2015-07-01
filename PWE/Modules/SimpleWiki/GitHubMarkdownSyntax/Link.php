@@ -12,7 +12,7 @@ class Link extends TagXhtml
     public $endTag = ')';
     public $separators = array('](');
     protected $attribute = array('href', '$$',);
-    static $img_exts = array('png', 'jpg', 'gif');
+    static $img_exts = array('png', 'jpg', 'gif', 'svg');
 
     public function getContent()
     {

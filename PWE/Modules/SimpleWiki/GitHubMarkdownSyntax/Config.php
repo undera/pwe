@@ -25,6 +25,7 @@ class Config extends \WikiRenderer\Config implements PWEConnected, TOCProvider
     /** List of inline markups. */
     public $textLineContainers = array(
         '\WikiRenderer\HtmlTextLine' => array(
+            '\PWE\Modules\SimpleWiki\GitHubMarkdownSyntax\Image',
             '\PWE\Modules\SimpleWiki\GitHubMarkdownSyntax\Link',
             '\PWE\Modules\SimpleWiki\GitHubMarkdownSyntax\Strong',
             '\PWE\Modules\SimpleWiki\GitHubMarkdownSyntax\Strong2',
