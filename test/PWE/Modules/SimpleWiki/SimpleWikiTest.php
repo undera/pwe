@@ -103,7 +103,6 @@ class SimpleWikiTest extends \PHPUnit_Framework_TestCase
         $obj->process();
         $content = $PWE->getContent();
         PWELogger::debug("Rendered: %s", $content);
-        $this->assertTrue(strstr($content, '<a href="http://daringfireball.net/projects/markdown/">John Gruber\'s original spec</a>'));
     }
 
     public function testProcess_github_small()
