@@ -22,7 +22,7 @@ class SimpleWiki extends PWEModule implements Outputable
     public function process()
     {
         $node = $this->PWE->getNode();
-        $class = $node['!i']['syntax'] ?: Config::class;
+        $class = $node['!i']['syntax'] ?: get_class(new Config());
         $this->config = new $class();
         if ($this->config instanceof PWEConnected) {
             $this->config->setPWE($this->PWE);
