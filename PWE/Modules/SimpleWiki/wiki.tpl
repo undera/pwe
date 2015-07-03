@@ -29,8 +29,9 @@
                                 $(a).visibilityToggle();
                                 if (!a) {
                                     a = document.createElement("a");
-                                    a.href = "#" + this.id;
-                                    $(a).text("#").addClass("anchorLink").css({position: 'absolute', zIndex: 5});
+                                    a.href = "#" + this.id.toLowerCase();
+                                    a.id=this.id.toLowerCase();
+                                    $(a).html("&para;").addClass("anchorLink").css({position: 'relative', zIndex: 5});
                                     $(this).append(a);
                                 }
                             }

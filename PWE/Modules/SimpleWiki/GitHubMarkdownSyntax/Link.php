@@ -2,6 +2,7 @@
 
 namespace PWE\Modules\SimpleWiki\GitHubMarkdownSyntax;
 
+use PWE\Modules\PWEConnected;
 use WikiRenderer\TagXhtml;
 
 class Link extends TagXhtml
@@ -24,33 +25,38 @@ class Link extends TagXhtml
             list($href, $label, $targetBlank, $nofollow) = $this->config->processLink($href, $this->name);
             $this->contents[1] = $label;
         } else {
-            $href_split=explode(' ', $this->wikiContentArr[1]);
+            $href_split = explode(' ', $this->wikiContentArr[1]);
             $href = $href_split[0];
             list($href, $label, $targetBlank, $nofollow) = $this->config->processLink($href, $this->name);
             $this->contents[1] = implode($this->separators[0], array_slice($this->contents, 0, 1));
         }
 
+        $ext = strtolower(pathinfo($href, PATHINFO_EXTENSION));
         $parts = explode('.', $this->contents[1]);
         $ext_label = strtolower(end($parts));
-        if (in_array($ext_label, self::$img_exts)) {
-            $this->contents[1] = '<img src="' . $this->contents[1] . '" alt=""/>';
-        } else {
-            if (!strstr($href, '://') && strpos($href, '/') !== 0 && strpos($href, '#') !== 0) {
-                $href = '../' . $href;
-            }
 
-            $this->wikiContentArr[0] = $href;
-        }
-
-        $ext = strtolower(pathinfo($href, PATHINFO_EXTENSION));
         if (in_array($ext, self::$img_exts)) {
             if (in_array($ext_label, self::$img_exts)) {
                 $alt = '';
             } else {
                 $alt = $this->contents[1];
             }
+
+            if ($this->config instanceof PWEConnected) {
+                $node = $this->config->getPWE()->getNode();
+                if ($href[0] != '/' && $node['!i']['img_path_prepend']) {
+                    $href = $node['!i']['img_path_prepend'] . $href;
+                }
+            }
+
             return '<img src="' . $href . '" alt="' . $alt . '"/>';
         } else {
+            if (!strstr($href, '://') && strpos($href, '/') !== 0 && strpos($href, '#') !== 0) {
+                $href = '../' . $href;
+            }
+
+            $this->wikiContentArr[0] = $href;
+
             // management of the target
             $targetBlank = isset($targetBlank) ? $targetBlank : $this->config->getParam('targetBlank');
             $nofollow = isset($nofollow) ? $nofollow : $this->config->getParam('nofollow');
