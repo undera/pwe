@@ -23,7 +23,11 @@ class Paragraph extends Block
      */
     public function detect($string, $inBlock = false)
     {
-        if (empty(trim($string))) {
+        if ($inBlock) {
+            return (false);
+        }
+
+        if (empty($string)) {
             return (false);
         }
 
