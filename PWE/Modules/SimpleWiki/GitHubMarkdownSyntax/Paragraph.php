@@ -26,12 +26,16 @@ class Paragraph extends Block
         if (empty($string)) {
             return (false);
         }
+
         if (preg_match(WikiList::REGEXP, $string)) {
             return (false);
         }
 
+        if (substr_compare(trim($string), '```', 0, 3)) {
+            return (false);
+        }
+
         if (!preg_match("/^\s*\*{2}.*\*{2}\s*.*$/", $string) &&
-            !preg_match(WikiList::REGEXP, $string) &&
             preg_match("/^\s*[\*#\- \t>;=].*/", $string)
         ) {
             return (false);
