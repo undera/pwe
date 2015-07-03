@@ -14,7 +14,7 @@ class HTML extends Tag
     public static $available_tags = array(
         'i', 'b', 'font', 'sup', 'p', 'br',
         "table", "tr", "td",
-        'div', 'span', "img", "form", "input", "script");
+        'div', 'span', "img", "form", "input", "script", "iframe");
 
     public function getContent()
     {
