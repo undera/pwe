@@ -8,13 +8,14 @@ use PWE\Exceptions\HTTP3xxException;
 use PWE\Exceptions\HTTP4xxException;
 use PWE\Exceptions\HTTP5xxException;
 use PWE\Lib\Smarty\SmartyWrapper;
+use PWE\Modules\BreadcrumbsGenerator;
 use PWE\Modules\Outputable;
 use PWE\Modules\PWEConnected;
 use PWE\Modules\PWEModule;
 use PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Config;
 use WikiRenderer\Renderer;
 
-class SimpleWiki extends PWEModule implements Outputable
+class SimpleWiki extends PWEModule implements Outputable, BreadcrumbsGenerator
 {
 
     private $config;
@@ -87,7 +88,7 @@ class SimpleWiki extends PWEModule implements Outputable
         if (pathinfo($args[0], PATHINFO_EXTENSION) != $ext) {
             $args[0] .= '.' . $ext;
         } else {
-            throw new HTTP3xxException(substr($args[0], 0, strlen($args[0])-strlen($ext)-1));
+            throw new HTTP3xxException(substr($args[0], 0, strlen($args[0]) - strlen($ext) - 1));
         }
 
         $file = $dir . '/' . str_replace(':', DIRECTORY_SEPARATOR, $args[0]);
@@ -155,6 +156,16 @@ class SimpleWiki extends PWEModule implements Outputable
         $this->PWE->addContent($smarty);
     }
 
+    public function generateBreadcrumbs()
+    {
+        $params=$this->PWE->getURL()->getParamsAsArray();
+        $res = array();
+        $res[] = array('selected' => 1, '!a' => array(
+            'link' => "../".$params[0],
+            'title' => $params[0]
+        ));
+        return $res;
+    }
 }
 
 ?>
