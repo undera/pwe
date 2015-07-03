@@ -26,14 +26,7 @@ class Paragraph extends Block
         if (empty($string)) {
             return (false);
         }
-        if (
-            substr_compare($string, '```', 0, 3) === 0 ||
-            substr_compare($string, '[[[', 0, 3) === 0 ||
-            substr_compare($string, '<<<', 0, 3) === 0 ||
-            substr_compare($string, '{{{', 0, 2) === 0 ||
-            substr_compare($string, '||', 0, 2) === 0 ||
-            substr_compare($string, '!!', 0, 2) === 0
-        ) {
+        if (preg_match(WikiList::REGEXP, $string)) {
             return (false);
         }
 
