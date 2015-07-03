@@ -2,7 +2,10 @@
     <tr>
         <td style="width: 100%; vertical-align: top">{$content}</td>
         {if $sidebar}
-            <td style="vertical-align: top" class="sidebar"><div id="sticker">{$sidebar}</div></td>
+            <td style="vertical-align: top" class="sidebar">
+                <div id="sticker">{$sidebar}</div>
+                <div class="stickPlaceholder">&nbsp;</div>
+            </td>
         {/if}
     </tr>
 </table>
@@ -29,6 +32,7 @@
         $(window).scroll(function () {
             var windowpos = $(window).scrollTop();
             if (windowpos >= pos.top) {
+                s.parent().find(".stickPlaceholder").width(s.width());
                 s.addClass("stick");
             } else {
                 s.removeClass("stick");
