@@ -23,7 +23,7 @@ class Paragraph extends Block
      */
     public function detect($string, $inBlock = false)
     {
-        if (empty($string)) {
+        if (empty(trim($string))) {
             return (false);
         }
 
@@ -31,15 +31,10 @@ class Paragraph extends Block
             return (false);
         }
 
-        if (substr_compare(trim($string), '```', 0, 3)) {
+        if (substr_compare(trim($string), '```', 0, 3)===0) {
             return (false);
         }
 
-        if (!preg_match("/^\s*\*{2}.*\*{2}\s*.*$/", $string) &&
-            preg_match("/^\s*[\*#\- \t>;=].*/", $string)
-        ) {
-            return (false);
-        }
         $this->_detectMatch = array($string, $string);
         return (true);
     }
