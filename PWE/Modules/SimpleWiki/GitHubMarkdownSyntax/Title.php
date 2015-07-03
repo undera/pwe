@@ -33,8 +33,7 @@ class Title extends Block
         $this->engine->getConfig()->addTocEntry($level, $html, $identifier);
         $level += $this->engine->getConfig()->getParam('firstTitleLevel') - 1;
 
-        $anchor="<a name='$identifier'/>";
-        return ("$anchor<h$level id=\"" . $this->engine->getConfig()->getParam('anchorsPrefix') . "$identifier\">$html</h$level>");
+        return ("<h$level id=\"" . $this->engine->getConfig()->getParam('anchorsPrefix') . "$identifier\">$html</h$level>");
     }
 
 }
