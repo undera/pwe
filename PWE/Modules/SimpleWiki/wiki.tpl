@@ -2,41 +2,39 @@
     <tr>
         <td style="width: 100%; vertical-align: top">{$content}</td>
         {if $sidebar}
-            <td style="vertical-align: top" class="sidebar">{$sidebar}</td>
+            <td style="vertical-align: top" class="sidebar"><div id="sticker">{$sidebar}</div></td>
         {/if}
     </tr>
 </table>
 <script type="text/javascript">
     {literal}
-    jQuery.fn.visible = function () {
-        return this.css('visibility', 'visible');
-    };
-
-    jQuery.fn.invisible = function () {
-        return this.css('visibility', 'hidden');
-    };
-
-    jQuery.fn.visibilityToggle = function () {
-        return this.css('visibility', function (i, visibility) {
-            return (visibility == 'visible') ? 'hidden' : 'visible';
-        });
-    };
-
-    for (var level = 1; level <= 6; level++)
-        $("h" + level).each(function () {
-                    var a;
-                    $(this).hover(function () {
-                                $(a).visibilityToggle();
-                                if (!a) {
-                                    a = document.createElement("a");
-                                    a.href = "#" + this.id.toLowerCase();
-                                    a.id=this.id.toLowerCase();
-                                    $(a).html("&para;").addClass("anchorLink").css({position: 'relative', zIndex: 5});
-                                    $(this).append(a);
-                                }
+    $(".senseid").each(function () {
+                var a;
+                $(this).hover(function () {
+                            $(a).toggle();
+                            if (!a) {
+                                a = document.createElement("a");
+                                a.href = "#" + this.id;
+                                $(a).text("#").css({position: 'absolute', zIndex: 5, marginLeft: '-5px'});
+                                $(this).prepend(a);
                             }
-                    )
-                }
-        );
+                        }
+                )
+            }
+    );
+
+    $(document).ready(function () {
+        var s = $("#sticker");
+        var pos = s.position();
+        $(window).scroll(function () {
+            var windowpos = $(window).scrollTop();
+            if (windowpos >= pos.top) {
+                s.addClass("stick");
+            } else {
+                s.removeClass("stick");
+            }
+        });
+    });
+
     {/literal}
 </script>
