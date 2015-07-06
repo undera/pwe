@@ -25,10 +25,6 @@ class Paragraph extends Block
     {
         $strim = trim($string);
 
-        if ($inBlock) {
-            return (false);
-        }
-
         if (empty($strim)) {
             return (false);
         }

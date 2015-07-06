@@ -41,6 +41,7 @@ class Code extends Block
      */
     public function close()
     {
+        $this->isOpen = false;
         $this->_programmingLanguage = str_replace(array('/', '\\', '..'), '', $this->_programmingLanguage);
         $currentContent = $this->_currentContent;
         $this->_currentContent = '';

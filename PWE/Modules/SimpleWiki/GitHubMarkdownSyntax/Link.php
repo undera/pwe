@@ -44,7 +44,7 @@ class Link extends TagXhtml
 
             if ($this->config instanceof PWEConnected) {
                 $node = $this->config->getPWE()->getNode();
-                if ($href[0] != '/' && $node['!i']['img_path_prepend']) {
+                if ((strpos($href, '://') == false && $href[0] != '/') && $node['!i']['img_path_prepend']) {
                     $href = $node['!i']['img_path_prepend'] . $href;
                 }
             }
