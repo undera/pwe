@@ -23,11 +23,13 @@ class Paragraph extends Block
      */
     public function detect($string, $inBlock = false)
     {
+        $strim = trim($string);
+
         if ($inBlock) {
             return (false);
         }
 
-        if (empty($string)) {
+        if (empty($strim)) {
             return (false);
         }
 
@@ -35,7 +37,7 @@ class Paragraph extends Block
             return (false);
         }
 
-        if (substr_compare(trim($string), '```', 0, 3)===0) {
+        if (Code::isMyLine($string)) {
             return (false);
         }
 

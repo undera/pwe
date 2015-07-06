@@ -8,18 +8,22 @@ use WikiRenderer\Block;
 /** Gestion des paragraphes de code. */
 class Code extends Block
 {
-    public $type = 'div';
+    public $type = 'pre';
     protected $isOpen = false;
     /** Nom du langage de programmation */
     private $_programmingLanguage = '';
-    /** Nombre de récursions. */
-    private $_recursionDepth = 0;
     /** This object shouldn't be cloned. */
     protected $_mustClone = false;
     /** Raw content of the code block. */
     private $_currentContent = '';
     /** GeSHi object. */
     static private $_geshi = null;
+    private $needsClosing = false;
+
+    public static function isMyLine($string)
+    {
+        return strlen($string) >= 3 && strstr($string, '```') == $string;
+    }
 
     /**
      * Retourne le tag fermant, et positionne le flag interne pour dire qu'on est à l'intérieur d'un bloc stylisé.
@@ -56,7 +60,7 @@ class Code extends Block
             return ('<pre><code class="language-' . $this->_programmingLanguage . '">' . htmlspecialchars($currentContent) . '</code></pre>');
         // syntax highlighting
         //if (!isset(self::$_geshi)) {
-            self::$_geshi = new GeSHi('', '');
+        self::$_geshi = new GeSHi('', '');
         //}
         self::$_geshi->set_source($currentContent);
         self::$_geshi->set_language($this->_programmingLanguage, true);
@@ -66,9 +70,9 @@ class Code extends Block
 
         $start = '<pre class="' . $this->_programmingLanguage . '"';
         if (substr($result, 0, strlen($start)) == $start)
-            $result = '<pre class="'.$this->_programmingLanguage.' language-' . $this->_programmingLanguage . '"' . substr($result, strlen($start));
+            $result = '<pre class="' . $this->_programmingLanguage . ' language-' . $this->_programmingLanguage . '"' . substr($result, strlen($start));
 
-        $result.='<style type="text/css">'.self::$_geshi->get_stylesheet(true).'</style>';
+        $result .= '<style type="text/css">' . self::$_geshi->get_stylesheet(true) . '</style>';
         return ($result);
     }
 
@@ -91,24 +95,23 @@ class Code extends Block
     {
         $this->_detectMatch = false;
         if ($this->isOpen) {
-            if (isset($string[2]) && $string[0] === '`' && $string[1] === '`' && $string[2] === '`') {
-                $this->_recursionDepth--;
-                if ($this->_recursionDepth === 0)
-                    $this->isOpen = false;
-            } else if (isset($string[2]) && $string[0] === '`' && $string[1] === '`' && $string[2] === '`')
-                $this->_recursionDepth++;
-            if ($this->isOpen) {
+            if (self::isMyLine($string)) {
+                $this->needsClosing = true;
+                return true;
+            }
+
+            if (!$this->needsClosing) {
                 $this->_currentContent .= $string . "\n";
+                return true;
             }
+
+            return false;
+        } else if (self::isMyLine($string)) {
+            $this->needsClosing = false;
+            $this->_programmingLanguage = trim(substr($string, 3));
             return true;
         }
-        if (isset($string[2]) && $string[0] === '`' && $string[1] === '`' && $string[2] === '`') {
-            if ($this->_recursionDepth === 0) {
-                $this->_programmingLanguage = trim(substr($string, 3));
-            }
-            $this->_recursionDepth++;
-            return true;
-        }
+        $this->isOpen = false;
         return false;
     }
 }
