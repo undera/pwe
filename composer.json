@@ -15,7 +15,7 @@
     "smarty/smarty": "v3.1.19",
     "amaury/wikirenderer": "dev-master",
     "easybook/geshi": "v1.0.8.15",
-    "phpunit/phpunit": "4.7.6"
+    "phpunit/phpunit": "~4"
   },
   "autoload": {
     "psr-0": {
