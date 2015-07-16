@@ -39,6 +39,7 @@ class Config extends \WikiRenderer\Config implements PWEConnected, TOCProvider
 
     /** List of block markups. */
     public $blocktags = array(
+        '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\Hr',
         '\PWE\Modules\SimpleWiki\GitHubMarkdownSyntax\Code',
         '\PWE\Modules\SimpleWiki\GitHubMarkdownSyntax\Title',
         '\PWE\Modules\SimpleWiki\GitHubMarkdownSyntax\WikiList',

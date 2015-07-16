@@ -1,8 +1,8 @@
 <table class="wiki">
     <tr>
-        <td style="width: 100%; vertical-align: top">{$content}</td>
+        <td>{$content}</td>
         {if $sidebar}
-            <td style="vertical-align: top" class="sidebar">
+            <td class="sidebar">
                 <div id="sticker">{$sidebar}</div>
                 <div class="stickPlaceholder">&nbsp;</div>
             </td>
