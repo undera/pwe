@@ -33,6 +33,8 @@ class Config extends \WikiRenderer\Config implements PWEConnected, TOCProvider
             '\PWE\Modules\SimpleWiki\GitHubMarkdownSyntax\Em',
             '\PWE\Modules\SimpleWiki\GitHubMarkdownSyntax\Em2',
             '\PWE\Modules\SimpleWiki\GitHubMarkdownSyntax\Inliner',
+            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\FileDownload',
+            '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\FileDownloadDir',
             '\PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax\HTML',
         )
     );
