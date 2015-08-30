@@ -139,8 +139,11 @@ class SimpleWiki extends PWEModule implements Outputable, BreadcrumbsGenerator
      */
     private function processSmarty($contents, $dir, $ext)
     {
+        $node = $this->PWE->getNode();
+        $tpl = $node['!i']['layout_tpl'] ?: __DIR__ . '/wiki.tpl';
+
         $smarty = new SmartyWrapper($this->PWE);
-        $smarty->setTemplateFile(__DIR__ . '/wiki.tpl');
+        $smarty->setTemplateFile($tpl);
         $smarty->assign('content', $contents);
 
         if ($this->config instanceof TOCProvider) {
@@ -158,10 +161,10 @@ class SimpleWiki extends PWEModule implements Outputable, BreadcrumbsGenerator
 
     public function generateBreadcrumbs()
     {
-        $params=$this->PWE->getURL()->getParamsAsArray();
+        $params = $this->PWE->getURL()->getParamsAsArray();
         $res = array();
         $res[] = array('selected' => 1, '!a' => array(
-            'link' => "../".$params[0],
+            'link' => "../" . $params[0],
             'title' => $params[0]
         ));
         return $res;
