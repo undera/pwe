@@ -24,8 +24,8 @@
                                 $(a).visibilityToggle();
                                 if (!a) {
                                     a = document.createElement("a");
-                                    a.href = "#" + this.id.toLowerCase();
-                                    a.id = this.id.toLowerCase();
+                                    a.href = "#" + this.id;
+                                    a.id = this.id;
                                     $(a).html("&para;").addClass("anchorLink").css({position: 'relative', zIndex: 5});
                                     $(this).append(a);
                                 }
