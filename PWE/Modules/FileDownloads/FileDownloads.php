@@ -3,9 +3,8 @@
 namespace PWE\Modules\FileDownloads;
 
 use FilesystemIterator;
-use PWE\Core\PWELogger;
-use PWE\Core\PWEURL;
 use PWE\Core\PWECore;
+use PWE\Core\PWELogger;
 use PWE\Exceptions\HTTP3xxException;
 use PWE\Exceptions\HTTP4xxException;
 use PWE\Exceptions\HTTP5xxException;
@@ -70,7 +69,7 @@ class FileDownloads extends PWEModule implements Outputable
         if (is_file($f)) {
             $cnt = round(file_get_contents($f));
         } else {
-            PWELogger::warn("No download count info for %s", $file);
+            PWELogger::debug("No download count info for %s", $file);
             $cnt = 0;
         }
 
