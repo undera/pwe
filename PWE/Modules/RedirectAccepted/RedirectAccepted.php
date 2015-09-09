@@ -48,5 +48,3 @@ class RedirectAccepted extends PWEModule implements Outputable
     }
 
 }
-
-?>

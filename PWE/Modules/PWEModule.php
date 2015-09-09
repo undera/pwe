@@ -45,5 +45,3 @@ abstract class PWEModule implements PWEConnected
     }
 
 }
-
-?>

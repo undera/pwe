@@ -29,5 +29,3 @@ class HTTP2xxException extends PWEHTTPException
     }
 
 }
-
-?>

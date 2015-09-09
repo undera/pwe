@@ -14,7 +14,7 @@ class PHPFatalException extends RuntimeException
 
     public static function activate()
     {
-        return set_error_handler("PWE\Exceptions\PHPFatalException::errorHandler", E_ALL ^ E_NOTICE);
+        return set_error_handler(__CLASS__ . '::errorHandler', E_ALL ^ E_NOTICE);
     }
 
     public function __construct($errstr, $errno, $errfile, $errline)
@@ -34,10 +34,9 @@ class PHPFatalException extends RuntimeException
     public static function errorHandler($errno, $errstr, $errfile, $errline)
     {
         // @ prefix sets error_reporting() to 0, avoid triggering on @fopen
-        if (error_reporting() != 0)
+        if (error_reporting() != 0) {
             throw new PHPFatalException($errstr, $errno, $errfile, $errline);
+        }
     }
 
 }
-
-?>

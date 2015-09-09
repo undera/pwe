@@ -13,5 +13,3 @@ interface Setupable
 
     public static function setup(PWECore $pwe, array &$registerData);
 }
-
-?>

@@ -46,5 +46,3 @@ class HTTP2xxExceptionTest extends \PHPUnit_Framework_TestCase {
     }
 
 }
-
-?>

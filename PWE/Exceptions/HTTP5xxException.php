@@ -16,5 +16,3 @@ class HTTP5xxException extends PWEHTTPException
     }
 
 }
-
-?>

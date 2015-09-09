@@ -65,5 +65,3 @@ class HTMLPage extends PWEModule implements Outputable, Setupable
     }
 
 }
-
-?>

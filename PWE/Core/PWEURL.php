@@ -39,7 +39,7 @@ class PWEURL implements SmartyAssociative
 
             $inherited_attrs = $this->node['!i'];
 
-            $this->node = & $this->node['!c']['url'][$ix];
+            $this->node = &$this->node['!c']['url'][$ix];
             $this->node['!i'] = (isset($this->node['!a']) ? $this->node['!a'] : array()) + $inherited_attrs;
 
             if ($search_uri && isset($this->node['!c']['url'])) {
@@ -56,7 +56,7 @@ class PWEURL implements SmartyAssociative
             }
 
             $inherited_attrs = $this->node['!i'];
-            $this->node = & $this->node['!c']['params'][0];
+            $this->node = &$this->node['!c']['params'][0];
             $this->node['!i'] = (isset($this->node['!a']) ? $this->node['!a'] : array()) + $inherited_attrs;
 
             if ($search_uri && isset($this->node['!c']['url'])) {
@@ -188,5 +188,3 @@ class PWEURL implements SmartyAssociative
     }
 
 }
-
-?>

@@ -23,5 +23,3 @@ class HTTP3xxException extends PWEHTTPException
         }
     }
 }
-
-?>

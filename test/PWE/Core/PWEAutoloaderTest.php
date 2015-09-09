@@ -22,7 +22,7 @@ class PWEAutoloaderTest extends \PHPUnit_Framework_TestCase
         PWEAutoloader::addSourceRoot(__DIR__);
 
         try {
-            PWEAutoloader::doIt("PWE\Core\PWEAutoloaderNotex");
+            PWEAutoloader::doIt('PWE\Core\PWEAutoloaderNotex');
         } catch (\RuntimeException $e) {
 
         }
@@ -33,8 +33,8 @@ class PWEAutoloaderTest extends \PHPUnit_Framework_TestCase
 
         }
 
-        PWEAutoloader::doIt("PWE\Core\PWEAutoloader");
-        PWEAutoloader::doIt("PWE\Core\PWEAutoloader");
+        PWEAutoloader::doIt('PWE\Core\PWEAutoloader');
+        PWEAutoloader::doIt('PWE\Core\PWEAutoloader');
     }
 
     public function testWithUnderScores()
@@ -45,8 +45,6 @@ class PWEAutoloaderTest extends \PHPUnit_Framework_TestCase
     public function test_confused()
     {
         PWEAutoloader::doIt("FindMe");
-        $a=new \FindMe();
+        $a = new \FindMe();
     }
 }
-
-?>

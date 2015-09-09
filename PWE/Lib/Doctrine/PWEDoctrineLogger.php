@@ -27,5 +27,3 @@ class PWEDoctrineLogger implements SQLLogger
     }
 
 }
-
-?>

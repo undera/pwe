@@ -129,5 +129,3 @@ class FileDownloads extends PWEModule implements Outputable
     }
 
 }
-
-?>

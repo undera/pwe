@@ -55,7 +55,7 @@ abstract class PWEUserAuthController extends PWEModule implements SmartyAssociat
         $levels = $this->PWE->getURL()->getParamsCount();
         $node = $this->PWE->getNode();
         while ($node && !isset($node['!a']['authController'])) {
-            $node = & $node['!p'];
+            $node = &$node['!p'];
             $levels++;
         }
         return $levels;
@@ -63,4 +63,3 @@ abstract class PWEUserAuthController extends PWEModule implements SmartyAssociat
 
 }
 
-?>

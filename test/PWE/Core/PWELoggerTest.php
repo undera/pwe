@@ -58,5 +58,3 @@ class PWELoggerTest extends \PHPUnit_Framework_TestCase
     }
 
 }
-
-?>

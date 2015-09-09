@@ -17,5 +17,3 @@ class HTTP4xxException extends PWEHTTPException
     }
 
 }
-
-?>

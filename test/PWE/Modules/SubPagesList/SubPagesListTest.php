@@ -6,7 +6,8 @@ use PWE\Core\UnitTestPWECore;
 
 require_once __DIR__ . '/../../../PWEUnitTests.php';
 
-class SubPagesListTest extends \PHPUnit_Framework_TestCase {
+class SubPagesListTest extends \PHPUnit_Framework_TestCase
+{
 
     /**
      *
@@ -14,19 +15,19 @@ class SubPagesListTest extends \PHPUnit_Framework_TestCase {
      */
     protected $object;
 
-    protected function setUp() {
-        
+    protected function setUp()
+    {
+
     }
 
-    public function testGetVisitorOutput_none() {
+    public function testGetVisitorOutput_none()
+    {
         $PWE = new UnitTestPWECore();
         $PWE->setURL("/");
         $this->object = new SubPagesList($PWE);
         $this->object->process();
-        $res=$this->object->getPWE()->getContent();
+        $res = $this->object->getPWE()->getContent();
         $this->assertFalse(strstr($res, "<"));
     }
 
 }
-
-?>

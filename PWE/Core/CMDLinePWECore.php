@@ -22,4 +22,3 @@ class CMDLinePWECore extends PWECore
     }
 }
 
-?>

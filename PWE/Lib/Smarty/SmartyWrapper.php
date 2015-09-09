@@ -64,5 +64,3 @@ class SmartyWrapper extends Smarty implements Setupable
     }
 
 }
-
-?>

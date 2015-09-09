@@ -14,5 +14,3 @@ interface Outputable
      */
     public function process();
 }
-
-?>

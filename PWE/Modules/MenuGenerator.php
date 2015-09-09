@@ -7,5 +7,3 @@ interface MenuGenerator
 
     public function getMenuLevel($level);
 }
-
-?>

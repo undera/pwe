@@ -22,7 +22,7 @@ class PWEDoctrineLoggerTest extends \PHPUnit_Framework_TestCase
 
     public function testStopQuery()
     {
-        $this->object->stopQuery("");
+        $this->object->stopQuery();
     }
 
 }

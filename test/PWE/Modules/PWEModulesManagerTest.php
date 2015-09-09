@@ -58,4 +58,3 @@ class PWEModulesManagerTest extends \PHPUnit_Framework_TestCase
 
 }
 
-?>

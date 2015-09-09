@@ -7,14 +7,14 @@ namespace PWE\Modules;
  *
  * @author undera
  */
-class TestPWEModulesManager extends PWEModulesManager {
+class TestPWEModulesManager extends PWEModulesManager
+{
 
-    public function setModuleSettings($moduleName, $settings) {
+    public function setModuleSettings($moduleName, $settings)
+    {
         $node = &$this->getModuleNode($moduleName);
         $node['!c'] = $settings;
         $this->saveRegistry();
     }
 
 }
-
-?>

@@ -11,5 +11,3 @@ interface SmartyAssociative
 
     public static function getSmartyAllowedMethods();
 }
-
-?>

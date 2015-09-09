@@ -20,5 +20,3 @@ interface BreadcrumbsGenerator
      */
     public function generateBreadcrumbs();
 }
-
-?>

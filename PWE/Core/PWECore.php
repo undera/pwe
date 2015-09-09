@@ -469,5 +469,3 @@ class PWECore
         session_destroy();
     }
 }
-
-?>

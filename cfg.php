@@ -16,4 +16,3 @@ $PWECore->setStaticHref('/img');
 $PWECore->setDataDirectory($root . '/dat');
 $PWECore->setTempDirectory($root . '/dat/tmp');
 PWEAutoloader::addSourceRoot($root . '/PWE');
-?>

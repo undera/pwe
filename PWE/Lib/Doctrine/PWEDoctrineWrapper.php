@@ -156,5 +156,3 @@ class PWEDoctrineWrapper extends PWEModule implements Setupable, PWECMDJob
     }
 
 }
-
-?>

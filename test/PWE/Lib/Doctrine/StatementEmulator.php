@@ -2,82 +2,100 @@
 
 namespace PWE\Lib\Doctrine;
 
-use \PDO;
+use Doctrine\DBAL\Driver\Statement;
+use PDO;
 
-class StatementEmulator implements \IteratorAggregate, \Doctrine\DBAL\Driver\Statement {
+class StatementEmulator implements \IteratorAggregate, Statement
+{
 
-    public function bindValue($param, $value, $type = null) {
-        
+    public function bindValue($param, $value, $type = null)
+    {
+
     }
 
-    public function closeCursor() {
-        
+    public function closeCursor()
+    {
+
     }
 
-    public function columnCount() {
-        
+    public function columnCount()
+    {
+
     }
 
-    public function errorCode() {
-        
+    public function errorCode()
+    {
+
     }
 
-    public function errorInfo() {
-        
+    public function errorInfo()
+    {
+
     }
 
-    public function execute($params = null) {
-        
+    public function execute($params = null)
+    {
+
     }
 
-    public function fetch($fetchStyle = PDO::FETCH_BOTH) {
-        
+    public function fetch($fetchStyle = PDO::FETCH_BOTH)
+    {
+
     }
 
-    public function fetchAll($fetchStyle = PDO::FETCH_BOTH) {
-        
+    public function fetchAll($fetchStyle = PDO::FETCH_BOTH)
+    {
+
     }
 
-    public function fetchColumn($columnIndex = 0) {
-        
+    public function fetchColumn($columnIndex = 0)
+    {
+
     }
 
-    public function rowCount() {
-        
+    public function rowCount()
+    {
+
     }
 
-    public function current() {
-        
+    public function current()
+    {
+
     }
 
-    public function key() {
-        
+    public function key()
+    {
+
     }
 
-    public function next() {
-        
+    public function next()
+    {
+
     }
 
-    public function rewind() {
-        
+    public function rewind()
+    {
+
     }
 
-    public function valid() {
-        
+    public function valid()
+    {
+
     }
 
-    public function getIterator() {
-        
+    public function getIterator()
+    {
+
     }
 
-    public function bindParam($column, &$variable, $type = null, $length = null) {
-        
+    public function bindParam($column, &$variable, $type = null, $length = null)
+    {
+
     }
 
-    public function setFetchMode($fetchMode, $arg2 = null, $arg3 = null) {
-        
+    public function setFetchMode($fetchMode, $arg2 = null, $arg3 = null)
+    {
+
     }
 
 }
-
-?>

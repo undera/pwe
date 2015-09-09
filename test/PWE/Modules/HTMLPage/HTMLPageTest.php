@@ -7,7 +7,8 @@ use PWE\Exceptions\HTTP4xxException;
 
 require_once __DIR__ . '/../../../PWEUnitTests.php';
 
-class HTMLPageTest extends \PHPUnit_Framework_TestCase {
+class HTMLPageTest extends \PHPUnit_Framework_TestCase
+{
 
     /**
      *
@@ -16,7 +17,8 @@ class HTMLPageTest extends \PHPUnit_Framework_TestCase {
     private $PWE;
     protected $object;
 
-    protected function setUp() {
+    protected function setUp()
+    {
         $this->PWE = new UnitTestPWECore();
         $tmp = $this->PWE->getTempDirectory();
         $this->PWE->setDataDirectory(__DIR__);
@@ -24,7 +26,8 @@ class HTMLPageTest extends \PHPUnit_Framework_TestCase {
         $this->PWE->setStructFile(__DIR__ . '/HTMLPage.xml');
     }
 
-    public function testGetVisitorOutput_UnderConstr() {
+    public function testGetVisitorOutput_UnderConstr()
+    {
         $this->PWE->setURL("/");
         $this->object = new HTMLPage($this->PWE);
 
@@ -32,11 +35,12 @@ class HTMLPageTest extends \PHPUnit_Framework_TestCase {
             $this->object->process();
             $this->fail();
         } catch (HTTP4xxException $e) {
-            
+
         }
     }
 
-    public function testGetVisitorOutput_UnderConstr2() {
+    public function testGetVisitorOutput_UnderConstr2()
+    {
         $this->PWE->setURL("/notready/");
         $this->object = new HTMLPage($this->PWE);
 
@@ -44,11 +48,12 @@ class HTMLPageTest extends \PHPUnit_Framework_TestCase {
             $this->object->process();
             $this->fail();
         } catch (HTTP4xxException $e) {
-            
+
         }
     }
 
-    public function testGetVisitorOutput_UnderConstr3() {
+    public function testGetVisitorOutput_UnderConstr3()
+    {
         $this->PWE->setURL("/nothtml/");
         $this->object = new HTMLPage($this->PWE);
 
@@ -56,23 +61,23 @@ class HTMLPageTest extends \PHPUnit_Framework_TestCase {
             $this->object->process();
             $this->fail();
         } catch (HTTP4xxException $e) {
-            
+
         }
     }
 
-    public function testGetVisitorOutput_OK() {
+    public function testGetVisitorOutput_OK()
+    {
         $this->PWE->setURL("/htmltest/");
         $this->object = new HTMLPage($this->PWE);
-        $res = $this->object->process();
+        $this->object->process();
         $this->assertEquals("<html><head><title></title></head><body>TEST</body></html>", $this->PWE->getContent());
     }
 
-    public function testSetup() {
+    public function testSetup()
+    {
         $this->PWE->setDataDirectory($this->PWE->getTempDirectory());
         $registerData = array();
         HTMLPage::setup($this->PWE, $registerData);
     }
 
 }
-
-?>

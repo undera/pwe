@@ -2,31 +2,35 @@
 
 namespace PWE\Lib\Doctrine;
 
-use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Driver;
 
-class PWEDoctrineEmulator implements Driver {
+class PWEDoctrineEmulator implements Driver
+{
 
-    public function connect(array $params, $username = null, $password = null, array $driverOptions = array()) {
+    public function connect(array $params, $username = null, $password = null, array $driverOptions = array())
+    {
         return new ConnectionEmulator();
     }
 
-    public function getDatabase(Connection $conn) {
-        
+    public function getDatabase(Connection $conn)
+    {
+
     }
 
-    public function getDatabasePlatform() {
+    public function getDatabasePlatform()
+    {
         return new PlatformEmulator();
     }
 
-    public function getName() {
-        
+    public function getName()
+    {
+
     }
 
-    public function getSchemaManager(Connection $conn) {
-        
+    public function getSchemaManager(Connection $conn)
+    {
+
     }
 
 }
-
-?>

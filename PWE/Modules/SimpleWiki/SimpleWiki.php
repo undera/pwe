@@ -170,5 +170,3 @@ class SimpleWiki extends PWEModule implements Outputable, BreadcrumbsGenerator
         return $res;
     }
 }
-
-?>

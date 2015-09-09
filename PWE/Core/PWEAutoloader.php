@@ -267,4 +267,3 @@ abstract class PWEAutoloader
 
 }
 
-?>

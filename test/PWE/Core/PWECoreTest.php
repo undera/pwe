@@ -146,7 +146,7 @@ class PWECoreTest extends \PHPUnit_Framework_TestCase
     {
         $this->object->process('/inheritance/');
         $this->assertEquals("/inheritance:", $this->object->getContent());
-        $node=$this->object->getNode();
+        $node = $this->object->getNode();
         $this->assertEquals("empty.tpl", $node['!i']['template']);
     }
 
@@ -317,5 +317,3 @@ class DummyModule extends PWEModule implements Outputable, MenuGenerator
 
     }
 }
-
-?>

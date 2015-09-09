@@ -48,5 +48,3 @@ class ConnectionEmulator implements Connection {
     }
 
 }
-
-?>

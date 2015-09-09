@@ -263,24 +263,24 @@ class PWEXML extends PWEXMLFunctions implements Setupable
         // но не зря - есть надежный прирост в производительности
         // все пришлось переделать в рекурсию памяти Асии Асхатовны Валеевой
         // в конце концов без Дзена не обошлось на выход в астрал ушел целый день
-        $parent = & $res;
+        $parent = &$res;
         if ($level > 1)
-            $res = & $res['!c'];
+            $res = &$res['!c'];
         while ($i < $this->parsed_size) {
-            $node = & $this->parsed_vals[$i++];
+            $node = &$this->parsed_vals[$i++];
             // нет смысла идти дальше - это другой уровень пошел
             if ($node['level'] !== $level)
                 break;
 
             $res[$node['tag']][] = array();
             $childno = sizeof($res[$node['tag']]) - 1;
-            $child = & $res[$node['tag']][$childno];
+            $child = &$res[$node['tag']][$childno];
 
             $child['!a'] = isset($node['attributes']) ? $node['attributes'] : array();
             $child['!v'] = isset($node['value']) ? trim($node['value']) : '';
 
             if ($level > 1)
-                $child['!p'] = & $parent;
+                $child['!p'] = &$parent;
 
             switch ($node['type']) {
                 case 'open':
@@ -374,7 +374,7 @@ class PWEXML extends PWEXMLFunctions implements Setupable
             foreach ($ev as $nk => $nv) {
                 // parent
                 if ($parent)
-                    $harray[$ek][$nk]['!p'] = & $parent;
+                    $harray[$ek][$nk]['!p'] = &$parent;
 
                 // children
                 if (isset($nv['!c']))
@@ -392,4 +392,3 @@ class PWEXML extends PWEXMLFunctions implements Setupable
 }
 
 // CLASS болду
-?>

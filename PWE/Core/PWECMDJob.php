@@ -10,4 +10,3 @@ interface PWECMDJob
     public function run();
 }
 
-?>

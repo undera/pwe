@@ -21,5 +21,3 @@ class SubPagesList extends PWEModule implements Outputable
     }
 
 }
-
-?>

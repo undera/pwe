@@ -40,5 +40,3 @@ class SmartyPage extends PWEModule implements Outputable
 
     }
 }
-
-?>

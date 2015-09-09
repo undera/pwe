@@ -35,5 +35,3 @@ abstract class PWEHTTPException extends RuntimeException
     }
 
 }
-
-?>

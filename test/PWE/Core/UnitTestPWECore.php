@@ -41,5 +41,3 @@ class UnitTestPWECore extends PWECore
         parent::setURL($uri);
     }
 }
-
-?>

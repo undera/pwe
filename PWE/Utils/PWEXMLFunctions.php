@@ -60,5 +60,3 @@ abstract class PWEXMLFunctions
     }
 
 }
-
-?>

@@ -6,5 +6,3 @@ interface TitleGenerator
 {
     public function generateTitle();
 }
-
-?>
