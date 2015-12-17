@@ -11,6 +11,7 @@ use PWE\Core\PWECore;
 use PWE\Core\PWELogger;
 use PWE\Modules\PWEModule;
 use PWE\Modules\Setupable;
+use PWE\Utils\PWEXMLFunctions;
 
 class PWEDoctrineWrapper extends PWEModule implements Setupable, PWECMDJob
 {
@@ -19,44 +20,40 @@ class PWEDoctrineWrapper extends PWEModule implements Setupable, PWECMDJob
      *
      * @var Connection
      */
-    private static $connection;
-
-    /**
-     *
-     * @var Connection
-     */
-    private $DB;
-
-    public function __construct(PWECore $core)
-    {
-        parent::__construct($core);
-        $this->DB = self::getConnection($core);
-    }
+    private static $connection = array();
 
     /**
      *
      * @param PWECore $PWE
      * @param bool $forceNewConnection
+     * @param string $alias
      * @return Connection
+     * @throws DBALException
      */
-    public static function getConnection(PWECore $PWE, $forceNewConnection = false)
+    public static function getConnection(PWECore $PWE, $forceNewConnection = false, $alias = null)
     {
-        if (!$forceNewConnection && self::$connection) {
+        if (!$forceNewConnection && self::$connection[$alias]) {
             PWELogger::debug('Used cached connection');
-            return self::$connection;
+            return self::$connection[$alias];
         }
 
         $settings = $PWE->getModulesManager()->getModuleSettings(self::getClass());
-        $params = $settings['!c']['connection'][0]['!a'];
+        $connections = $settings['!c']['connection'];
+        $ix = PWEXMLFunctions::findNodeWithAttributeValue($connections, 'alias', $alias);
+        if ($ix < 0) {
+            throw new \InvalidArgumentException("Alias $alias not found in database configs");
+        }
+
+        $params = $connections[$ix]['!a'];
 
         $config = new Configuration();
         $config->setSQLLogger(new PWEDoctrineLogger());
 
         PWELogger::debug("Getting connection: %s", $params);
 
-        self::$connection = DriverManager::getConnection($params, $config);
+        self::$connection[$alias] = DriverManager::getConnection($params, $config);
 
-        return self::$connection;
+        return self::$connection[$alias];
     }
 
     public static function setup(PWECore $pwe, array &$registerData)
@@ -74,13 +71,15 @@ class PWEDoctrineWrapper extends PWEModule implements Setupable, PWECMDJob
         if (!$filename_prefix)
             $filename_prefix = $module;
 
+        $DB = $this->getConnection($this->PWE); // TODO: aliased DB choice will fail here
+
         // get current dbversion
         try {
             PWELogger::debug("Getting DB version number");
-            $res = $this->DB->query("select dbversion from m_db_versions where module='" . ($module) . "'");
+            $res = $DB->query("select dbversion from m_db_versions where module='" . ($module) . "'");
         } catch (DBALException $e) {
             PWELogger::debug("Creating DB versions table: %s", $e);
-            $this->DB->query("CREATE TABLE m_db_versions (
+            $DB->query("CREATE TABLE m_db_versions (
                   ID MEDIUMINT(8) NOT NULL AUTO_INCREMENT,
                   module VARCHAR(255) NOT NULL,
                   dbversion MEDIUMINT(8) UNSIGNED NOT NULL,
@@ -95,7 +94,7 @@ class PWEDoctrineWrapper extends PWEModule implements Setupable, PWECMDJob
             PWELogger::debug("DB version number: %s", $version_row);
         } else {
             PWELogger::debug("Inserting first row for module: %s", $module);
-            $this->DB->query("insert into m_db_versions(module, dbversion) values('" . ($module) . "', 0)");
+            $DB->query("insert into m_db_versions(module, dbversion) values('" . ($module) . "', 0)");
             $version_row = array('dbversion' => 0);
         }
 
@@ -113,7 +112,7 @@ class PWEDoctrineWrapper extends PWEModule implements Setupable, PWECMDJob
                 PWELogger::info("Executing file: %s", $fname);
                 require $fname;
             }
-            $this->DB->executeQuery("update m_db_versions set dbversion=? where module=?", array($version, $module));
+            $DB->executeQuery("update m_db_versions set dbversion=? where module=?", array($version, $module));
             $version++;
         }
         PWELogger::info("Done upgrading DB");
@@ -124,6 +123,7 @@ class PWEDoctrineWrapper extends PWEModule implements Setupable, PWECMDJob
     public function soakFile($filename)
     {
         PWELogger::info('Processing SQL-file: %s', $filename);
+        $DB = $this->getConnection($this->PWE); // TODO: aliased DB choice will fail here
 
         $sql = file_get_contents($filename);
         $splitter = strstr($sql, ";\r\n") ? ";\r\n" : ";\n";
@@ -131,7 +131,7 @@ class PWEDoctrineWrapper extends PWEModule implements Setupable, PWECMDJob
 
         foreach ($sqls as $sql) {
             if (strlen(trim($sql))) {
-                $this->DB->query($sql);
+                $DB->query($sql);
             }
         }
     }
