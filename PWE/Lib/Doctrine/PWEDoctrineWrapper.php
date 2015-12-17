@@ -47,7 +47,7 @@ class PWEDoctrineWrapper extends PWEModule implements Setupable, PWECMDJob
         $params = $connections[$ix]['!a'];
 
         $config = new Configuration();
-        $config->setSQLLogger(new PWEDoctrineLogger());
+        $config->setSQLLogger(new PWEDoctrineLogger($alias ? $alias : ''));
 
         PWELogger::debug("Getting connection: %s", $params);
 

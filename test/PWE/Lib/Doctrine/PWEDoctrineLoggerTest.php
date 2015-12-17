@@ -12,7 +12,7 @@ class PWEDoctrineLoggerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->object = new PWEDoctrineLogger;
+        $this->object = new PWEDoctrineLogger();
     }
 
     public function testStartQuery()
