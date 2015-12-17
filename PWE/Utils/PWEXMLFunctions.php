@@ -19,7 +19,7 @@ abstract class PWEXMLFunctions
     {
         $cnt = sizeof($nodes ? $nodes : array());
         for ($k = 0; $k < $cnt; $k++) {
-            $matches = $nodes[$k]['!a'][$name] === $val;
+            $matches = $nodes[$k]['!a'][$name] == $val;
             $nullMatches = $val === null && !isset($nodes[$k]['!a'][$name]);
             if ($matches || $nullMatches) {
                 return $k;
