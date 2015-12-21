@@ -73,8 +73,10 @@ if (php_sapi_name() == 'cli') {
     try {
         require_once dirname($_SERVER['SCRIPT_FILENAME']) . '/cfg.php';
 
-        echo $PWECore->process($_SERVER['REDIRECT_URL'] ? $_SERVER['REDIRECT_URL'] : $_SERVER['REQUEST_URI']);
-        PWELogger::info("PWE Done.");
+        $uri = $_SERVER['REDIRECT_URL'] ? $_SERVER['REDIRECT_URL'] : $_SERVER['REQUEST_URI'];
+        $started = microtime(true);
+        echo $PWECore->process($uri);
+        PWELogger::info("Done $uri in " . (microtime(true) - $started));
     } catch (\Exception $e) {
         try {
             if ($e->getCode() != 404) {
