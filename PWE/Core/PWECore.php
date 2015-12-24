@@ -55,6 +55,7 @@ class PWECore
     {
         $this->setRootDirectory(FilesystemHelper::protectAgainsRelativePaths(__DIR__ . '/../../'));
         $this->errorsTemplate = 'error.tpl';
+        $this->createModulesManager();
     }
 
     public function setRootDirectory($dir)
@@ -136,8 +137,9 @@ class PWECore
      */
     public function getModulesManager()
     {
-        if (!$this->modulesManager)
+        if (!$this->modulesManager) {
             throw new BadFunctionCallException("Not created modules manager");
+        }
 
         return $this->modulesManager;
     }
@@ -159,7 +161,6 @@ class PWECore
     public function process($uri)
     {
         try {
-            $this->createModulesManager();
             $this->setURL($uri);
             $this->currentModuleInstance = $this->getModuleInstance($this->getNode());
             return $this->getHTML();
