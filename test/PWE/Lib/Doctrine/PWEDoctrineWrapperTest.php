@@ -19,8 +19,8 @@ class PWEDoctrineWrapperTest extends \PHPUnit_Framework_TestCase
     {
         $this->PWE = new UnitTestPWECore();
         $db_config = array('driverClass' => get_class(new PWEDoctrineEmulator()), 'charset' => 'utf8');
-        $db_settings['connection'][0]['!a'] = $db_config;
-        $db_settings['connection'][1]['!a'] = array_merge($db_config, array('alias' => 'aliased'));
+        $db_settings['!c']['connection'][0]['!a'] = $db_config;
+        $db_settings['!c']['connection'][1]['!a'] = array_merge($db_config, array('alias' => 'aliased'));
         $modm = $this->PWE->getModulesManager();
         $modm->setModuleSettings(PWEDoctrineWrapper::getClass(), $db_settings);
 
@@ -32,7 +32,6 @@ class PWEDoctrineWrapperTest extends \PHPUnit_Framework_TestCase
         $this->object->getConnection($this->PWE, true);
         $this->object->getConnection($this->PWE, false);
     }
-
 
     public function testGetConnection_alias_not_found()
     {

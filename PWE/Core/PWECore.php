@@ -53,9 +53,9 @@ class PWECore
 
     public function __construct()
     {
+        $this->modulesManager = new PWEModulesManager($this);
         $this->setRootDirectory(FilesystemHelper::protectAgainsRelativePaths(__DIR__ . '/../../'));
         $this->errorsTemplate = 'error.tpl';
-        $this->createModulesManager();
     }
 
     public function setRootDirectory($dir)
@@ -80,10 +80,7 @@ class PWECore
         PWELogger::debug("Setting XML data path to %s", $dir);
         $this->xmlFolder = $dir;
         $this->siteStructureFile = $this->getXMLDirectory() . '/out.xml';
-
-        if ($this->modulesManager) {
-            $this->modulesManager->setRegistryFile($this->getXMLDirectory() . '/eg_globals.xml');
-        }
+        $this->modulesManager->setRegistryFile($this->getXMLDirectory() . '/eg_globals.xml');
     }
 
     public function setTempDirectory($dir)
@@ -126,11 +123,6 @@ class PWECore
         }
     }
 
-    protected function createModulesManager(PWEModulesManager $externalManager = null)
-    {
-        $this->modulesManager = $externalManager ? $externalManager : new PWEModulesManager($this);
-    }
-
     /**
      * @throws BadFunctionCallException
      * @return PWEModulesManager
@@ -160,6 +152,10 @@ class PWECore
 
     public function process($uri)
     {
+        if (!$this->getModulesManager()->getRegistryFile()) {
+            $this->modulesManager->setRegistryFile($this->getXMLDirectory() . '/eg_globals.xml');
+        }
+
         try {
             $this->setURL($uri);
             $this->currentModuleInstance = $this->getModuleInstance($this->getNode());

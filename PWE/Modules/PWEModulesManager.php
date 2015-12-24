@@ -27,8 +27,6 @@ class PWEModulesManager implements PWECMDJob
     {
         PWELogger::debug("Loading registry");
         $this->PWE = $pwe;
-        $registryFile = $this->PWE->getXMLDirectory() . '/eg_globals.xml';
-        $this->setRegistryFile($registryFile);
     }
 
     public function getRegistryFile()
@@ -72,6 +70,7 @@ class PWEModulesManager implements PWECMDJob
             if ($modClass->isInstantiable()) {
                 if ($modClass->implementsInterface('PWE\Modules\Setupable')) {
                     PWELogger::debug("Setting up %s", $name);
+                    /** @noinspection PhpUndefinedMethodInspection */
                     $name::setup($this->PWE, $mod);
                 }
             }
@@ -129,6 +128,11 @@ class PWEModulesManager implements PWECMDJob
 
     protected function saveRegistry()
     {
+        if (!$this->registryFile) {
+            PWELogger::warn("No registry file set, won't try to save registry");
+            return;
+        }
+
         try {
             PWEXML::cleanEmptyNodes($this->registryArray['registry'][0]);
         } catch (PHPFatalException $e) {

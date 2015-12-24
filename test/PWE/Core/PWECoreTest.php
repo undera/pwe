@@ -9,7 +9,6 @@ use PWE\Exceptions\HTTP4xxException;
 use PWE\Modules\MenuGenerator;
 use PWE\Modules\Outputable;
 use PWE\Modules\PWEModule;
-use PWE\Modules\PWEModulesManager;
 use PWEUnitTests;
 
 require_once __DIR__ . '/../../PWEUnitTests.php';
@@ -28,7 +27,6 @@ class PWECoreTest extends \PHPUnit_Framework_TestCase
         $this->object->setDataDirectory(__DIR__);
         $this->object->setXMLDirectory(__DIR__ . '/coreXML');
         $this->object->setTempDirectory(PWEUnitTests::utGetCleanTMP());
-        $this->object->createModulesManager();
     }
 
     protected function tearDown()
@@ -281,10 +279,6 @@ class PWECoreTest extends \PHPUnit_Framework_TestCase
 
 class PWECoreImpl extends PWECore
 {
-    public function createModulesManager(PWEModulesManager $externalManager = null)
-    {
-        parent::createModulesManager($externalManager);
-    }
 
     public function getModulesManager()
     {

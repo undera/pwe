@@ -12,8 +12,7 @@ class CMDLinePWECore extends PWECore
         parent::__construct();
         $this->setXMLDirectory(__DIR__);
         $this->setTempDirectory('/tmp');
-        $mgr = new CMDLineModulesManager($this);
-        $this->createModulesManager($mgr);
+        $this->modulesManager = new CMDLineModulesManager($this);
     }
 
     public function &getNode()
