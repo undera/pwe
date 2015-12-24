@@ -56,11 +56,15 @@ class SmartyWrapper extends Smarty implements Setupable
         parent::registerObject($object_name, $object_impl, $object_impl->getSmartyAllowedMethods(), false);
     }
 
-    // FIXME: why here?
+    // FIXME: why here? remove it at all?
     public static function setup(PWECore $pwe, array &$registerData)
     {
-        PWELogger::debug("Copying into %s/design", $pwe->getStaticDirectory());
-        FilesystemHelper::fsys_copydir(__DIR__ . '/../../design', $pwe->getStaticDirectory() . '/design');
+        if (is_writable($pwe->getStaticDirectory())) {
+            PWELogger::debug("Copying into %s/design", $pwe->getStaticDirectory());
+            FilesystemHelper::fsys_copydir(__DIR__ . '/../../design', $pwe->getStaticDirectory() . '/design');
+        } else {
+            PWELogger::warn("Can't copy resources to %s, it's not writable");
+        }
     }
 
 }
