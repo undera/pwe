@@ -38,11 +38,12 @@ class PWEModulesManager implements PWECMDJob
     {
         PWELogger::debug("Setting registry file to: %s", $path);
         $this->registryFile = $path;
-        $this->loadRegistry();
+        $this->registryArray = null;
     }
 
     protected function &getModuleNode($name)
     {
+        $this->loadRegistry();
         $node = &$this->registryArray['registry'][0]['!c']['classPaths'][0];
         $path = explode("\\", $name);
         foreach ($path as $component) {
@@ -118,7 +119,6 @@ class PWEModulesManager implements PWECMDJob
     public function getMultiInstanceModule(array $structureNode)
     {
         if (!isset($structureNode['!a']['class'])) {
-            //PWELogger::debug("Node: ", $structureNode);
             throw new InvalidArgumentException("Passed structure node have no class name");
         }
 
@@ -144,8 +144,12 @@ class PWEModulesManager implements PWECMDJob
         $XML->FileToArray($this->registryFile, $this->registryArray);
     }
 
-    protected function loadRegistry()
+    protected function loadRegistry($force = false)
     {
+        if (!$force && $this->registryArray) {
+            return;
+        }
+
         PWELogger::debug("Loading registry file: %s", $this->registryFile);
         // read site structure
         $XML = new PWEXML($this->PWE->getTempDirectory());
@@ -166,6 +170,7 @@ class PWEModulesManager implements PWECMDJob
     {
         $this->setRegistryFile($this->PWE->getModulesManager()->getRegistryFile());
         PWELogger::debug("Dumping config");
+        $this->loadRegistry();
         $this->xml_as_options($this->registryArray);
     }
 

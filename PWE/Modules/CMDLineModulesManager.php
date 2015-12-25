@@ -6,7 +6,7 @@ use PWE\Core\PWELogger;
 
 class CMDLineModulesManager extends PWEModulesManager
 {
-    protected function loadRegistry()
+    protected function loadRegistry($force = false)
     {
         if (is_file($this->registryFile)) {
             parent::loadRegistry();
