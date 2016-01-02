@@ -48,7 +48,6 @@ class SmartyWrapper extends Smarty implements Setupable
      * @param array $allowed
      * @param bool $smarty_args
      * @param array $block_methods
-     * @internal param \PWE\Lib\Smarty\SmartyAssociative $object
      * @return \Smarty_Internal_TemplateBase|void
      */
     public function registerObject($object_name, $object_impl, $allowed = array(), $smarty_args = true, $block_methods = array())
