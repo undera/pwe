@@ -65,13 +65,11 @@ class PWEDoctrineWrapper extends PWEModule implements Setupable, PWECMDJob
         }
     }
 
-    public function processDBUpgrade($module, $filename_prefix = './')
+    public function processDBUpgrade(Connection $DB, $module, $filename_prefix = './')
     {
         PWELogger::info("Processing DB upgrade with module %s using prefix: %s", $module, $filename_prefix);
         if (!$filename_prefix)
             $filename_prefix = $module;
-
-        $DB = $this->getConnection($this->PWE); // TODO: aliased DB choice will fail here
 
         // get current dbversion
         try {
@@ -86,7 +84,7 @@ class PWEDoctrineWrapper extends PWEModule implements Setupable, PWECMDJob
                   PRIMARY KEY  (ID),
                   UNIQUE KEY module (module)
                 )");
-            return $this->processDBUpgrade($module, $filename_prefix);
+            return $this->processDBUpgrade($DB, $module, $filename_prefix);
         }
 
         if ($res->rowCount()) {
@@ -105,7 +103,7 @@ class PWEDoctrineWrapper extends PWEModule implements Setupable, PWECMDJob
         while (file_exists($filename_prefix . $version . '.sql') || file_exists($filename_prefix . $version . '.php')) {
             if (file_exists($filename_prefix . $version . '.sql')) {
                 PWELogger::info("Executing file: %s%s.sql", $filename_prefix, $version);
-                $this->soakFile($filename_prefix . $version . '.sql');
+                $this->soakFile($DB, $filename_prefix . $version . '.sql');
             }
             $fname = $filename_prefix . $version . '.php';
             if (file_exists($fname)) {
@@ -120,10 +118,9 @@ class PWEDoctrineWrapper extends PWEModule implements Setupable, PWECMDJob
         return true;
     }
 
-    public function soakFile($filename)
+    public function soakFile(Connection $DB, $filename)
     {
         PWELogger::info('Processing SQL-file: %s', $filename);
-        $DB = $this->getConnection($this->PWE); // TODO: aliased DB choice will fail here
 
         $sql = file_get_contents($filename);
         $splitter = strstr($sql, ";\r\n") ? ";\r\n" : ";\n";
