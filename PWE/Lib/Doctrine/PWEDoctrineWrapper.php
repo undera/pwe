@@ -139,17 +139,25 @@ class PWEDoctrineWrapper extends PWEModule implements Setupable, PWECMDJob
         set_time_limit(0);
 
         // have to add j:c:r: from index.php
-        $opts = getopt("j:c:r:m:p:");
+        $opts = $this->getOpts();
         PWELogger::debug("Opts", $opts);
         if (!$opts["m"] || !$opts["p"]) {
             throw new \InvalidArgumentException("Both -m and -p options required");
         }
-        $this->processDBUpgrade($opts["m"], $opts["p"]);
+
+        $DB = self::getConnection($this->PWE, true, $opts["a"]);
+
+        $this->processDBUpgrade($DB, $opts["m"], $opts["p"]);
     }
 
     public static function getClass()
     {
         return __CLASS__;
+    }
+
+    protected function getOpts()
+    {
+        return getopt("j:c:r:m:p:a:");
     }
 
 }

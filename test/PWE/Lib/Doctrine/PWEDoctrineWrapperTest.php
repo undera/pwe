@@ -24,7 +24,7 @@ class PWEDoctrineWrapperTest extends \PHPUnit_Framework_TestCase
         $modm = $this->PWE->getModulesManager();
         $modm->setModuleSettings(PWEDoctrineWrapper::getClass(), $db_settings);
 
-        $this->object = new PWEDoctrineWrapper($this->PWE);
+        $this->object = new PWEDoctrineWrapperEmul($this->PWE);
     }
 
     public function testGetConnection_single()
@@ -56,12 +56,36 @@ class PWEDoctrineWrapperTest extends \PHPUnit_Framework_TestCase
 
     public function testProcessUpgrade()
     {
-        $this->object->processDBUpgrade('test');
+        $DB = PWEDoctrineWrapper::getConnection($this->PWE);
+        $this->object->processDBUpgrade($DB, 'test');
     }
 
     public function testSoakFile()
     {
-        $this->object->soakFile(__FILE__);
+        $DB = PWEDoctrineWrapper::getConnection($this->PWE);
+        $this->object->soakFile($DB, __FILE__);
+    }
+
+    public function testRun()
+    {
+        global $argv;
+        $argv[] = '-a';
+        $argv[] = '';
+        $argv[] = '-m';
+        $argv[] = 'TEST';
+        $argv[] = '-p';
+        $argv[] = __DIR__;
+
+        $this->object->run();
+    }
+}
+
+
+class PWEDoctrineWrapperEmul extends PWEDoctrineWrapper
+{
+    protected function getOpts()
+    {
+        return ['m' => 'test', 'p' => __DIR__];
     }
 
 }
