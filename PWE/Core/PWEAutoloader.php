@@ -72,7 +72,7 @@ abstract class PWEAutoloader
 
     private static function autoloadClassFromCache($name)
     {
-        PWELogger::debug("Searching class %s in cache", $name);
+        //PWELogger::debug("Searching class %s in cache", $name);
         self::loadCache();
 
         if (self::$cache) {
@@ -110,7 +110,7 @@ abstract class PWEAutoloader
 
     private static function seekBacktraces($name)
     {
-        PWELogger::debug("Searching class %s in backtrace", $name);
+        //PWELogger::debug("Searching class %s in backtrace", $name);
 
         $trace = debug_backtrace();
         // is it somewhere near us?
@@ -126,13 +126,13 @@ abstract class PWEAutoloader
             }
         }
 
-        PWELogger::info("PWE Class not found in backtrace paths: %s", $name);
+        //PWELogger::info("PWE Class not found in backtrace paths: %s", $name);
         return false;
     }
 
     private static function seekIncludes($name)
     {
-        PWELogger::debug("Searching class $name in included paths");
+        //PWELogger::debug("Searching class $name in included paths");
 
         $files = array();
         foreach (get_included_files() as $fname) {
@@ -147,13 +147,13 @@ abstract class PWEAutoloader
                 return true;
         }
 
-        PWELogger::info("Class not found in includes: %s", $name);
+        //PWELogger::info("Class not found in includes: %s", $name);
         return false;
     }
 
     private static function seekAll($name)
     {
-        PWELogger::debug("Searching class %s in whole sources", $name);
+        //PWELogger::debug("Searching class %s in whole sources", $name);
         $paths = self::$sourceRoots;
 
         while ($dir = array_shift($paths)) {
@@ -168,7 +168,7 @@ abstract class PWEAutoloader
                 $paths[] = realpath($dir . '/' . $file);
             }
         }
-        PWELogger::info("PWE Class not found in all source: %s", $name);
+        //PWELogger::info("PWE Class not found in all source: %s", $name);
 
         return false;
     }
