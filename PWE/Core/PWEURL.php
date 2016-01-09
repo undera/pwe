@@ -25,7 +25,7 @@ class PWEURL implements SmartyAssociative
 
         $this->node = array('!c' => $structure, '!i' => array());
         $this->recursiveNodeSearch($this->getFullAsArray());
-        PWELogger::debug("Done URL to structure matching: %s", $this->node['!i']);
+        PWELogger::warn("Done URL to structure matching: %s / %s", $this->node['!a'], $this->node['!i']);
     }
 
     private function recursiveNodeSearch(array $search_uri)
@@ -38,7 +38,6 @@ class PWEURL implements SmartyAssociative
             $this->URLArrayMatched[] = array_shift($search_uri);
 
             $inherited_attrs = $this->node['!i'];
-
             $this->node = &$this->node['!c']['url'][$ix];
             $this->node['!i'] = (isset($this->node['!a']) ? $this->node['!a'] : array()) + $inherited_attrs;
 
@@ -48,20 +47,28 @@ class PWEURL implements SmartyAssociative
             }
         }
 
+        PWELogger::debug("Search: %s", $search_uri);
         if ($search_uri && isset($this->node['!c']['params'])) {
-            // FIXME: here we imply that only first 'params' node makes sense, other ideas?
-            // TODO: we just read the 'count' params, no flexibility or intelligence here
-            for ($n = 0; $search_uri && $n < $this->node['!c']['params'][0]['!a']['count']; $n++) {
+            $paramsNode =& $this->node['!c']['params'][0];
+            PWELogger::debug("Params branch");
+
+            $count = $paramsNode['!a']['count'];
+            if (!$count) {
+                $count = 1;
+            }
+
+            for ($n = 0; $search_uri && $n < $count; $n++) {
                 $this->URLArrayParams[] = array_shift($search_uri);
             }
 
             $inherited_attrs = $this->node['!i'];
-            $this->node = &$this->node['!c']['params'][0];
-            $this->node['!i'] = (isset($this->node['!a']) ? $this->node['!a'] : array()) + $inherited_attrs;
-
-            if ($search_uri && isset($this->node['!c']['url'])) {
+            $paramsNode['!i'] = (isset($paramsNode['!a']) ? $paramsNode['!a'] : array()) + $inherited_attrs;
+            if ($search_uri && isset($paramsNode['!c']['url'])) {
+                $this->node = &$paramsNode;
                 $this->recursiveNodeSearch($search_uri);
                 return;
+            } else {
+                $this->node['!i'] = $paramsNode['!i'];
             }
         }
 
@@ -70,15 +77,12 @@ class PWEURL implements SmartyAssociative
             for ($n = 0; $search_uri && $n < $this->node['!i']['accept']; $n++) {
                 $this->URLArrayParams[] = array_shift($search_uri);
             }
-        } else {
-
         }
 
         if (sizeof($search_uri)) {
             throw new HTTP4xxException("Requested page not found", HTTP4xxException::NOT_FOUND);
         }
     }
-
 
     private function parseURL($uri)
     {
