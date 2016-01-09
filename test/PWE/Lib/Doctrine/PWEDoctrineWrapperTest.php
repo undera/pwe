@@ -85,7 +85,7 @@ class PWEDoctrineWrapperEmul extends PWEDoctrineWrapper
 {
     protected function getOpts()
     {
-        return ['m' => 'test', 'p' => __DIR__];
+        return array('m' => 'test', 'p' => __DIR__);
     }
 
 }
