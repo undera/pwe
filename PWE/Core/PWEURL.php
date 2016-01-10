@@ -25,7 +25,7 @@ class PWEURL implements SmartyAssociative
 
         $this->node = array('!c' => $structure, '!i' => array());
         $this->recursiveNodeSearch($this->getFullAsArray());
-        PWELogger::warn("Done URL to structure matching: %s / %s", $this->node['!a'], $this->node['!i']);
+        PWELogger::debug("Done URL to structure matching: %s / %s", $this->node['!a'], $this->node['!i']);
     }
 
     private function recursiveNodeSearch(array $search_uri)
