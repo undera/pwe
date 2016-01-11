@@ -79,8 +79,10 @@ if (php_sapi_name() == 'cli') {
         PWELogger::info("Done $uri in " . (microtime(true) - $started));
     } catch (\Exception $e) {
         try {
-            if ($e->getCode() != 404) {
+            if ($e->getCode() >= 500) {
                 PWELogger::error('Exception occured at page %s: %s', $_SERVER['REDIRECT_URL'], $e);
+            } elseif($e->getCode() >= 400) {
+                PWELogger::info('Exception occured at page %s: %s', $_SERVER['REDIRECT_URL'], $e);
             }
             header($_SERVER["SERVER_PROTOCOL"] . ' ' . $e->getCode());
             header("Content-Type: text/html");
