@@ -118,11 +118,11 @@ class PWEModulesManager implements PWECMDJob
      */
     public function getMultiInstanceModule(array $structureNode)
     {
-        if (!isset($structureNode['!a']['class'])) {
+        if (!isset($structureNode['!i']['class'])) {
             throw new InvalidArgumentException("Passed structure node have no class name");
         }
 
-        $mod = $this->getSingleInstanceModule($structureNode['!a']['class']);
+        $mod = $this->getSingleInstanceModule($structureNode['!i']['class']);
         return $mod;
     }
 
