@@ -41,7 +41,7 @@ class PWEModulesManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetMultiInstanceModule()
     {
-        $a['!a']['class'] = __CLASS__;
+        $a['!i']['class'] = __CLASS__;
         $this->object->getMultiInstanceModule($a);
     }
 

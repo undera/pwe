@@ -89,7 +89,7 @@ class PWECoreTest extends \PHPUnit_Framework_TestCase
     public function testGetModuleInstance_MultiInstance()
     {
         $node = array();
-        $node['!a']['class'] = "PWE\\Core\\DummyModule";
+        $node['!i']['class'] = "PWE\\Core\\DummyModule";
         $node['!a']['src'] = "test.html";
         $mod = $this->object->getModuleInstance($node);
         $this->assertTrue($mod instanceof PWEModule);
