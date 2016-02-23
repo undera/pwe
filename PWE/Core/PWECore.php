@@ -319,6 +319,7 @@ class PWECore
 
     public function sendHTTPHeader($header, $replace = null, $http_response_code = null)
     {
+        PWELogger::debug("Response header: %s", $header);
         header($header, $replace, $http_response_code);
     }
 
