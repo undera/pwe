@@ -38,7 +38,7 @@ abstract class PWEUserAuthController extends PWEModule implements SmartyAssociat
         try {
             $node = $pwe->getNode();
         } catch (HTTP5xxException $e) {
-            PWELogger::warn("Failed to get pwe node in auth controller: %s", $e);
+            PWELogger::warn('Failed to get pwe node in auth controller: %s', $e);
         }
 
         if (!isset($node['!i']['authController']) || $node['!i']['authController'] == 'none')

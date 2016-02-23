@@ -24,7 +24,7 @@ final class NoneAuthController extends PWEUserAuthController
 
     public function handleAuth()
     {
-        PWELogger::debug("None auth");
+        PWELogger::debug('None auth');
     }
 
     public function getUserName()
@@ -34,7 +34,7 @@ final class NoneAuthController extends PWEUserAuthController
 
     public function handleLogout()
     {
-        PWELogger::debug("None logout");
+        PWELogger::debug('None logout');
     }
 
 }

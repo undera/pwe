@@ -43,7 +43,7 @@ abstract class PWEAutoloader
 
     public static function setPWE(PWECore $pwe)
     {
-        PWELogger::debug("Set PWE core");
+        PWELogger::debug('Set PWE core');
         self::$core = $pwe;
         if (self::getCacheFile()) {
             self::loadCache();
