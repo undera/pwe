@@ -77,13 +77,13 @@ if (php_sapi_name() == 'cli') {
         $started = microtime(true);
         echo $PWECore->process($uri);
         PWELogger::debug('Response headers: %s', headers_list());
-        PWELogger::info('Done %s in %s', $uri, (microtime(true) - $started));
+        PWELogger::info('Done %s %s in %s', php_sapi_name(), $uri, (microtime(true) - $started));
     } catch (\Exception $e) {
         try {
             if ($e->getCode() >= 500) {
                 // FIXME: REDIRECT_URL is not present under fpm
                 PWELogger::error('Exception occured at page %s: %s', $_SERVER['REDIRECT_URL'], $e);
-            } elseif($e->getCode() >= 400) {
+            } elseif ($e->getCode() >= 400) {
                 PWELogger::info('Exception occured at page %s: %s', $_SERVER['REDIRECT_URL'], $e);
             }
             header($_SERVER["SERVER_PROTOCOL"] . ' ' . $e->getCode());
