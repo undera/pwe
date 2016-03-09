@@ -182,7 +182,7 @@ class PWECore
     public function &getNode()
     {
         if ($this->URL == null) {
-            throw new HTTP5xxException("No URL set");
+            throw new HTTP5xxException("No URL set to get node");
         }
         return $this->URL->getNode();
     }
@@ -221,7 +221,11 @@ class PWECore
         $smarty->addTemplateDir(__DIR__ . '/../tpl');
         $smarty->addTemplateDir($this->getDataDirectory() . '/tpl');
         $smarty->registerObject('PWE', $this);
-        $smarty->registerObject('URL', $this->getURL());
+        try {
+            $smarty->registerObject('URL', $this->getURL());
+        } catch (HTTP4xxException $e) {
+            PWELogger::warn("Failed to set URL for smarty: %s", $e);
+        }
         $smarty->registerObject('AUTH', PWEUserAuthController::getAuthControllerInstance($this));
         return $smarty;
     }
@@ -234,7 +238,7 @@ class PWECore
     public function getURL()
     {
         if (!$this->URL) {
-            throw new HTTP4xxException("No URL set", HTTP4xxException::BAD_REQUEST);
+            throw new HTTP4xxException("No URL set for core", HTTP4xxException::BAD_REQUEST);
         }
 
         return $this->URL;
