@@ -37,7 +37,7 @@ class CSSJSPreprocessor implements PWECMDJob
 
     public function preprocess($path, $dst)
     {
-        PWELogger::info("Preprocessing %s to %s", $path, $dst);
+        PWELogger::warn("Preprocessing %s to %s", $path, $dst);
         $dit = new RecursiveDirectoryIterator($path, FilesystemIterator::KEY_AS_PATHNAME | FilesystemIterator::CURRENT_AS_FILEINFO);
         $rit = new RecursiveIteratorIterator($dit);
         /** @var $file \SplFileInfo */
@@ -48,7 +48,7 @@ class CSSJSPreprocessor implements PWECMDJob
                 continue;
             }
 
-            PWELogger::info("Preprocessing %s", $filename);
+            PWELogger::warn("Preprocessing %s", $filename);
             $this->preprocess_file_css($filename, $dst);
             $this->preprocess_file_js($filename, $dst);
         }
@@ -59,6 +59,7 @@ class CSSJSPreprocessor implements PWECMDJob
         $startTag = "<$tagType ";
         $endTag = "</$tagType>";
         $orig = file_get_contents($filename);
+        $origSize=strlen($orig);
         $result = "";
         $pos = 0;
         $prevPos = 0;
@@ -84,6 +85,9 @@ class CSSJSPreprocessor implements PWECMDJob
 
             $prevPos = $pos;
             $pos++;
+            if ($pos>$origSize) {
+                break;
+            }
         }
 
         $result .= substr($orig, $prevPos, strlen($orig) - $prevPos);
