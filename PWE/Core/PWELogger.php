@@ -40,9 +40,19 @@ abstract class PWELogger
         self::$stderr = $file;
     }
 
+    public static function getStdErr()
+    {
+        return self::$stderr;
+    }
+
     public static function setStdOut($file)
     {
         self::$stdout = $file;
+    }
+
+    public static function getStdOut()
+    {
+        return self::$stdout;
     }
 
     static function setLevel($level)
