@@ -455,7 +455,7 @@ class PWECore
             PWELogger::info('Jump To First Сhild: %s', $v['!a']['link']);
             $jumpTo = $v['!a']['link'] . '/';
             if (isset($_SERVER["QUERY_STRING"]) && strlen($_SERVER["QUERY_STRING"])) {
-                $jumpTo .= $_SERVER["QUERY_STRING"];
+                $jumpTo .= '?' . $_SERVER["QUERY_STRING"];
             }
             throw new HTTP3xxException($jumpTo, HTTP3xxException::REDIRECT);
         }
