@@ -70,10 +70,10 @@ if (php_sapi_name() == 'cli') {
     require_once __DIR__ . '/PWE/Auth/PWEUserAuthController.php';
     $PWECore = new PWECore();
     PWEAutoloader::setPWE($PWECore);
+    $uri = $_SERVER['REDIRECT_URL'] ? $_SERVER['REDIRECT_URL'] : $_SERVER['REQUEST_URI'];
     try {
         require_once dirname($_SERVER['SCRIPT_FILENAME']) . '/cfg.php';
 
-        $uri = $_SERVER['REDIRECT_URL'] ? $_SERVER['REDIRECT_URL'] : $_SERVER['REQUEST_URI'];
         $started = microtime(true);
         echo $PWECore->process($uri);
         PWELogger::debug('Response headers: %s', headers_list());
@@ -81,13 +81,12 @@ if (php_sapi_name() == 'cli') {
     } catch (\Exception $e) {
         try {
             if ($e->getCode() >= 500) {
-                // FIXME: REDIRECT_URL is not present under fpm
-                PWELogger::error('Exception occured at page %s: %s', $_SERVER['REDIRECT_URL'], $e);
+                PWELogger::error('Exception occured at page %s: %s', $uri, $e);
             } elseif ($e->getCode() >= 400) {
-                PWELogger::info('Exception occured at page %s: %s', $_SERVER['REDIRECT_URL'], $e);
+                PWELogger::info('Exception occured at page %s: %s', $uri, $e);
             }
-            header($_SERVER["SERVER_PROTOCOL"] . ' ' . $e->getCode());
-            header("Content-Type: text/html");
+            $PWECore->sendHTTPHeader("Content-Type: text/html");
+            $PWECore->sendHTTPStatusCode($e->getCode());
             echo $PWECore->getErrorPage($e);
         } catch (\Exception $e2) {
             echo "<textarea cols='100' rows='25' readonly='readonly'>";
