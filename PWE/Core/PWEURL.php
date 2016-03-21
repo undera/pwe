@@ -17,6 +17,7 @@ class PWEURL implements SmartyAssociative
     private $URLArray;
     private $URL;
     private $baseDirectory;
+    private $failure;
 
     public function __construct($uri, &$structure)
     {
@@ -80,18 +81,20 @@ class PWEURL implements SmartyAssociative
         }
 
         if (sizeof($search_uri)) {
-            throw new HTTP4xxException("Requested page not found", HTTP4xxException::NOT_FOUND);
+            $this->failure = new HTTP4xxException("Requested page not found", HTTP4xxException::NOT_FOUND);
         }
     }
 
     private function parseURL($uri)
     {
-        if ($uri[0] != '/')
+        if ($uri[0] != '/') {
             throw new HTTP4xxException('URL must start with /', HTTP4xxException::BAD_REQUEST);
+        }
 
         $uri = parse_url($uri);
-        if (!$uri)
+        if (!$uri) {
             throw new HTTP4xxException("Requested URI incorrect", HTTP4xxException::BAD_REQUEST);
+        }
 
         $this->URL = urldecode($uri['path']);
         $this->URLArray = explode('/', $this->URL);
@@ -136,9 +139,11 @@ class PWEURL implements SmartyAssociative
 
         if (strlen($this->baseDirectory)) {
             $this->baseDirectory = str_replace('\\', '/', $this->baseDirectory);
-            foreach (explode('/', $this->baseDirectory) as $k => $v)
-                if ($k)
+            foreach (explode('/', $this->baseDirectory) as $k => $v) {
+                if ($k) {
                     unset($this->URLArray[$k]);
+                }
+            }
             $this->URLArray = array_values($this->URLArray);
         }
     }
@@ -189,6 +194,11 @@ class PWEURL implements SmartyAssociative
             throw new HTTP5xxException("Current node was not defined yet. Method setURL must be called before getting current Node");
         }
         return $this->node;
+    }
+
+    public function getFailure()
+    {
+        return $this->failure;
     }
 
 }

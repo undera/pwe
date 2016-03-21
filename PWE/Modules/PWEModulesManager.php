@@ -25,7 +25,6 @@ class PWEModulesManager implements PWECMDJob
 
     public function __construct(PWECore $pwe)
     {
-        PWELogger::debug("Loading registry");
         $this->PWE = $pwe;
     }
 
@@ -164,6 +163,11 @@ class PWEModulesManager implements PWECMDJob
         } catch (RuntimeException $e) {
             PWELogger::warn("Cannot load registry file: %s", $e->getMessage());
         }
+    }
+
+    public function ensureRegistryLoaded() // just to expose method to public
+    {
+        $this->loadRegistry();
     }
 
     public function run()

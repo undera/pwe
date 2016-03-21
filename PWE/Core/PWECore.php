@@ -42,7 +42,7 @@ class PWECore
 
     /**
      *
-     * @var PWEModulesManager
+     * @var \PWE\Modules\PWEModulesManager
      */
     protected $modulesManager;
 
@@ -156,6 +156,8 @@ class PWECore
             $this->modulesManager->setRegistryFile($this->getXMLDirectory() . '/eg_globals.xml');
         }
 
+        $this->modulesManager->ensureRegistryLoaded(); // it's lazy anyway
+
         try {
             $this->setURL($uri);
             $this->currentModuleInstance = $this->getModuleInstance($this->getNode());
@@ -262,6 +264,10 @@ class PWECore
         PWELogger::info("=== %s %s", $_SERVER['REQUEST_METHOD'], $uri);
         PWELogger::debug("Request variables: %s", $_REQUEST);
         $this->URL = new PWEURL($uri, $this->siteStructure);
+
+        if ($this->URL->getFailure()) {
+            throw $this->URL->getFailure();
+        }
 
         $node = $this->getNode();
         $this->setDisplayTemplate($node['!i']['template']);
