@@ -45,6 +45,11 @@ class PWEURLTest extends \PHPUnit_Framework_TestCase
     {
         try {
             $obj = new PWEURL('/img/image.gif', $this->struct);
+
+            if ($obj->getFailure()) {
+                throw $obj->getFailure();
+            }
+
             $this->fail();
         } catch (HTTP4xxException $e) {
         }
@@ -76,6 +81,9 @@ class PWEURLTest extends \PHPUnit_Framework_TestCase
     {
         try {
             $obj = new PWEURL('/service/?refresh=:/', $this->struct);
+            if ($obj->getFailure()) {
+                throw $obj->getFailure();
+            }
             $this->fail();
         } catch (HTTP4xxException $e) {
             $this->assertEquals(HTTP4xxException::NOT_FOUND, $e->getCode());
