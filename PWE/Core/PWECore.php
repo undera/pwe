@@ -343,7 +343,8 @@ class PWECore
             $smarty->assign('trace', $e->__toString());
             $smarty->assign('inner', $e->getPrevious());
         }
-        $smarty->setTemplateFile($this->errorsTemplate);
+        $node = $this->getNode();
+        $smarty->setTemplateFile($node['!i']['error_template'] ? $node['!i']['error_template'] : $this->errorsTemplate);
         return $smarty->fetchAll();
     }
 
