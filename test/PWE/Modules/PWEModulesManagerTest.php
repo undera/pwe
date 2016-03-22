@@ -18,8 +18,7 @@ class PWEModulesManagerTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->pwe = new UnitTestPWECore();
-        copy(__DIR__ . '/registry.xml', $this->pwe->getTempDirectory() . '/eg_globals.xml');
-        $this->object = new PWEModulesManager($this->pwe);
+        $this->object = $this->pwe->getModulesManager();
     }
 
     public function testGetModuleSettings()

@@ -22,6 +22,7 @@ class HTMLPageTest extends \PHPUnit_Framework_TestCase
         $this->PWE = new UnitTestPWECore();
         $tmp = $this->PWE->getTempDirectory();
         $this->PWE->setDataDirectory(__DIR__);
+        $this->PWE->setXMLDirectory($tmp);
         $this->PWE->setTempDirectory($tmp);
         $this->PWE->setStructFile(__DIR__ . '/HTMLPage.xml');
     }
