@@ -9,7 +9,6 @@ use PWE\Core\PWELogger;
 use PWE\Exceptions\PHPFatalException;
 use PWE\Utils\PWEXML;
 use ReflectionClass;
-use RuntimeException;
 
 class PWEModulesManager implements PWECMDJob
 {
@@ -153,15 +152,12 @@ class PWEModulesManager implements PWECMDJob
         // read site structure
         $XML = new PWEXML($this->PWE->getTempDirectory());
         $this->registryArray = array();
-        try {
-            $XML->FileToArray($this->registryFile, $this->registryArray);
 
-            $logger = $this->getModuleSettings('PWE\Core\PWELogger');
-            if ($logger['!a']) {
-                PWELogger::setLevel(PWELogger::getLevelByName($logger['!a']['level']));
-            }
-        } catch (RuntimeException $e) {
-            PWELogger::warn("Cannot load registry file: %s", $e->getMessage());
+        $XML->FileToArray($this->registryFile, $this->registryArray);
+
+        $logger = $this->getModuleSettings('PWE\Core\PWELogger');
+        if ($logger['!a']) {
+            PWELogger::setLevel(PWELogger::getLevelByName($logger['!a']['level']));
         }
     }
 
