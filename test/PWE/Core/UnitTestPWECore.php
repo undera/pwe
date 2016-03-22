@@ -3,7 +3,6 @@
 namespace PWE\Core;
 
 use PWE\Modules\PWEModulesManager;
-use PWE\Modules\TestPWEModulesManager;
 
 class UnitTestPWECore extends PWECore
 {
@@ -21,6 +20,7 @@ class UnitTestPWECore extends PWECore
 
         $this->setDataDirectory($tmp);
         $this->setXMLDirectory($tmp);
+        file_put_contents($this->getModulesManager()->getRegistryFile(), "<registry/>");
         $this->setTempDirectory($tmp);
         $this->setStructFile(__DIR__ . "/../../dummyStruct.xml");
     }
