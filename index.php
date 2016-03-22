@@ -41,24 +41,23 @@ if (php_sapi_name() == 'cli') {
 
     $opts = getopt($shortopts);
 
-    $pwe = new CMDLinePWECore();
+    $PWECore = new CMDLinePWECore();
     if (isset($opts['c'])) {
-        $PWECore = $pwe;
         PWELogger::debug("CMDLineCore: %s", $PWECore);
         require $opts['c'];
     }
 
     if (isset($opts['r'])) {
-        $pwe->getModulesManager()->setRegistryFile($opts['r']);
+        $PWECore->getModulesManager()->setRegistryFile($opts['r']);
     }
 
-    PWEAutoloader::setPWE($pwe);
+    PWEAutoloader::setPWE($PWECore);
 
     if (!isset($opts['j'])) {
         throw new InvalidArgumentException("-j option with full job class name required");
     }
 
-    $job = new $opts['j']($pwe);
+    $job = new $opts['j']($PWECore);
     if (!($job instanceof PWECMDJob)) {
         throw new InvalidArgumentException("Job class must implement PWECMDJob");
     }
@@ -71,13 +70,11 @@ if (php_sapi_name() == 'cli') {
     $PWECore = new PWECore();
     PWEAutoloader::setPWE($PWECore);
     $uri = $_SERVER['REDIRECT_URL'] ? $_SERVER['REDIRECT_URL'] : $_SERVER['REQUEST_URI'];
+    $started = microtime(true);
     try {
         require_once dirname($_SERVER['SCRIPT_FILENAME']) . '/cfg.php';
-
-        $started = microtime(true);
         echo $PWECore->process($uri);
         PWELogger::debug('Response headers: %s', headers_list());
-        PWELogger::info('Done %s %s in %s', php_sapi_name(), $uri, (microtime(true) - $started));
     } catch (\Exception $e) {
         try {
             if ($e->getCode() >= 500) {
@@ -99,5 +96,6 @@ if (php_sapi_name() == 'cli') {
             die($e2->getMessage());
         }
     }
+    PWELogger::info('Done %s %s in %s', php_sapi_name(), $uri, (microtime(true) - $started));
 }
 ?>
