@@ -251,7 +251,9 @@ abstract class PWEAutoloader
             if (is_file($cache_file)) {
                 PWELogger::debug("Loading classpath cache from: %s", $cache_file);
                 $arr = unserialize(file_get_contents($cache_file));
-                self::$cache += $arr;
+                if (is_array($arr)) {
+                    self::$cache += $arr;
+                }
                 self::$try_loading_cache = false;
             } else {
                 if ($cache_file) {
