@@ -473,6 +473,11 @@ class PWECore
         session_start();
     }
 
+    public function closeSession()
+    {
+        session_write_close();
+    }
+
     public function endSession()
     {
         session_destroy();
