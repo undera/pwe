@@ -468,16 +468,25 @@ class PWECore
         }
     }
 
+    /**
+     * starts new or reopens previously closed session
+     */
     public function startSession()
     {
         session_start();
     }
 
+    /**
+     * closes session for writing by performance means
+     */
     public function closeSession()
     {
         session_write_close();
     }
 
+    /**
+     * destroys the session
+     */
     public function endSession()
     {
         session_destroy();
