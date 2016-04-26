@@ -43,7 +43,7 @@ class FileDownloads extends PWEModule implements Outputable
         $file_path = '/' . $this->dl_base . '/' . FilesystemHelper::protectAgainsRelativePaths(implode('/', $params));
         $file = $this->PWE->getRootDirectory() . $file_path;
         if (!is_file($file)) {
-            PWELogger::error("File not found: %s", $file_path);
+            PWELogger::error("File not found: %s, referer: %s", $file_path, $_SERVER['HTTP_REFERER']);
             throw new HTTP4xxException("File not found", HTTP4xxException::NOT_FOUND);
         }
 
