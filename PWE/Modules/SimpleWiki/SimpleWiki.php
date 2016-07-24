@@ -31,10 +31,13 @@ class SimpleWiki extends PWEModule implements Outputable, BreadcrumbsGenerator
 
         list($dir, $ext) = $this->getDirAndExt($node);
 
-        $start_page = $node['!i']['start_page'] ?: "list";
         $args = $this->PWE->getURL()->getParamsAsArray();
-        if (!$args) {
-            throw new HTTP3xxException($start_page . "/");
+        if ($node['!i']['single_page'] && !$args) {
+            throw new HTTP3xxException($node['!i']['single_page'] . "/");
+        } elseif (!$args) {
+            $page = $node['!i']['start_page'] ?: "list";
+            throw new HTTP3xxException($page . "/");
+
         } elseif ($args[0] == 'list') {
             $contents = $this->getListedPages($dir, $ext);
         } else {
@@ -151,7 +154,8 @@ class SimpleWiki extends PWEModule implements Outputable, BreadcrumbsGenerator
         } else {
             $sidebar = "";
         }
-        if (is_file($dir . '/Sidebar.' . $ext)) {
+        
+        if (!$node['!a']['no_sidebar_file'] && is_file($dir . '/Sidebar.' . $ext)) {
             $sidebar .= $this->renderPage($dir . '/Sidebar.' . $ext);
         }
         $smarty->assign("sidebar", $sidebar);

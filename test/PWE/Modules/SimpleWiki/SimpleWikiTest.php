@@ -13,10 +13,14 @@ class SimpleWikiTest extends \PHPUnit_Framework_TestCase
     public function testRender()
     {
         $PWE = new UnitTestPWECore();
+        $PWE->setURL("/");
         $obj = new SimpleWiki($PWE);
         // Took it from http://code.google.com/p/support/source/browse/wiki/WikiSyntax.wiki
         $res = $obj->renderPage(__DIR__ . "/GoogleSyntax.wiki");
         PWELogger::debug($res);
+
+        $bc = $obj->generateBreadcrumbs();
+        $this->assertEquals(array(array('selected' => 1, '!a' => array('link' => '../', 'title' => null))), $bc);
     }
 
     // opened issue for skriv: https://github.com/Amaury/SkrivMarkup/issues/20
@@ -89,6 +93,19 @@ class SimpleWikiTest extends \PHPUnit_Framework_TestCase
             $obj->process();
         } catch (HTTP3xxException $e) {
             $this->assertEquals('list/', $e->getMessage());
+        }
+    }
+
+    public function testProcess_single()
+    {
+        $PWE = new UnitTestPWECore();
+        $PWE->setStructFile(__DIR__ . '/SimpleWiki.xml');
+        $PWE->setURL('/single/');
+        $obj = new SimpleWiki($PWE);
+        try {
+            $obj->process();
+        } catch (HTTP3xxException $e) {
+            $this->assertEquals('google/', $e->getMessage());
         }
     }
 
