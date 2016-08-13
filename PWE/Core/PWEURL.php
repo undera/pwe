@@ -80,6 +80,7 @@ class PWEURL implements SmartyAssociative
                     if ($_GET) {
                         $url .= '?' . http_build_query($_GET);
                     }
+                    PWELogger::debug("Node attributes: %s", $this->node['!i']);
                     throw new HTTP3xxException($url, HTTP3xxException::PERMANENT);
                 }
             }
