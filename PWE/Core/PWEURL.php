@@ -73,6 +73,22 @@ class PWEURL implements SmartyAssociative
             }
         }
 
+        if (end($this->URLArray)) {
+            if ($this->node['!i']['force_trailing_slash'] || !isset($this->node['!i']['force_trailing_slash'])) {
+                if (!strstr(end($this->URLArray), '.')) {
+                    $url = $this->URL . '/';
+                    if ($_GET) {
+                        $url .= '?' . http_build_query($_GET);
+                    }
+                    throw new HTTP3xxException($url, HTTP3xxException::PERMANENT);
+                }
+            }
+        }
+
+        while (sizeof($this->URLArray) > 1 && !strlen(end($this->URLArray))) {
+            array_pop($this->URLArray);
+        }
+
         // check params count
         if ($search_uri && isset($this->node['!i']['accept'])) {
             for ($n = 0; $search_uri && $n < $this->node['!i']['accept']; $n++) {
@@ -80,9 +96,16 @@ class PWEURL implements SmartyAssociative
             }
         }
 
-        if (sizeof($search_uri)) {
-            $this->failure = new HTTP4xxException("Requested page not found", HTTP4xxException::NOT_FOUND);
+        while (sizeof($this->URLArrayParams) && !strlen(end($this->URLArrayParams))) {
+            array_pop($this->URLArrayParams);
         }
+
+        if (sizeof($search_uri)) {
+            if (strlen(end($search_uri)) || sizeof($search_uri) > 1) {
+                $this->failure = new HTTP4xxException("Requested page not found", HTTP4xxException::NOT_FOUND);
+            }
+        }
+
     }
 
     private function parseURL($uri)
@@ -104,18 +127,6 @@ class PWEURL implements SmartyAssociative
             $goto = str_replace('/.', '', $goto);
             $goto = str_replace('//', '/', $goto);
             throw new HTTP3xxException($goto, HTTP3xxException::PERMANENT);
-        }
-
-        if (strlen(end($this->URLArray))) {
-            if (!strstr(end($this->URLArray), '.')) {
-                $url = $this->URL . '/';
-                if ($_GET) {
-                    $url .= '?' . http_build_query($_GET);
-                }
-                throw new HTTP3xxException($url, HTTP3xxException::PERMANENT);
-            }
-        } else {
-            array_pop($this->URLArray);
         }
     }
 
