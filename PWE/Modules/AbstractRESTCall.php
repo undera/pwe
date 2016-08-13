@@ -6,6 +6,7 @@ namespace PWE\Modules;
 use PWE\Core\PWECore;
 use PWE\Core\PWELogger;
 use PWE\Exceptions\HTTP2xxException;
+use PWE\Exceptions\HTTP3xxException;
 use PWE\Exceptions\HTTP4xxException;
 use PWE\Exceptions\HTTP5xxException;
 
@@ -29,6 +30,10 @@ abstract class AbstractRESTCall extends PWEModule implements Outputable
     {
         try {
             $data = $this->getData();
+        } catch (HTTP2xxException $e) {
+            throw $e;
+        } catch (HTTP3xxException $e) {
+            throw $e;
         } catch (\Exception $e) {
             PWELogger::warn("Error processing API call: %s", $e);
             if ($e->getCode() >= 100 && $e->getCode() <= 999) {
@@ -92,7 +97,7 @@ abstract class AbstractRESTCall extends PWEModule implements Outputable
                     throw new HTTP4xxException("Please specify item to delete");
                 }
                 break;
-            
+
             default:
                 throw new HTTP5xxException("Method not supported for this REST API", HTTP5xxException::UNIMPLEMENTED);
         }
@@ -129,8 +134,7 @@ abstract class AbstractRESTCall extends PWEModule implements Outputable
     }
 
     /**
-     * Should implement create
-     * @throws HTTP2xxException with code 201
+     * Should implement create and return code 201 on success
      * @param mixed $data
      */
     protected function handlePost($data)
@@ -155,7 +159,7 @@ abstract class AbstractRESTCall extends PWEModule implements Outputable
      * @param string|int $item
      * @param mixed $data
      */
-    private function handlePatch($item, $data)
+    protected function handlePatch($item, $data)
     {
         PWELogger::debug($_SERVER['REQUEST_METHOD'] . ": %s %s", $item, $data);
         throw new \BadFunctionCallException('Not supported method for this call: ' . $_SERVER['REQUEST_METHOD']);
