@@ -38,4 +38,9 @@ class UnitTestPWECore extends PWECore
     {
         parent::setURL($uri);
     }
+
+    public function sendHTTPHeader($header, $replace = null, $http_response_code = null)
+    {
+        PWELogger::debug("Simulated header: %s, %s, %s", $header, $replace, $http_response_code);
+    }
 }

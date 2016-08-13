@@ -48,8 +48,7 @@ abstract class AbstractRESTCall extends PWEModule implements Outputable
         $this->PWE->addContent($smarty);
     }
 
-
-    public function getData()
+    protected function getData()
     {
         switch ($_SERVER['REQUEST_METHOD']) {
             case "GET":
