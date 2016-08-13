@@ -14,7 +14,7 @@ class PWEUserAuthControllerTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @var PWEUserAuthController
+     * @var PWEUserAuthControllerImpl
      */
     protected $object;
 

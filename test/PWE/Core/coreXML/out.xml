@@ -17,4 +17,5 @@
     <url link="htmltest" class="PWE\Modules\HTMLPage\HTMLPage"/>
     <url link="notpl" template="" class="PWE\Core\DummyModule"/>
     <url link="inheritance" template="empty.tpl" class="PWE\Core\DummyModule"/>
+    <url link="slash-not-forced" force_trailing_slash="0" class="PWE\Core\DummyModule"/>
 </url>
