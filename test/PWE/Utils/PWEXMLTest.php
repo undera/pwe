@@ -8,15 +8,18 @@ use RuntimeException;
 
 require_once __DIR__ . '/../../PWEUnitTests.php';
 
-class PWEXMLTest extends \PHPUnit_Framework_TestCase {
+class PWEXMLTest extends \PHPUnit_Framework_TestCase
+{
 
-    public function testFileToArray_NoCache() {
+    public function testFileToArray_NoCache()
+    {
         $xml = new PWEXML();
 
         $xml->FileToArray(__DIR__ . '/PWEXMLTest1.xml', $arr);
     }
 
-    public function testFileToArray_CacheSmall() {
+    public function testFileToArray_CacheSmall()
+    {
         $xml = new PWEXML(PWEUnitTests::utGetCleanTMP());
         // not cached
         $xml->FileToArray(__DIR__ . '/PWEXMLTest1.xml', $arr1);
@@ -26,7 +29,8 @@ class PWEXMLTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(md5(serialize($arr1)), md5(serialize($arr2)));
     }
 
-    public function testFileToArray_CacheHuge() {
+    public function testFileToArray_CacheHuge()
+    {
         $tmp = PWEUnitTests::utGetCleanTMP();
         $xml = new PWEXML($tmp);
         // not cached
@@ -39,7 +43,8 @@ class PWEXMLTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(md5(serialize($arr1)), md5(serialize($arr2)));
     }
 
-    public function testFileToArray_BrokenMultisave() {
+    public function testFileToArray_BrokenMultisave()
+    {
         $tmp = PWEUnitTests::utGetCleanTMP();
         $xml = new PWEXML($tmp);
         $xml->use_cache = false;
@@ -52,40 +57,44 @@ class PWEXMLTest extends \PHPUnit_Framework_TestCase {
         }
     }
 
-    public function testFileToArray_NoFile() {
+    public function testFileToArray_NoFile()
+    {
         $xml = new PWEXML(PWEUnitTests::utGetCleanTMP());
 
         try {
             $xml->FileToArray(__DIR__ . '/PWEXMLTestNoFile.xml', $arr);
             throw new Exception("Exception expected");
         } catch (RuntimeException $e) {
-            
+
         }
     }
 
-    public function testFileToArray_Broken() {
+    public function testFileToArray_Broken()
+    {
         $xml = new PWEXML(PWEUnitTests::utGetCleanTMP());
 
         try {
             $xml->FileToArray(__DIR__ . '/PWEXMLTestBroken.xml', $arr);
             throw new Exception("Exception expected");
         } catch (RuntimeException $e) {
-            
+
         }
     }
 
-    public function testArrayToFile_notexists() {
+    public function testArrayToFile_notexists()
+    {
         $xml = new PWEXML();
         try {
             $a = array();
             $xml->ArrayToFile($a, '');
             throw new Exception("Exception expected");
         } catch (InvalidArgumentException $e) {
-            
+
         }
     }
 
-    public function testArrayToFile() {
+    public function testArrayToFile()
+    {
         $xml = new PWEXML();
         $arr = array();
         $arr['root'][0] = array('!v' => "Test\nTest", '!a' => array('a' => 'v'));
@@ -95,7 +104,8 @@ class PWEXMLTest extends \PHPUnit_Framework_TestCase {
         $xml->ArrayToFile($arr, PWEUnitTests::utGetCleanTMP() . '/test1.xml');
     }
 
-    public function testBrokenWrite() {
+    public function testBrokenWrite()
+    {
         $tmp = PWEUnitTests::utGetCleanTMP();
         $registerData = array();
         $registerData['!a']['dir'] = '/tmp';

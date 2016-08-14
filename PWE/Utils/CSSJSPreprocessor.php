@@ -59,7 +59,7 @@ class CSSJSPreprocessor implements PWECMDJob
         $startTag = "<$tagType ";
         $endTag = "</$tagType>";
         $orig = file_get_contents($filename);
-        $origSize=strlen($orig);
+        $origSize = strlen($orig);
         $result = "";
         $pos = 0;
         $prevPos = 0;
@@ -85,7 +85,7 @@ class CSSJSPreprocessor implements PWECMDJob
 
             $prevPos = $pos;
             $pos++;
-            if ($pos>$origSize) {
+            if ($pos > $origSize) {
                 break;
             }
         }

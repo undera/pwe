@@ -1,35 +1,35 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <registry>
- <classPaths> 
-  <PWE>  
-   <Exceptions>   
-    <HTTPException registered="1" />
-    <HTTP3xxException registered="1" />
-    <HTTP4xxException registered="1" />
-   </Exceptions>
-   <Core>   
-    <PWELogger />
-   </Core>
-   <Auth>   
-    <PWEUserAuthController registered="1" />
-    <NoneAuthController setupable="1" registered="1" />
-   </Auth>
-   <Modules>   
-    <HTMLPage>    
-     <HTMLPage outputable="1" setupable="1" registered="1" />
-    </HTMLPage>
-   </Modules>
-   <Lib>   
-    <Smarty>    
-     <SmartyWrapper registered="1" />
-    </Smarty>
-   </Lib>
-  </PWE>
-  <Smarty registered="1" />
-  <Smarty_Internal_TemplateCompilerBase registered="1" />
-  <Smarty_Internal_Templatelexer registered="1" />
-  <Smarty_Internal_Templateparser registered="1" />
-  <Smarty_Internal_CompileBase registered="1" />
-  <Smarty_Internal_Write_File registered="1" />
- </classPaths>
+    <classPaths>
+        <PWE>
+            <Exceptions>
+                <HTTPException registered="1"/>
+                <HTTP3xxException registered="1"/>
+                <HTTP4xxException registered="1"/>
+            </Exceptions>
+            <Core>
+                <PWELogger/>
+            </Core>
+            <Auth>
+                <PWEUserAuthController registered="1"/>
+                <NoneAuthController setupable="1" registered="1"/>
+            </Auth>
+            <Modules>
+                <HTMLPage>
+                    <HTMLPage outputable="1" setupable="1" registered="1"/>
+                </HTMLPage>
+            </Modules>
+            <Lib>
+                <Smarty>
+                    <SmartyWrapper registered="1"/>
+                </Smarty>
+            </Lib>
+        </PWE>
+        <Smarty registered="1"/>
+        <Smarty_Internal_TemplateCompilerBase registered="1"/>
+        <Smarty_Internal_Templatelexer registered="1"/>
+        <Smarty_Internal_Templateparser registered="1"/>
+        <Smarty_Internal_CompileBase registered="1"/>
+        <Smarty_Internal_Write_File registered="1"/>
+    </classPaths>
 </registry>

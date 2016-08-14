@@ -1,6 +1,7 @@
 <?php
 
 namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
+
 use WikiRenderer\TagXhtml;
 
 /** Extension for date manipulation. */

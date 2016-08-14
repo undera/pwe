@@ -11,9 +11,9 @@ class PWEXMLFunctionsTest extends \PHPUnit_Framework_TestCase
     {
         $nodes = array(
             array('!a' => array()),
-            array('!a' => array('name'=>"val")),
-            array('!a' => array('name'=>"val")),
-            );
+            array('!a' => array('name' => "val")),
+            array('!a' => array('name' => "val")),
+        );
         $this->assertEquals(-1, PWEXMLFunctions:: findNodeWithAttributeValue($nodes, 'test', 'test'));
         $this->assertEquals(1, PWEXMLFunctions:: findNodeWithAttributeValue($nodes, 'name', 'val'));
         $this->assertEquals(0, PWEXMLFunctions:: findNodeWithAttributeValue($nodes, 'name', ''));

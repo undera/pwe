@@ -1,6 +1,7 @@
 <?php
 
 namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
+
 use WikiRenderer\Block;
 
 /** Management of paragraph blocks of text. */

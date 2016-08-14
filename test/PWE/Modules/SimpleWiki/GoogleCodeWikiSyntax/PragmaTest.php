@@ -2,9 +2,11 @@
 
 namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
 
-class PragmaTest extends \PHPUnit_Framework_TestCase {
+class PragmaTest extends \PHPUnit_Framework_TestCase
+{
 
-    public function testGetRenderedLine() {
+    public function testGetRenderedLine()
+    {
         $obj = new \WikiRenderer\Renderer(new Config());
         $str = "#labels Deprecated,Restrict-AddWikiComment-Commit\nsometext\n#labels valid";
         $res = $obj->render($str);

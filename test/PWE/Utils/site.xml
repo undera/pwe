@@ -1,4 +1,3 @@
-
 <url module="HTMLPage" keywords="test keywords" src='testNA.html' template="test.tpl">
     <url link='nofile' src='none.txt'/>
     <url module="HTMLPage" link='ok' src='test.html'/>

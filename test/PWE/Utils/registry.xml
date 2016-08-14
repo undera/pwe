@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <modules>
- <module name="Простая HTML-страница" class="HTMLPage" path="/PWE/HTMLPage" />
- <module name="PWE Wrapper for Smarty Template Engine" class="SmartyWrapper" path="/Libraries/SmartyWrapper" />
+    <module name="Простая HTML-страница" class="HTMLPage" path="/PWE/HTMLPage"/>
+    <module name="PWE Wrapper for Smarty Template Engine" class="SmartyWrapper" path="/Libraries/SmartyWrapper"/>
 </modules>

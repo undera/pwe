@@ -12,12 +12,15 @@
         <property value="" name="config.active"/>
     </target>
     <target name="exists.netbeans.user" unless="netbeans.user">
-        <echo level="warning" message="NetBeans IDE user directory (netbeans.user property) is not set. By specifying this property many properties required by the project will be automatically evaluated (e.g.: ant-ext library home, ...). You could also open this project in the NetBeans IDE - in this case this property would be set automatically."/>
+        <echo level="warning"
+              message="NetBeans IDE user directory (netbeans.user property) is not set. By specifying this property many properties required by the project will be automatically evaluated (e.g.: ant-ext library home, ...). You could also open this project in the NetBeans IDE - in this case this property would be set automatically."/>
     </target>
     <target name="exists.user.properties.file" unless="user.properties.file.exists">
-        <echo level="warning" message="User properties file (user.properties.file) property is not set. By specifying this property many properties required by the project will be automatically evaluated (e.g.: libraries, platforms, ...)."/>
+        <echo level="warning"
+              message="User properties file (user.properties.file) property is not set. By specifying this property many properties required by the project will be automatically evaluated (e.g.: libraries, platforms, ...)."/>
     </target>
-    <target name="load-properties" depends="pre-load-properties,exists.config.active,exists.netbeans.user,exists.user.properties.file">
+    <target name="load-properties"
+            depends="pre-load-properties,exists.config.active,exists.netbeans.user,exists.user.properties.file">
         <loadproperties srcfile="nbproject/project.properties">
             <filterchain>
                 <containsregex pattern="^configs\.${config.active}\.(.*)" replace="\1"/>
@@ -29,8 +32,10 @@
         <loadproperties srcfile="${user.properties.file}">
             <filterchain>
                 <replaceregex pattern="^platforms\.${platform.active}\." replace="platform."/>
-                <replaceregex pattern="^deployment\.${deployment.method}\.scriptfile=" replace="deployment.scriptfile="/>
-                <replaceregex pattern="^deployments\.${deployment.method}\.${deployment.instance}\.([^=]+)=" replace="\1="/>
+                <replaceregex pattern="^deployment\.${deployment.method}\.scriptfile="
+                              replace="deployment.scriptfile="/>
+                <replaceregex pattern="^deployments\.${deployment.method}\.${deployment.instance}\.([^=]+)="
+                              replace="\1="/>
             </filterchain>
         </loadproperties>
         <loadproperties srcfile="nbproject/project.properties">
@@ -42,20 +47,31 @@
     </target>
     <!--basic-init-->
     <target name="exists.platform.active" unless="platform.active">
-        <echo level="warning" message="Active platform (platform.active property) in not set. If you set this and user.properties.file property, many properties required by the project will be automatically evaluated (e.g.: platform home, platform classpath, ...)."/>
+        <echo level="warning"
+              message="Active platform (platform.active property) in not set. If you set this and user.properties.file property, many properties required by the project will be automatically evaluated (e.g.: platform home, platform classpath, ...)."/>
     </target>
     <target name="exists.platform.configuration" unless="platform.configuration">
-        <echo level="warning" message="Platform configuration (platform.configuration) is not set. Using default (CLDC-1.0) configuration."/>
+        <echo level="warning"
+              message="Platform configuration (platform.configuration) is not set. Using default (CLDC-1.0) configuration."/>
         <property name="platform.configuration" value="CLDC-1.0"/>
     </target>
     <target name="exists.platform.profile" unless="platform.profile">
-        <echo level="warning" message="Platform profile (platform.profile) is not set. Using default (MIDP-1.0) profile."/>
+        <echo level="warning"
+              message="Platform profile (platform.profile) is not set. Using default (MIDP-1.0) profile."/>
         <property name="platform.profile" value="MIDP-1.0"/>
     </target>
     <target name="basic-init" depends="exists.platform.active,exists.platform.configuration,exists.platform.profile">
-        <fail unless="libs.j2me_ant_ext.classpath">Classpath to J2ME Ant extension library (libs.j2me_ant_ext.classpath property) is not set. For example: location of mobility/modules/org-netbeans-mobility-antext.jar file in the IDE installation directory.</fail>
-        <fail unless="platform.home">Platform home (platform.home property) is not set. Value of this property should be ${platform.active.description} emulator home directory location.</fail>
-        <fail unless="platform.bootclasspath">Platform boot classpath (platform.bootclasspath property) is not set. Value of this property should be ${platform.active.description} emulator boot classpath containing all J2ME classes provided by emulator.</fail>
+        <fail unless="libs.j2me_ant_ext.classpath">Classpath to J2ME Ant extension library (libs.j2me_ant_ext.classpath
+            property) is not set. For example: location of mobility/modules/org-netbeans-mobility-antext.jar file in the
+            IDE installation directory.
+        </fail>
+        <fail unless="platform.home">Platform home (platform.home property) is not set. Value of this property should be
+            ${platform.active.description} emulator home directory location.
+        </fail>
+        <fail unless="platform.bootclasspath">Platform boot classpath (platform.bootclasspath property) is not set.
+            Value of this property should be ${platform.active.description} emulator boot classpath containing all J2ME
+            classes provided by emulator.
+        </fail>
         <fail unless="src.dir">Must set src.dir</fail>
         <fail unless="build.dir">Must set build.dir</fail>
         <fail unless="dist.dir">Must set dist.dir</fail>
@@ -74,7 +90,8 @@
         <condition property="no.javadoc.preview">
             <isfalse value="${javadoc.preview}"/>
         </condition>
-        <condition property="filter.excludes.evaluated" value="${filter.excludes},${filter.more.excludes},**/*Test.java,**/test,**/test/**">
+        <condition property="filter.excludes.evaluated"
+                   value="${filter.excludes},${filter.more.excludes},**/*Test.java,**/test,**/test/**">
             <istrue value="${filter.exclude.tests}"/>
         </condition>
         <property name="filter.excludes.evaluated" value="${filter.excludes},${filter.more.excludes}"/>
@@ -172,7 +189,8 @@
         <condition property="application.version.invalid" value="true">
             <equals arg1="${deployment.number}" arg2="" trim="true"/>
         </condition>
-        <fail if="application.version.invalid" message="Property deployment.number must not be empty and must contain version in format %d.%d.%d!"/>
+        <fail if="application.version.invalid"
+              message="Property deployment.number must not be empty and must contain version in format %d.%d.%d!"/>
     </target>
     <!--ricoh-init-->
     <target name="ricoh-pre-init" if="cdc-platform.trigger">
@@ -205,7 +223,8 @@
         <property name="ricoh.dalp.install.work-dir" value="hdd"/>
         <property name="ricoh.dalp.information.abbreviation" value="RICOH"/>
         <taskdef name="taskIf" classname="ricoh.ant.ConditionalTask" classpath="${libs.ricoh-ant-utils.classpath}"/>
-        <taskdef name="dalp" classname="org.netbeans.modules.j2me.cdc.project.ricoh.DalpBuilder" classpath="${libs.ricoh-ant-utils.classpath}"/>
+        <taskdef name="dalp" classname="org.netbeans.modules.j2me.cdc.project.ricoh.DalpBuilder"
+                 classpath="${libs.ricoh-ant-utils.classpath}"/>
         <property name="dalp.dist" value="${build.dir}/dalp/${application.name}.dalp"/>
         <property name="deployment.dir" location="${dist.dir}"/>
         <patternset id="deployment.patternset">
@@ -336,7 +355,8 @@
     <!--init-->
     <target name="pre-init"/>
     <target name="post-init"/>
-    <target name="init" depends="pre-init,load-properties,basic-init,cldc-init,cdc-init,ricoh-init,semc-init,savaje-init,sjmc-init,cdc-hi-init,nokiaS80-init,nsicom-init,post-init"/>
+    <target name="init"
+            depends="pre-init,load-properties,basic-init,cldc-init,cdc-init,ricoh-init,semc-init,savaje-init,sjmc-init,cdc-hi-init,nokiaS80-init,nsicom-init,post-init"/>
     <!--conditional clean-->
     <target name="conditional-clean-init">
         <uptodate property="no.clean.before.build" targetfile="${build.dir}/.timestamp">
@@ -346,7 +366,8 @@
             </srcfiles>
         </uptodate>
     </target>
-    <target name="conditional-clean" depends="init,conditional-clean-init" unless="no.clean.before.build" description="Clean project in case its meta information has changed.">
+    <target name="conditional-clean" depends="init,conditional-clean-init" unless="no.clean.before.build"
+            description="Clean project in case its meta information has changed.">
         <antcall target="do-clean" inheritall="true" inheritrefs="true"/>
     </target>
     <!--deps-jar-->
@@ -359,50 +380,65 @@
         <property name="debug.level" value="debug"/>
         <mkdir dir="${preprocessed.dir}"/>
         <echo message="ignore me" file="${build.dir}/.timestamp"/>
-        <nb-prep destdir="${preprocessed.dir}" preprocessfor="${config.active.name},${abilities},DebugLevel=${debug.level}" encoding="${javac.encoding}">
-            <fileset dir="${buildsystem.baton}" defaultexcludes="${filter.use.standard}" excludes="${filter.excludes.evaluated}"/>
+        <nb-prep destdir="${preprocessed.dir}"
+                 preprocessfor="${config.active.name},${abilities},DebugLevel=${debug.level}"
+                 encoding="${javac.encoding}">
+            <fileset dir="${buildsystem.baton}" defaultexcludes="${filter.use.standard}"
+                     excludes="${filter.excludes.evaluated}"/>
         </nb-prep>
         <copy todir="${preprocessed.dir}">
-            <fileset dir="${buildsystem.baton}" defaultexcludes="${filter.use.standard}" excludes="${filter.excludes.evaluated},${build.classes.excludes}"/>
+            <fileset dir="${buildsystem.baton}" defaultexcludes="${filter.use.standard}"
+                     excludes="${filter.excludes.evaluated},${build.classes.excludes}"/>
         </copy>
         <nb-overrideproperty name="buildsystem.baton" value="${preprocessed.dir}"/>
     </target>
     <target name="post-preprocess"/>
-    <target name="preprocess" depends="deps-jar,pre-preprocess,do-preprocess,post-preprocess" description="Preprocess project sources."/>
+    <target name="preprocess" depends="deps-jar,pre-preprocess,do-preprocess,post-preprocess"
+            description="Preprocess project sources."/>
     <!--compile-->
     <target name="pre-compile"/>
     <target name="do-compile">
         <fail unless="build.classes.dir">Must set build.classes.dir</fail>
         <mkdir dir="${build.classes.dir}"/>
-        <javac includeantruntime="false" source="${javac.source}" target="${javac.target}" deprecation="${javac.deprecation}" optimize="${javac.optimize}" debug="${javac.debug}" destdir="${build.classes.dir}" srcdir="${buildsystem.baton}" bootclasspath="${platform.bootclasspath}" encoding="${javac.encoding}">
+        <javac includeantruntime="false" source="${javac.source}" target="${javac.target}"
+               deprecation="${javac.deprecation}" optimize="${javac.optimize}" debug="${javac.debug}"
+               destdir="${build.classes.dir}" srcdir="${buildsystem.baton}" bootclasspath="${platform.bootclasspath}"
+               encoding="${javac.encoding}">
             <classpath>
                 <path path="${libs.classpath}"/>
             </classpath>
         </javac>
         <copy todir="${build.classes.dir}">
-            <fileset dir="${buildsystem.baton}" defaultexcludes="${filter.use.standard}" excludes="${filter.excludes.evaluated},${build.classes.excludes}"/>
+            <fileset dir="${buildsystem.baton}" defaultexcludes="${filter.use.standard}"
+                     excludes="${filter.excludes.evaluated},${build.classes.excludes}"/>
         </copy>
         <nb-overrideproperty name="buildsystem.baton" value="${build.classes.dir}"/>
     </target>
     <target name="extract-libs" description="Extracts all bundled libraries.">
         <mkdir dir="${build.classes.dir}"/>
-        <nb-extract dir="${build.classes.dir}" excludeManifest="true" classpath="${libs.classpath}" excludeclasspath="${extra.classpath}"/>
+        <nb-extract dir="${build.classes.dir}" excludeManifest="true" classpath="${libs.classpath}"
+                    excludeclasspath="${extra.classpath}"/>
     </target>
     <target name="post-compile"/>
-    <target name="compile" depends="preprocess,pre-compile,extract-libs,do-compile,post-compile" description="Compile project classes."/>
+    <target name="compile" depends="preprocess,pre-compile,extract-libs,do-compile,post-compile"
+            description="Compile project classes."/>
     <!--compile-single-->
     <target name="pre-compile-single"/>
     <target name="do-compile-single">
         <fail unless="javac.includes">Must select some files in the IDE or set javac.includes</fail>
         <mkdir dir="${build.classes.dir}"/>
-        <javac includeantruntime="false" source="${javac.source}" target="${javac.target}" deprecation="${javac.deprecation}" optimize="${javac.optimize}" debug="${javac.debug}" srcdir="${buildsystem.baton}" destdir="${build.classes.dir}" bootclasspath="${platform.bootclasspath}" includes="${javac.includes}" encoding="${javac.encoding}">
+        <javac includeantruntime="false" source="${javac.source}" target="${javac.target}"
+               deprecation="${javac.deprecation}" optimize="${javac.optimize}" debug="${javac.debug}"
+               srcdir="${buildsystem.baton}" destdir="${build.classes.dir}" bootclasspath="${platform.bootclasspath}"
+               includes="${javac.includes}" encoding="${javac.encoding}">
             <classpath>
                 <path path="${libs.classpath}"/>
             </classpath>
         </javac>
     </target>
     <target name="post-compile-single"/>
-    <target name="compile-single" depends="preprocess,pre-compile-single,do-compile-single,post-compile-single" description="Compile selected project classes."/>
+    <target name="compile-single" depends="preprocess,pre-compile-single,do-compile-single,post-compile-single"
+            description="Compile selected project classes."/>
     <!--proguard-->
     <target name="proguard-init" description="Up-to-date check before obfuscation.">
         <property name="obfuscation.level" value="0"/>
@@ -433,7 +469,10 @@
         <mkdir dir="${obfuscator.destjar.dir}"/>
         <jar jarfile="${obfuscator.srcjar}" basedir="${buildsystem.baton}"/>
         <property name="obfuscation.custom" value=""/>
-        <nb-obfuscate srcjar="${obfuscator.srcjar}" destjar="${obfuscator.destjar}" obfuscatorclasspath="${obfuscator.classpath}" classpath="${platform.bootclasspath}:${extra.classpath}" obfuscationLevel="${obfuscation.level}" extraScript="${obfuscation.custom}"/>
+        <nb-obfuscate srcjar="${obfuscator.srcjar}" destjar="${obfuscator.destjar}"
+                      obfuscatorclasspath="${obfuscator.classpath}"
+                      classpath="${platform.bootclasspath}:${extra.classpath}" obfuscationLevel="${obfuscation.level}"
+                      extraScript="${obfuscation.custom}"/>
         <mkdir dir="${obfuscated.classes.dir}"/>
         <unjar src="${obfuscator.destjar}" dest="${obfuscated.classes.dir}"/>
         <nb-overrideproperty name="buildsystem.baton" value="${obfuscated.classes.dir}"/>
@@ -441,7 +480,8 @@
     <!--obfuscate-->
     <target name="pre-obfuscate"/>
     <target name="post-obfuscate"/>
-    <target name="obfuscate" depends="compile,pre-obfuscate,proguard,post-obfuscate" description="Obfuscate project classes."/>
+    <target name="obfuscate" depends="compile,pre-obfuscate,proguard,post-obfuscate"
+            description="Obfuscate project classes."/>
     <!--lwuit-build-->
     <import file="lwuit.xml" optional="true"/>
     <target name="-lwuit-check">
@@ -457,7 +497,8 @@
         <antcall target="lwuit_build"/>
     </target>
     <target name="-post-lwuit-build" depends="-lwuit-check" if="lwuit.allowed"/>
-    <target name="lwuit-build" depends="-lwuit-check,-pre-lwuit-build, -lwuit-build, -post-lwuit-build" if="lwuit.allowed"/>
+    <target name="lwuit-build" depends="-lwuit-check,-pre-lwuit-build, -lwuit-build, -post-lwuit-build"
+            if="lwuit.allowed"/>
     <!--preverify-->
     <target name="pre-preverify"/>
     <target name="do-preverify" if="cldc-platform.trigger">
@@ -467,14 +508,19 @@
             <fileset dir="${buildsystem.baton}" includes="**/*.class"/>
         </copy>
         <mkdir dir="${preverify.classes.dir}"/>
-        <nb-preverify srcdir="${preverify.sources.dir}" destdir="${preverify.classes.dir}" classpath="${platform.bootclasspath}:${extra.classpath}" configuration="${platform.configuration}" platformhome="${platform.home}" platformtype="${platform.type}" commandline="${platform.preverifycommandline}"/>
+        <nb-preverify srcdir="${preverify.sources.dir}" destdir="${preverify.classes.dir}"
+                      classpath="${platform.bootclasspath}:${extra.classpath}" configuration="${platform.configuration}"
+                      platformhome="${platform.home}" platformtype="${platform.type}"
+                      commandline="${platform.preverifycommandline}"/>
         <copy todir="${preverify.classes.dir}">
-            <fileset dir="${buildsystem.baton}" defaultexcludes="${filter.use.standard}" excludes="${filter.excludes.evaluated},${build.classes.excludes}"/>
+            <fileset dir="${buildsystem.baton}" defaultexcludes="${filter.use.standard}"
+                     excludes="${filter.excludes.evaluated},${build.classes.excludes}"/>
         </copy>
         <nb-overrideproperty name="buildsystem.baton" value="${preverify.classes.dir}"/>
     </target>
     <target name="post-preverify"/>
-    <target name="preverify" depends="obfuscate,lwuit-build,pre-preverify,do-preverify,post-preverify" description="Preverify project classes."/>
+    <target name="preverify" depends="obfuscate,lwuit-build,pre-preverify,do-preverify,post-preverify"
+            description="Preverify project classes."/>
     <!--set-password-->
     <target name="set-password-init">
         <property name="sign.enabled" value="false"/>
@@ -522,16 +568,20 @@
     <target name="set-password" depends="set-password-init,set-keystore-password,set-alias-password"/>
     <!--create JAD-->
     <target name="add-configuration" unless="contains.manifest.configuration">
-        <nb-output file="${dist.dir}/${dist.jad}" encoding="UTF-8" append="true">MicroEdition-Configuration: ${platform.configuration}
-</nb-output>
-        <nb-output file="${manifest.build.file}" encoding="UTF-8" append="true">MicroEdition-Configuration: ${platform.configuration}
-</nb-output>
+        <nb-output file="${dist.dir}/${dist.jad}" encoding="UTF-8" append="true">MicroEdition-Configuration:
+            ${platform.configuration}
+        </nb-output>
+        <nb-output file="${manifest.build.file}" encoding="UTF-8" append="true">MicroEdition-Configuration:
+            ${platform.configuration}
+        </nb-output>
     </target>
     <target name="add-profile" unless="contains.manifest.profile">
-        <nb-output file="${dist.dir}/${dist.jad}" encoding="UTF-8" append="true">MicroEdition-Profile: ${platform.profile}
-</nb-output>
-        <nb-output file="${manifest.build.file}" encoding="UTF-8" append="true">MicroEdition-Profile: ${platform.profile}
-</nb-output>
+        <nb-output file="${dist.dir}/${dist.jad}" encoding="UTF-8" append="true">MicroEdition-Profile:
+            ${platform.profile}
+        </nb-output>
+        <nb-output file="${manifest.build.file}" encoding="UTF-8" append="true">MicroEdition-Profile:
+            ${platform.profile}
+        </nb-output>
     </target>
     <target name="create-jad" if="cldc-platform.trigger">
         <fail unless="dist.jad">Must set dist.jad</fail>
@@ -558,8 +608,12 @@
         <property value="" name="evaluated.manifest.pushregistry"/>
         <property name="manifest.jad" value=""/>
         <property name="manifest.manifest" value=""/>
-        <nb-output file="${dist.dir}/${dist.jad}" encoding="UTF-8">${manifest.midlets}${evaluated.manifest.apipermissions}${evaluated.manifest.pushregistry}${manifest.others}${manifest.jad}</nb-output>
-        <nb-output file="${manifest.build.file}" encoding="UTF-8">${manifest.midlets}${evaluated.manifest.apipermissions}${evaluated.manifest.pushregistry}${manifest.others}${manifest.manifest}</nb-output>
+        <nb-output file="${dist.dir}/${dist.jad}" encoding="UTF-8">
+            ${manifest.midlets}${evaluated.manifest.apipermissions}${evaluated.manifest.pushregistry}${manifest.others}${manifest.jad}
+        </nb-output>
+        <nb-output file="${manifest.build.file}" encoding="UTF-8">
+            ${manifest.midlets}${evaluated.manifest.apipermissions}${evaluated.manifest.pushregistry}${manifest.others}${manifest.manifest}
+        </nb-output>
         <antcall target="add-configuration" inheritall="true" inheritrefs="true"/>
         <antcall target="add-profile" inheritall="true" inheritrefs="true"/>
         <property name="manifest.available" value="true"/>
@@ -580,13 +634,17 @@
             </condition>
         </fail>
         <mkdir dir="${build.dir}/j9"/>
-        <taskdef name="j9builder" classname="org.netbeans.modules.j2me.cdc.project.J9Builder" classpath="${libs.cdc-ant-utils.classpath}"/>
-        <j9builder jvmargs="${run.jvmargs}" mainclass="${main.class}" args="${application.args}" home="${platform.home}" dist="${j9.dist}" id="NOKIA" platform="${platform.type}" xlet="${main.class.xlet}" applet="${main.class.applet}" jarname="${dist.jar}"/>
+        <taskdef name="j9builder" classname="org.netbeans.modules.j2me.cdc.project.J9Builder"
+                 classpath="${libs.cdc-ant-utils.classpath}"/>
+        <j9builder jvmargs="${run.jvmargs}" mainclass="${main.class}" args="${application.args}" home="${platform.home}"
+                   dist="${j9.dist}" id="NOKIA" platform="${platform.type}" xlet="${main.class.xlet}"
+                   applet="${main.class.applet}" jarname="${dist.jar}"/>
         <copy file="${manifest.file}" tofile="${manifest.build.file}" failonerror="false"/>
         <property name="manifest.available" value="true"/>
         <loadfile property="nokia.manifest.j9" srcFile="${j9.dist}"/>
     </target>
-    <target name="nokiaS80-prepare-manifest" depends="nokiaS80-prepare-j9" if="nokiaS80-platform.trigger" unless="nokia.icon.invalid">
+    <target name="nokiaS80-prepare-manifest" depends="nokiaS80-prepare-j9" if="nokiaS80-platform.trigger"
+            unless="nokia.icon.invalid">
         <pathconvert property="logo.icon.name" pathsep=" ">
             <path path="${nokiaS80.application.icon}"/>
             <chainedmapper>
@@ -613,7 +671,9 @@
             <attribute name="x-ibm-pp-j9" value="${nokia.manifest.j9}"/>
         </manifest>
     </target>
-    <target name="nokiaS80-create-manifest" depends="nokiaS80-prepare-j9,nokiaS80-prepare-manifest,nokiaS80-prepare-manifest-no-icon" if="nokiaS80-platform.trigger"/>
+    <target name="nokiaS80-create-manifest"
+            depends="nokiaS80-prepare-j9,nokiaS80-prepare-manifest,nokiaS80-prepare-manifest-no-icon"
+            if="nokiaS80-platform.trigger"/>
     <!--jad-jsr211-properties-->
     <target name="jad-jsr211-properties.check">
         <condition property="jad-jsr211-properties.allowed">
@@ -624,7 +684,8 @@
             </and>
         </condition>
     </target>
-    <target name="jad-jsr211-properties" description="Updates JAD and manifest with JSR211 properties." depends="jad-jsr211-properties.check" if="jad-jsr211-properties.allowed">
+    <target name="jad-jsr211-properties" description="Updates JAD and manifest with JSR211 properties."
+            depends="jad-jsr211-properties.check" if="jad-jsr211-properties.allowed">
         <jadjsr211properties jadfile="${dist.dir}/${dist.jad}" manifestfile="${build.dir}/${manifest.file}"/>
     </target>
     <!--semc-build-j9-->
@@ -638,14 +699,17 @@
                 <equals arg1="${main.class}" arg2="" trim="true"/>
             </condition>
         </fail>
-        <j9builder jvmargs="${run.jvmargs}" mainclass="${main.class}" args="${application.args}" home="${platform.home}" dist="${j9.dist}" id="${semc.application.uid}" platform="${platform.type}" xlet="${main.class.xlet}" applet="${main.class.applet}" jarname="${dist.jar}"/>
+        <j9builder jvmargs="${run.jvmargs}" mainclass="${main.class}" args="${application.args}" home="${platform.home}"
+                   dist="${j9.dist}" id="${semc.application.uid}" platform="${platform.type}" xlet="${main.class.xlet}"
+                   applet="${main.class.applet}" jarname="${dist.jar}"/>
     </target>
     <!--do-jar-->
     <target name="do-jar" if="manifest.available">
         <dirname file="${dist.dir}/${dist.jar}" property="dist.jar.dir"/>
         <mkdir dir="${dist.jar.dir}"/>
         <property name="manifest.build.file" location="${manifest.file}"/>
-        <jar compress="${jar.compress}" jarfile="${dist.dir}/${dist.jar}" manifest="${manifest.build.file}" manifestencoding="UTF-8">
+        <jar compress="${jar.compress}" jarfile="${dist.dir}/${dist.jar}" manifest="${manifest.build.file}"
+             manifestencoding="UTF-8">
             <fileset dir="${buildsystem.baton}"/>
         </jar>
     </target>
@@ -667,7 +731,9 @@
     </target>
     <!--update-jad-->
     <target name="update-jad" if="cldc-platform.trigger">
-        <nb-jad jadfile="${dist.dir}/${dist.jad}" jarfile="${dist.dir}/${dist.jar}" url="${dist.jar}" sign="${sign.enabled}" keystore="${sign.keystore}" keystorepassword="${sign.keystore.password}" alias="${sign.alias}" aliaspassword="${sign.alias.password}" encoding="UTF-8"/>
+        <nb-jad jadfile="${dist.dir}/${dist.jad}" jarfile="${dist.dir}/${dist.jar}" url="${dist.jar}"
+                sign="${sign.enabled}" keystore="${sign.keystore}" keystorepassword="${sign.keystore.password}"
+                alias="${sign.alias}" aliaspassword="${sign.alias.password}" encoding="UTF-8"/>
     </target>
     <!--ricoh-init-dalp-->
     <target name="ricoh-init-dalp" if="ricoh-platform.trigger">
@@ -682,7 +748,8 @@
                 </not>
             </and>
         </condition>
-        <fail if="no.unmanaged.dalp" message="Dalp file ${application.name}.dalp is required in project directory when DALP management is set to off."/>
+        <fail if="no.unmanaged.dalp"
+              message="Dalp file ${application.name}.dalp is required in project directory when DALP management is set to off."/>
         <condition property="no.vendor.name" value="true">
             <equals arg1="${application.vendor}" arg2="" trim="true"/>
         </condition>
@@ -708,7 +775,8 @@
         </jar>
     </target>
     <!--ricoh-build-dalp-with-icon-->
-    <target name="ricoh-build-dalp-with-icon" depends="ricoh-add-app-icon" if="ricoh-platform.trigger" unless="ricoh.icon.invalid">
+    <target name="ricoh-build-dalp-with-icon" depends="ricoh-add-app-icon" if="ricoh-platform.trigger"
+            unless="ricoh.icon.invalid">
         <mkdir dir="${build.dir}/dalp/"/>
         <taskIf if="ricoh.dalp.is-managed" value="true">
             <dalp file="${dalp.dist}" iconname="${icon.name}">
@@ -739,7 +807,8 @@
             <echo message="Non-managed dalp file ${dalp.dist} w/o icon imported"/>
         </taskIf>
     </target>
-    <target name="ricoh-build-dalp" depends="ricoh-build-dalp-with-icon,ricoh-build-dalp-without-icon" if="ricoh-platform.trigger">
+    <target name="ricoh-build-dalp" depends="ricoh-build-dalp-with-icon,ricoh-build-dalp-without-icon"
+            if="ricoh-platform.trigger">
         <copy todir="${dist.dir}" file="${dalp.dist}" overwrite="true"/>
     </target>
     <!--savaje-build-jnlp-->
@@ -752,7 +821,8 @@
             </chainedmapper>
         </pathconvert>
         <mkdir dir="${dist.dir}/lib"/>
-        <copy tofile="${dist.dir}/lib/${savaje.application.icon.name}" file="${savaje.application.icon}" overwrite="true" failonerror="false"/>
+        <copy tofile="${dist.dir}/lib/${savaje.application.icon.name}" file="${savaje.application.icon}"
+              overwrite="true" failonerror="false"/>
     </target>
     <target name="savaje-build-jnlp" depends="savaje-prepare-icon" if="savaje-platform.trigger">
         <mkdir dir="${build.dir}/jnlp/"/>
@@ -761,7 +831,12 @@
                 <pathelement path="${libs.savaje-ant-utils.classpath}"/>
             </classpath>
         </taskdef>
-        <jnlp dir="${build.dir}/jnlp/" file="bundle.jnlp" codebase="WTK_AGUI" distjar="lib/${dist.jar.name}" applicationicon="lib/${savaje.application.icon.name}" smallicon="${savaje.application.icon.small}" focusedicon="${savaje.application.icon.focused}" applicationtitle="${application.name}" applicationvendor="${application.vendor}" applicationDescription="${application.description}" applicationArgs="${application.args}" mainClass="${main.class}" debug="${savaje.bundle.debug}" debugport="${savaje.bundle.debug.port}">
+        <jnlp dir="${build.dir}/jnlp/" file="bundle.jnlp" codebase="WTK_AGUI" distjar="lib/${dist.jar.name}"
+              applicationicon="lib/${savaje.application.icon.name}" smallicon="${savaje.application.icon.small}"
+              focusedicon="${savaje.application.icon.focused}" applicationtitle="${application.name}"
+              applicationvendor="${application.vendor}" applicationDescription="${application.description}"
+              applicationArgs="${application.args}" mainClass="${main.class}" debug="${savaje.bundle.debug}"
+              debugport="${savaje.bundle.debug.port}">
             <fileset dir="${dist.dir}/lib"/>
         </jnlp>
         <policy file="${build.dir}/jnlp/bundle.policy" codebase="WTK_AGUI"/>
@@ -775,15 +850,20 @@
     <!--jar-->
     <target name="pre-jar"/>
     <target name="post-jar"/>
-    <target name="jar" depends="preverify,pre-jar,set-password,create-jad,do-extra-libs,nokiaS80-create-manifest,jad-jsr211-properties,semc-build-j9,do-jar,nsicom-create-manifest,do-jar-no-manifest,update-jad,ricoh-build-dalp,savaje-build-jnlp,post-jar" description="Build jar and application descriptor."/>
+    <target name="jar"
+            depends="preverify,pre-jar,set-password,create-jad,do-extra-libs,nokiaS80-create-manifest,jad-jsr211-properties,semc-build-j9,do-jar,nsicom-create-manifest,do-jar-no-manifest,update-jad,ricoh-build-dalp,savaje-build-jnlp,post-jar"
+            description="Build jar and application descriptor."/>
     <!--override-jad-->
     <target name="override-jad" if="override.jarurl.trigger">
         <property name="deployment.jarurl" value="${dist.jar}"/>
-        <nb-jad jadfile="${dist.dir}/${dist.jad}" jarfile="${dist.dir}/${dist.jar}" url="${deployment.jarurl}" sign="${sign.enabled}" keystore="${sign.keystore}" keystorepassword="${sign.keystore.password}" alias="${sign.alias}" aliaspassword="${sign.alias.password}" encoding="UTF-8"/>
+        <nb-jad jadfile="${dist.dir}/${dist.jad}" jarfile="${dist.dir}/${dist.jar}" url="${deployment.jarurl}"
+                sign="${sign.enabled}" keystore="${sign.keystore}" keystorepassword="${sign.keystore.password}"
+                alias="${sign.alias}" aliaspassword="${sign.alias.password}" encoding="UTF-8"/>
     </target>
     <!--semc-make-sis-->
     <target name="-semc-sis-init" if="semc-platform.trigger" description="Init necessary properties for SEMC platform">
-        <property name="pprolauncher.dir" value="${platform.home}/epoc32/tools/ppro-custom-launcher/output/arm/PProLauncher${semc.application.uid}"/>
+        <property name="pprolauncher.dir"
+                  value="${platform.home}/epoc32/tools/ppro-custom-launcher/output/arm/PProLauncher${semc.application.uid}"/>
     </target>
     <target name="semc-ppro-arm" if="semc-platform.trigger" description="Builds neccessary files for semc device">
         <exec executable="${platform.home}/epoc32/tools/create-ppro-app.bat" dir="${platform.home}/epoc32/tools/">
@@ -798,9 +878,11 @@
         </exec>
     </target>
     <target name="semc-make-sis-icon" if="semc-platform.trigger" unless="semc.icon.invalid">
-        <copy file="${semc.application.icon}" tofile="${pprolauncher.dir}/${semc.application.uid}.mbm" failonerror="false"/>
+        <copy file="${semc.application.icon}" tofile="${pprolauncher.dir}/${semc.application.uid}.mbm"
+              failonerror="false"/>
     </target>
-    <target name="semc-make-sis" depends="semc-ppro-arm,semc-make-sis-icon" if="semc-platform.trigger" unless="no.application.uid" description="Builds SIS file for device">
+    <target name="semc-make-sis" depends="semc-ppro-arm,semc-make-sis-icon" if="semc-platform.trigger"
+            unless="no.application.uid" description="Builds SIS file for device">
         <property name="dll.dir" location="dll"/>
         <mkdir dir="${dll.dir}"/>
         <copy todir="${pprolauncher.dir}">
@@ -816,7 +898,9 @@
         <copy todir="${pprolauncher.dir}" failonerror="false">
             <fileset dir="${resources.dir}"/>
         </copy>
-        <pkgmake workdir="${pprolauncher.dir}" id="${semc.application.uid}" appname="${application.name}" appicon="${semc.application.uid}.mbm" vendor="${application.vendor}" version="${deployment.number}" logo="${logo.image}" logoinstallonly="${logo.image.installonly}">
+        <pkgmake workdir="${pprolauncher.dir}" id="${semc.application.uid}" appname="${application.name}"
+                 appicon="${semc.application.uid}.mbm" vendor="${application.vendor}" version="${deployment.number}"
+                 logo="${logo.image}" logoinstallonly="${logo.image.installonly}">
             <fileset dir="${dist.dir}">
                 <exclude name="javadoc/**"/>
             </fileset>
@@ -840,7 +924,8 @@
             </fileset>
         </copy>
     </target>
-    <target name="semc-sign-sis" if="semc-platform.trigger" depends="semc-make-sis" unless="no.certificateorkey" description="Sign SIS file">
+    <target name="semc-sign-sis" if="semc-platform.trigger" depends="semc-make-sis" unless="no.certificateorkey"
+            description="Sign SIS file">
         <exec executable="${platform.home}/epoc32/tools/signsis" dir="${pprolauncher.dir}">
             <arg value="-s"/>
             <arg value="${pprolauncher.dir}/${application.name}.sis"/>
@@ -859,12 +944,17 @@
             </fileset>
         </copy>
     </target>
-    <target name="semc-no-sign-sis" depends="semc-make-sis" if="no.certificateorkey" unless="no.application.uid" description="Prints out only info when SIS is not signed ">
+    <target name="semc-no-sign-sis" depends="semc-make-sis" if="no.certificateorkey" unless="no.application.uid"
+            description="Prints out only info when SIS is not signed ">
         <echo message="Signed SIS was not created! Set up path to certificate and private key in project properties!"/>
     </target>
-    <target name="-pre-semc-sis" if="semc-platform.trigger" description="Customizable target called before SIS file is built"/>
-    <target name="semc-sis" if="semc-platform.trigger" depends="-semc-sis-init, -pre-semc-sis, semc-sign-sis,semc-no-sign-sis, -post-semc-sis" unless="no.application.uid"/>
-    <target name="-post-semc-sis" if="semc-platform.trigger" description="Customizable target called after SIS file is built"/>
+    <target name="-pre-semc-sis" if="semc-platform.trigger"
+            description="Customizable target called before SIS file is built"/>
+    <target name="semc-sis" if="semc-platform.trigger"
+            depends="-semc-sis-init, -pre-semc-sis, semc-sign-sis,semc-no-sign-sis, -post-semc-sis"
+            unless="no.application.uid"/>
+    <target name="-post-semc-sis" if="semc-platform.trigger"
+            description="Customizable target called after SIS file is built"/>
     <!--increment-app-version-->
     <target name="increment-app-version" if="app-version.autoincrement.trigger">
         <propertyfile file="nbproject/private/private.properties">
@@ -872,12 +962,15 @@
             <entry key="deployment.number" value="000000${deployment.counter}"/>
         </propertyfile>
         <property name="deployment.number.pattern" value="\2\3.\5\6.\8\9"/>
-        <replaceregexp byline="true" file="nbproject/private/private.properties" match="^deployment.number=[0-9]*(0|([1-9]))([0-9])(0|([1-9]))([0-9])(0|([1-9]))([0-9])$" replace="deployment.number=${deployment.number.pattern}"/>
+        <replaceregexp byline="true" file="nbproject/private/private.properties"
+                       match="^deployment.number=[0-9]*(0|([1-9]))([0-9])(0|([1-9]))([0-9])(0|([1-9]))([0-9])$"
+                       replace="deployment.number=${deployment.number.pattern}"/>
     </target>
     <!--build-->
     <target name="pre-build"/>
     <target name="post-build"/>
-    <target name="build" depends="jar,pre-build,override-jad,semc-sis,increment-app-version,post-build" description="Builds final distribution of the application."/>
+    <target name="build" depends="jar,pre-build,override-jad,semc-sis,increment-app-version,post-build"
+            description="Builds final distribution of the application."/>
     <!--open-netmon-->
     <target name="netmon.check">
         <condition property="netmon.allowed">
@@ -895,7 +988,11 @@
     </target>
     <!--cldc-run-->
     <target name="cldc-run" if="cldc-platform.trigger">
-        <nb-run jadfile="${dist.dir}/${dist.jad}" jarfile="${dist.dir}/${dist.jar}" jadurl="${dist.jad.url}" device="${platform.device}" platformhome="${platform.home}" platformtype="${platform.type}" execmethod="${run.method}" securitydomain="${evaluated.run.security.domain}" commandline="${platform.runcommandline}" classpath="${platform.bootclasspath}:${dist.dir}/${dist.jar}" cmdoptions="${run.cmd.options}"/>
+        <nb-run jadfile="${dist.dir}/${dist.jad}" jarfile="${dist.dir}/${dist.jar}" jadurl="${dist.jad.url}"
+                device="${platform.device}" platformhome="${platform.home}" platformtype="${platform.type}"
+                execmethod="${run.method}" securitydomain="${evaluated.run.security.domain}"
+                commandline="${platform.runcommandline}" classpath="${platform.bootclasspath}:${dist.dir}/${dist.jar}"
+                cmdoptions="${run.cmd.options}"/>
     </target>
     <!--ricoh-run-->
     <target name="ricoh-run" if="ricoh-platform.trigger">
@@ -912,10 +1009,13 @@
     </target>
     <!--semc-run-and-debug-prepare-targets-->
     <target name="semc-icon-assembly" if="semc-platform.trigger" unless="semc.icon.invalid">
-        <copy file="${semc.application.icon}" tofile="${platform.home}/epoc32/release/winscw/udeb/z/Resource/Apps/${semc.application.uid}.mbm" failonerror="false"/>
+        <copy file="${semc.application.icon}"
+              tofile="${platform.home}/epoc32/release/winscw/udeb/z/Resource/Apps/${semc.application.uid}.mbm"
+              failonerror="false"/>
         <iconassembly home="${platform.home}" uid="${semc.application.uid}" count="${application.icon.count}"/>
     </target>
-    <target name="semc-ppro-emulator" if="semc-platform.trigger" description="Builds neccessary files for semc emulator">
+    <target name="semc-ppro-emulator" if="semc-platform.trigger"
+            description="Builds neccessary files for semc emulator">
         <exec executable="${platform.home}/epoc32/tools/create-ppro-app.bat" dir="${platform.home}/epoc32/tools/">
             <arg value="win32"/>
             <arg value="${application.name}"/>
@@ -945,7 +1045,9 @@
     <target name="semc-run" depends="semc-icon-assembly,semc-ppro-emulator,semc-do-run" if="semc-platform.trigger"/>
     <!--savaje-run-->
     <target name="savaje-run" if="savaje-platform.trigger">
-        <sunEmulatorExec home="${platform.home}" mainclass="${main.class}" args="${application.args}" jvmargs="${run.cmd.options}" device="${platform.device}" profile="${platform.profile}" xlet="${main.class.xlet}" applet="${main.class.applet}">
+        <sunEmulatorExec home="${platform.home}" mainclass="${main.class}" args="${application.args}"
+                         jvmargs="${run.cmd.options}" device="${platform.device}" profile="${platform.profile}"
+                         xlet="${main.class.xlet}" applet="${main.class.applet}">
             <fileset dir="${dist.dir}">
                 <exclude name="javadoc/**"/>
             </fileset>
@@ -953,8 +1055,12 @@
     </target>
     <!--sjmc-run-->
     <target name="sjmc-run" if="sjmc-platform.trigger">
-        <taskdef name="sjmcEmulatorExec" classname="org.netbeans.modules.j2me.cdc.project.sjmc.SJMCToolkitEmulatorExecTask" classpath="${libs.sjmc-ant-utils.classpath}"/>
-        <sjmcEmulatorExec home="${platform.home}" mainclass="${main.class}" args="${application.args}" jvmargs="${run.cmd.options}" device="${platform.device}" profile="${platform.profile}" xlet="${main.class.xlet}" applet="${main.class.applet}">
+        <taskdef name="sjmcEmulatorExec"
+                 classname="org.netbeans.modules.j2me.cdc.project.sjmc.SJMCToolkitEmulatorExecTask"
+                 classpath="${libs.sjmc-ant-utils.classpath}"/>
+        <sjmcEmulatorExec home="${platform.home}" mainclass="${main.class}" args="${application.args}"
+                          jvmargs="${run.cmd.options}" device="${platform.device}" profile="${platform.profile}"
+                          xlet="${main.class.xlet}" applet="${main.class.applet}">
             <fileset dir="${dist.dir}">
                 <exclude name="javadoc/**"/>
             </fileset>
@@ -964,8 +1070,10 @@
     <target name="nokiaS80-run" if="nokiaS80-platform.trigger">
         <mkdir dir="${platform.home}/epoc32/wins/c/PP_Applications"/>
         <mkdir dir="${platform.home}/epoc32/wins/c/logs/j9vm"/>
-        <taskdef name="nokiaexec" classname="org.netbeans.modules.j2me.cdc.project.nokiaS80.NokiaEmulatorExecTask" classpath="${libs.nokiaS80-ant-utils.classpath}"/>
-        <nokiaexec jvmargs="${run.jvmargs}" mainclass="${main.class}" args="${application.args}" home="${platform.home}" device="${platform.device}" xlet="${main.class.xlet}" applet="${main.class.applet}">
+        <taskdef name="nokiaexec" classname="org.netbeans.modules.j2me.cdc.project.nokiaS80.NokiaEmulatorExecTask"
+                 classpath="${libs.nokiaS80-ant-utils.classpath}"/>
+        <nokiaexec jvmargs="${run.jvmargs}" mainclass="${main.class}" args="${application.args}" home="${platform.home}"
+                   device="${platform.device}" xlet="${main.class.xlet}" applet="${main.class.applet}">
             <fileset dir="${dist.dir}">
                 <exclude name="javadoc/**"/>
             </fileset>
@@ -973,7 +1081,12 @@
     </target>
     <!--nsicom-run-->
     <target name="nsicom-run" if="nsicom-platform.trigger">
-        <nsicomExecDeploy home="${platform.home}" mainclass="${main.class}" args="${application.args}" jvmargs="${run.jvmargs}" device="${platform.device}" profile="${platform.profile}" xlet="${main.class.xlet}" applet="${main.class.applet}" verbose="${nsicom.application.runverbose}" hostip="${nsicom.application.monitorhost}" runondevice="${nsicom.application.runremote}" remotevmlocation="${nsicom.remotevm.location}" remoteDataLocation="${nsicom.remoteapp.location}">
+        <nsicomExecDeploy home="${platform.home}" mainclass="${main.class}" args="${application.args}"
+                          jvmargs="${run.jvmargs}" device="${platform.device}" profile="${platform.profile}"
+                          xlet="${main.class.xlet}" applet="${main.class.applet}"
+                          verbose="${nsicom.application.runverbose}" hostip="${nsicom.application.monitorhost}"
+                          runondevice="${nsicom.application.runremote}" remotevmlocation="${nsicom.remotevm.location}"
+                          remoteDataLocation="${nsicom.remoteapp.location}">
             <fileset dir="${dist.dir}">
                 <exclude name="javadoc/**"/>
             </fileset>
@@ -1010,12 +1123,21 @@
     </target>
     <!--run-->
     <target name="pre-run"/>
-    <target name="run" depends="jar,pre-run,open-netmon,cldc-run,ricoh-run,semc-run,savaje-run,sjmc-run,nokiaS80-run,nsicom-run,cdc-hi-run,open-profiler" description="Run MIDlet suite."/>
-    <target name="run-no-build" depends="init,pre-run,open-netmon,cldc-run,ricoh-run,semc-run,savaje-run,sjmc-run,nokiaS80-run,nsicom-run,cdc-hi-run,open-profiler" description="Quick Run already built MIDlet suite."/>
+    <target name="run"
+            depends="jar,pre-run,open-netmon,cldc-run,ricoh-run,semc-run,savaje-run,sjmc-run,nokiaS80-run,nsicom-run,cdc-hi-run,open-profiler"
+            description="Run MIDlet suite."/>
+    <target name="run-no-build"
+            depends="init,pre-run,open-netmon,cldc-run,ricoh-run,semc-run,savaje-run,sjmc-run,nokiaS80-run,nsicom-run,cdc-hi-run,open-profiler"
+            description="Quick Run already built MIDlet suite."/>
     <!--cldc-debug-->
     <target name="cldc-debug" if="cldc-platform.trigger">
         <parallel>
-            <nb-run debug="true" debugsuspend="true" debugserver="true" debuggeraddressproperty="jpda.port" platformtype="${platform.type}" platformhome="${platform.home}" device="${platform.device}" jadfile="${dist.dir}/${dist.jad}" jadurl="${dist.jad.url}" jarfile="${dist.dir}/${dist.jar}" execmethod="${run.method}" securitydomain="${evaluated.run.security.domain}" commandline="${platform.debugcommandline}" classpath="${platform.bootclasspath}:${dist.dir}/${dist.jar}" cmdoptions="${run.cmd.options}"/>
+            <nb-run debug="true" debugsuspend="true" debugserver="true" debuggeraddressproperty="jpda.port"
+                    platformtype="${platform.type}" platformhome="${platform.home}" device="${platform.device}"
+                    jadfile="${dist.dir}/${dist.jad}" jadurl="${dist.jad.url}" jarfile="${dist.dir}/${dist.jar}"
+                    execmethod="${run.method}" securitydomain="${evaluated.run.security.domain}"
+                    commandline="${platform.debugcommandline}"
+                    classpath="${platform.bootclasspath}:${dist.dir}/${dist.jar}" cmdoptions="${run.cmd.options}"/>
             <sequential>
                 <sleep seconds="5"/>
                 <antcall target="nbdebug"/>
@@ -1051,7 +1173,10 @@
                 <equals arg1="${main.class}" arg2=""/>
             </condition>
         </fail>
-        <j9builder jvmargs="${run.jvmargs} -Xrunjdwp:server=n,address=${jpda.port}" mainclass="${main.class}" args="${application.args}" platform="${platform.type}" home="${platform.home}" dist="${j9.dist}" id="${semc.application.uid}" xlet="${main.class.xlet}" applet="${main.class.applet}" jarname="${dist.jar}"/>
+        <j9builder jvmargs="${run.jvmargs} -Xrunjdwp:server=n,address=${jpda.port}" mainclass="${main.class}"
+                   args="${application.args}" platform="${platform.type}" home="${platform.home}" dist="${j9.dist}"
+                   id="${semc.application.uid}" xlet="${main.class.xlet}" applet="${main.class.applet}"
+                   jarname="${dist.jar}"/>
     </target>
     <target name="semc-debug-start" if="semc-platform.trigger">
         <nbjpdastart transport="dt_socket" addressproperty="jpda.port" name="${main.class}">
@@ -1063,11 +1188,16 @@
             </bootclasspath>
         </nbjpdastart>
     </target>
-    <target name="semc-debug" depends="semc-debug-start,semc-build-j9-debug,semc-icon-assembly,semc-ppro-emulator,semc-do-run" if="semc-platform.trigger"/>
+    <target name="semc-debug"
+            depends="semc-debug-start,semc-build-j9-debug,semc-icon-assembly,semc-ppro-emulator,semc-do-run"
+            if="semc-platform.trigger"/>
     <!--savaje-debug-->
     <target name="savaje-debug" if="savaje-platform.trigger">
         <parallel>
-            <sunEmulatorExec home="${platform.home}" mainclass="${main.class}" args="${application.args}" jvmargs="${run.cmd.options}" device="${platform.device}" profile="${platform.profile}" xlet="${main.class.xlet}" applet="${main.class.applet}" debug="true" debuggeraddressproperty="jpda.port">
+            <sunEmulatorExec home="${platform.home}" mainclass="${main.class}" args="${application.args}"
+                             jvmargs="${run.cmd.options}" device="${platform.device}" profile="${platform.profile}"
+                             xlet="${main.class.xlet}" applet="${main.class.applet}" debug="true"
+                             debuggeraddressproperty="jpda.port">
                 <fileset dir="${dist.dir}">
                     <exclude name="javadoc/**"/>
                 </fileset>
@@ -1080,9 +1210,14 @@
     </target>
     <!--sjmc-debug-->
     <target name="sjmc-debug" if="sjmc-platform.trigger">
-        <taskdef name="sjmcEmulatorExec" classname="org.netbeans.modules.j2me.cdc.project.sjmc.SJMCToolkitEmulatorExecTask" classpath="${libs.sjmc-ant-utils.classpath}"/>
+        <taskdef name="sjmcEmulatorExec"
+                 classname="org.netbeans.modules.j2me.cdc.project.sjmc.SJMCToolkitEmulatorExecTask"
+                 classpath="${libs.sjmc-ant-utils.classpath}"/>
         <parallel>
-            <sjmcEmulatorExec home="${platform.home}" mainclass="${main.class}" args="${application.args}" jvmargs="${run.cmd.options}" device="${platform.device}" profile="${platform.profile}" xlet="${main.class.xlet}" applet="${main.class.applet}" debug="true" debuggeraddressproperty="jpda.port">
+            <sjmcEmulatorExec home="${platform.home}" mainclass="${main.class}" args="${application.args}"
+                              jvmargs="${run.cmd.options}" device="${platform.device}" profile="${platform.profile}"
+                              xlet="${main.class.xlet}" applet="${main.class.applet}" debug="true"
+                              debuggeraddressproperty="jpda.port">
                 <fileset dir="${dist.dir}">
                     <exclude name="javadoc/**"/>
                 </fileset>
@@ -1096,7 +1231,8 @@
     <!--cdc-hi-debug-->
     <target name="-pre-cdc-hi-debug" if="cdc-hi-platform.trigger"/>
     <target name="-cdc-hi-debug" if="cdc-hi-platform.trigger">
-        <taskdef name="freePortRetriever" classname="org.netbeans.modules.j2me.cdc.project.savaje.FreePortRetriever" classpath="${libs.savaje-ant-utils.classpath}"/>
+        <taskdef name="freePortRetriever" classname="org.netbeans.modules.j2me.cdc.project.savaje.FreePortRetriever"
+                 classpath="${libs.savaje-ant-utils.classpath}"/>
         <freePortRetriever debuggerPortProperty="active.debug.port"/>
         <parallel>
             <exec executable="${platform.home}/bin/emulator">
@@ -1108,19 +1244,27 @@
                 <arg value="-Xdebug"/>
             </exec>
             <property name="debug.delay" value="500"/>
-            <nb-mobility-debug address="${active.debug.port}" name="${app.codename}" delay="${debug.delay}" timeout="${debug.timeout}" period="2000"/>
+            <nb-mobility-debug address="${active.debug.port}" name="${app.codename}" delay="${debug.delay}"
+                               timeout="${debug.timeout}" period="2000"/>
         </parallel>
     </target>
     <target name="-post-cdc-hi-debug" if="cdc-hi-platform.trigger"/>
-    <target name="cdc-hi-debug" if="cdc-hi-platform.trigger" depends="-pre-cdc-hi-debug, -cdc-hi-debug, -post-cdc-hi-debug"/>
+    <target name="cdc-hi-debug" if="cdc-hi-platform.trigger"
+            depends="-pre-cdc-hi-debug, -cdc-hi-debug, -post-cdc-hi-debug"/>
     <!--nokiaS80-debug-->
     <target name="nokiaS80-debug" if="nokiaS80-platform.trigger">
-        <taskdef name="j9builder" classname="org.netbeans.modules.j2me.cdc.project.J9Builder" classpath="${libs.cdc-ant-utils.classpath}"/>
-        <j9builder jvmargs="${run.jvmargs} -Xrunjdwp:server=n,address=${jpda.port}" mainclass="${main.class}" args="${application.args}" platform="${platform.type}" home="${platform.home}" dist="${j9.dist}" id="NOKIA" xlet="${main.class.xlet}" applet="${main.class.applet}" jarname="${dist.jar}"/>
+        <taskdef name="j9builder" classname="org.netbeans.modules.j2me.cdc.project.J9Builder"
+                 classpath="${libs.cdc-ant-utils.classpath}"/>
+        <j9builder jvmargs="${run.jvmargs} -Xrunjdwp:server=n,address=${jpda.port}" mainclass="${main.class}"
+                   args="${application.args}" platform="${platform.type}" home="${platform.home}" dist="${j9.dist}"
+                   id="NOKIA" xlet="${main.class.xlet}" applet="${main.class.applet}" jarname="${dist.jar}"/>
         <mkdir dir="${platform.home}/epoc32/wins/c/logs/j9vm"/>
-        <taskdef name="nokiaexec" classname="org.netbeans.modules.j2me.cdc.project.nokiaS80.NokiaEmulatorExecTask" classpath="${libs.nokiaS80-ant-utils.classpath}"/>
+        <taskdef name="nokiaexec" classname="org.netbeans.modules.j2me.cdc.project.nokiaS80.NokiaEmulatorExecTask"
+                 classpath="${libs.nokiaS80-ant-utils.classpath}"/>
         <parallel>
-            <nokiaexec debug="true" debuggeraddressproperty="jpda.port" jvmargs="${run.jvmargs}" mainclass="${main.class}" args="${application.args}" home="${platform.home}" device="${platform.device}" xlet="${main.class.xlet}" applet="${main.class.applet}">
+            <nokiaexec debug="true" debuggeraddressproperty="jpda.port" jvmargs="${run.jvmargs}"
+                       mainclass="${main.class}" args="${application.args}" home="${platform.home}"
+                       device="${platform.device}" xlet="${main.class.xlet}" applet="${main.class.applet}">
                 <fileset dir="${dist.dir}">
                     <exclude name="javadoc/**"/>
                 </fileset>
@@ -1140,15 +1284,17 @@
         <delete file="$/.timestamp"/>
     </target>
     <target name="pre-debug"/>
-    <target name="debug" description="Debug project." depends="clean,jar,remove-timestamp,pre-debug,cldc-debug,ricoh-debug,semc-debug,savaje-debug,sjmc-debug,cdc-hi-debug,nokiaS80-debug,nsicom-debug"/>
+    <target name="debug" description="Debug project."
+            depends="clean,jar,remove-timestamp,pre-debug,cldc-debug,ricoh-debug,semc-debug,savaje-debug,sjmc-debug,cdc-hi-debug,nokiaS80-debug,nsicom-debug"/>
     <target name="nbdebug" description="Start NetBeans debugger" if="netbeans.home">
         <property name="debug.delay" value="5000"/>
-        <nb-mobility-debug address="${jpda.port}" name="${app.codename}" delay="${debug.delay}" timeout="${debug.timeout}" period="2000"/>
+        <nb-mobility-debug address="${jpda.port}" name="${app.codename}" delay="${debug.delay}"
+                           timeout="${debug.timeout}" period="2000"/>
     </target>
     <target name="debug-run-base" depends="cldc-debug-run,cdc-hi-debug-run"/>
     <target name="-pre-cldc-debug-run" if="cldc-platform.trigger"/>
     <target name="-cldc-debug-run" depends="init,jar" if="cldc-platform.trigger">
-        <echo> Starting emulator with port number ${active.debug.port} </echo>
+        <echo>Starting emulator with port number ${active.debug.port}</echo>
         <exec executable="${platform.home}/bin/emulator">
             <arg value="-Xdescriptor:${basedir}/${dist.dir}/${dist.jad}"/>
             <arg value="-Xdevice:${platform.device}"/>
@@ -1157,10 +1303,11 @@
         </exec>
     </target>
     <target name="-post-cldc-debug-run" if="cldc-platform.trigger"/>
-    <target name="cldc-debug-run" if="cldc-platform.trigger" depends="-pre-cldc-debug-run, -cldc-debug-run, -post-cldc-debug-run"/>
+    <target name="cldc-debug-run" if="cldc-platform.trigger"
+            depends="-pre-cldc-debug-run, -cldc-debug-run, -post-cldc-debug-run"/>
     <target name="-pre-cdc-hi-debug-run" if="cdc-hi-platform.trigger"/>
     <target name="-cdc-hi-debug-run" depends="init,jar" if="cdc-hi-platform.trigger">
-        <echo> Starting emulator with port number ${active.debug.port} </echo>
+        <echo>Starting emulator with port number ${active.debug.port}</echo>
         <exec executable="${platform.home}/bin/emulator">
             <arg value="-cp"/>
             <arg value="${basedir}/${dist.dir}/${dist.jar}"/>
@@ -1171,7 +1318,8 @@
         </exec>
     </target>
     <target name="-post-cdc-hi-debug-run" if="cdc-hi-platform.trigger"/>
-    <target name="cdc-hi-debug-run" if="cdc-hi-platform.trigger" depends="-pre-cdc-hi-debug-run, -cdc-hi-debug-run, -post-cdc-hi-debug-run"/>
+    <target name="cdc-hi-debug-run" if="cdc-hi-platform.trigger"
+            depends="-pre-cdc-hi-debug-run, -cdc-hi-debug-run, -post-cdc-hi-debug-run"/>
     <!--javadoc-->
     <target name="browse-javadoc" if="netbeans.home" unless="no.javadoc.preview">
         <nbbrowse file="${dist.javadoc.dir}/index.html"/>
@@ -1179,7 +1327,11 @@
     <target name="javadoc" depends="preprocess">
         <fail unless="dist.javadoc.dir">Must set dist.javadoc.dir</fail>
         <mkdir dir="${dist.javadoc.dir}"/>
-        <javadoc source="${javac.source}" destdir="${dist.javadoc.dir}" bootclasspath="${platform.bootclasspath}" notree="${javadoc.notree}" use="${javadoc.use}" nonavbar="${javadoc.nonavbar}" noindex="${javadoc.noindex}" splitindex="${javadoc.splitindex}" author="${javadoc.author}" version="${javadoc.version}" windowtitle="${javadoc.windowtitle}" private="${javadoc.private}" encoding="${javac.encoding}" docencoding="${javac.encoding}" charset="${javac.encoding}">
+        <javadoc source="${javac.source}" destdir="${dist.javadoc.dir}" bootclasspath="${platform.bootclasspath}"
+                 notree="${javadoc.notree}" use="${javadoc.use}" nonavbar="${javadoc.nonavbar}"
+                 noindex="${javadoc.noindex}" splitindex="${javadoc.splitindex}" author="${javadoc.author}"
+                 version="${javadoc.version}" windowtitle="${javadoc.windowtitle}" private="${javadoc.private}"
+                 encoding="${javac.encoding}" docencoding="${javac.encoding}" charset="${javac.encoding}">
             <classpath>
                 <path path="${libs.classpath}"/>
             </classpath>
@@ -1276,7 +1428,8 @@
             </and>
         </condition>
     </target>
-    <target name="-clean-default-configuration-root" depends="-clean-configuration" unless="can.clean.config.completely">
+    <target name="-clean-default-configuration-root" depends="-clean-configuration"
+            unless="can.clean.config.completely">
         <tempfile deleteonexit="true" property="tmp.exclude" prefix="convert"/>
         <echo file="${tmp.exclude}">${all.configurations}</echo>
         <replaceregexp file="${tmp.exclude}" match="(.)(,|$)" replace="\1/**\2" flags="g"/>
@@ -1305,14 +1458,17 @@
         <delete dir="build" quiet="true"/>
         <delete dir="dist" quiet="true"/>
     </target>
-    <target name="do-clean" depends="pre-clean,clean-timestamp,clean-preprocessed,clean-classes,clean-obfuscated,clean-preverified,clean-manifest,clean-jar,clean-jad,clean-javadoc,clean-j9,clean-ricoh,clean-semc,clean-savaje,clean-sjmc,-clean-default-configuration-root,-clean-configuration-root,-clean-completely,post-clean"/>
+    <target name="do-clean"
+            depends="pre-clean,clean-timestamp,clean-preprocessed,clean-classes,clean-obfuscated,clean-preverified,clean-manifest,clean-jar,clean-jad,clean-javadoc,clean-j9,clean-ricoh,clean-semc,clean-savaje,clean-sjmc,-clean-default-configuration-root,-clean-configuration-root,-clean-completely,post-clean"/>
     <target name="clean" depends="conditional-clean" if="no.clean.before.build" description="Clean build products.">
         <antcall target="do-clean" inheritall="true" inheritrefs="true"/>
     </target>
     <!--deploy-->
     <target name="pre-deploy"/>
     <target name="do-deploy" if="deployment.method" unless="skip.deployment">
-        <fail unless="deployment.scriptfile">Property deployment.${deployment.method}.scriptfile not set. The property should point to an Ant script providing ${deployment.method} deployment.</fail>
+        <fail unless="deployment.scriptfile">Property deployment.${deployment.method}.scriptfile not set. The property
+            should point to an Ant script providing ${deployment.method} deployment.
+        </fail>
         <ant antfile="${deployment.scriptfile}" inheritall="true" inheritrefs="true"/>
         <antcall target="post-deploy" inheritall="true" inheritrefs="true"/>
     </target>
@@ -1320,7 +1476,9 @@
     <target name="deploy" depends="build,pre-deploy,do-deploy,post-deploy"/>
     <!--for-all-configs targets-->
     <target name="for-all-configs" depends="load-properties">
-        <fail unless="libs.ant-contrib.classpath">Classpath to Ant Contrib library (libs.ant-contrib.classpath property) is not set.</fail>
+        <fail unless="libs.ant-contrib.classpath">Classpath to Ant Contrib library (libs.ant-contrib.classpath property)
+            is not set.
+        </fail>
         <property name="selected.configurations" value="${all.configurations}"/>
         <taskdef resource="net/sf/antcontrib/antlib.xml">
             <classpath>
@@ -1367,7 +1525,8 @@
     </target>
     <target name="clean-all">
         <property file="nbproject/project.properties"/>
-        <fail unless="build.root.dir">Property build.root.dir is not set. By default its value should be \"build\".</fail>
+        <fail unless="build.root.dir">Property build.root.dir is not set. By default its value should be \"build\".
+        </fail>
         <fail unless="dist.root.dir">Property dist.root.dir is not set. By default its value should be \"dist\".</fail>
         <antcall target="for-all-configs">
             <param name="target.to.call" value="clean"/>

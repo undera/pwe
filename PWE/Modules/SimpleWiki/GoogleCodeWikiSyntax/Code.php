@@ -1,6 +1,7 @@
 <?php
 
 namespace PWE\Modules\SimpleWiki\GoogleCodeWikiSyntax;
+
 use GeSHi;
 use WikiRenderer\Block;
 

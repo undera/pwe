@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <root>
-   <child
-      attribute="value"
-      attr1="${run.use.security.domain}"
-      attr2='str"str' >
-         Text
-   </child>
+    <child
+            attribute="value"
+            attr1="${run.use.security.domain}"
+            attr2='str"str'>
+        Text
+    </child>
 </root>

@@ -2,5 +2,5 @@
 
 <url base="/redir/" accept="1">
     <!--    <url link="test" ></url> -->
-    <url link="param_no_slash" base="/redir2/" accept="1" no_final_slash="1" />
+    <url link="param_no_slash" base="/redir2/" accept="1" no_final_slash="1"/>
 </url>

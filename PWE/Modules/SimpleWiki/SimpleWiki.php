@@ -154,7 +154,7 @@ class SimpleWiki extends PWEModule implements Outputable, BreadcrumbsGenerator
         } else {
             $sidebar = "";
         }
-        
+
         if (!$node['!a']['no_sidebar_file'] && is_file($dir . '/Sidebar.' . $ext)) {
             $sidebar .= $this->renderPage($dir . '/Sidebar.' . $ext);
         }

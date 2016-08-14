@@ -1,4 +1,6 @@
 <?php
-class FindMe {
+
+class FindMe
+{
 
 } 
