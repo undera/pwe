@@ -109,6 +109,10 @@ abstract class AbstractRESTCall extends PWEModule implements Outputable
      */
     protected function getRequestData()
     {
+        if ($this->PWE->getHeader('content-type') != 'application/json') {
+            throw new HTTP4xxException("API requires 'application/json' as type for request body", HTTP4xxException::UNSUPPORTED_MEDIA_TYPE);
+        }
+
         return json_decode(file_get_contents("php://input"), true);
     }
 
@@ -164,6 +168,4 @@ abstract class AbstractRESTCall extends PWEModule implements Outputable
         PWELogger::debug($_SERVER['REQUEST_METHOD'] . ": %s %s", $item, $data);
         throw new \BadFunctionCallException('Not supported method for this call: ' . $_SERVER['REQUEST_METHOD']);
     }
-
-
 }

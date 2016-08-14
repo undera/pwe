@@ -10,6 +10,7 @@ class HTTP4xxException extends PWEHTTPException
     const NOT_FOUND = 404;
     const METHOD_NOT_ALLOWED = 405;
     const PRECONDITION_FAILED = 412;
+    const UNSUPPORTED_MEDIA_TYPE = 415;
 
     function __construct($message, $code = HTTP4xxException::BAD_REQUEST)
     {
