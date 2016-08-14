@@ -123,7 +123,7 @@ abstract class AbstractRESTCall extends PWEModule implements Outputable
     protected function handleGet($item = null)
     {
         PWELogger::debug($_SERVER['REQUEST_METHOD'] . ": %s", $item);
-        throw new \BadFunctionCallException('Not supported method for this call: ' . $_SERVER['REQUEST_METHOD']);
+        throw new HTTP5xxException('Not supported method for this call: ' . $_SERVER['REQUEST_METHOD'], HTTP5xxException::UNIMPLEMENTED);
     }
 
     /**
@@ -134,7 +134,7 @@ abstract class AbstractRESTCall extends PWEModule implements Outputable
     protected function handlePut($item, $data)
     {
         PWELogger::debug($_SERVER['REQUEST_METHOD'] . ": %s %s", $item, $data);
-        throw new \BadFunctionCallException('Not supported method for this call: ' . $_SERVER['REQUEST_METHOD']);
+        throw new HTTP5xxException('Not supported method for this call: ' . $_SERVER['REQUEST_METHOD'], HTTP5xxException::UNIMPLEMENTED);
     }
 
     /**
@@ -144,7 +144,7 @@ abstract class AbstractRESTCall extends PWEModule implements Outputable
     protected function handlePost($data)
     {
         PWELogger::debug($_SERVER['REQUEST_METHOD'] . ": %s", $data);
-        throw new \BadFunctionCallException('Not supported method for this call: ' . $_SERVER['REQUEST_METHOD']);
+        throw new HTTP5xxException('Not supported method for this call: ' . $_SERVER['REQUEST_METHOD'], HTTP5xxException::UNIMPLEMENTED);
     }
 
     /**
@@ -155,7 +155,7 @@ abstract class AbstractRESTCall extends PWEModule implements Outputable
     protected function handleDelete($item)
     {
         PWELogger::debug($_SERVER['REQUEST_METHOD'] . ": %s", $item);
-        throw new \BadFunctionCallException('Not supported method for this call: ' . $_SERVER['REQUEST_METHOD']);
+        throw new HTTP5xxException('Not supported method for this call: ' . $_SERVER['REQUEST_METHOD'], HTTP5xxException::UNIMPLEMENTED);
     }
 
     /**
@@ -166,6 +166,6 @@ abstract class AbstractRESTCall extends PWEModule implements Outputable
     protected function handlePatch($item, $data)
     {
         PWELogger::debug($_SERVER['REQUEST_METHOD'] . ": %s %s", $item, $data);
-        throw new \BadFunctionCallException('Not supported method for this call: ' . $_SERVER['REQUEST_METHOD']);
+        throw new HTTP5xxException('Not supported method for this call: ' . $_SERVER['REQUEST_METHOD'], HTTP5xxException::UNIMPLEMENTED);
     }
 }
