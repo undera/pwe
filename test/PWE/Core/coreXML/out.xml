@@ -10,7 +10,7 @@
     <url link='accept' inh="accept" accept="2" class="PWE\Core\DummyModule">
     </url>
     <url link='midaccept' class="PWE\Core\DummyModule">
-        <params count="2" class="PWE\Core\DummyModule">
+        <params count="2" class="PWE\Core\DummyModule" marker="params">
             <url link='trailing' class="PWE\Core\DummyModule"/>
         </params>
     </url>

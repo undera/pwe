@@ -184,6 +184,14 @@ class PWECoreTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    public function testSetURL_MidParams_JustBase()
+    {
+        $this->object->process('/midaccept/');
+        $node = $this->object->getNode();
+        $this->assertNull($node['!i']['marker']);
+        $this->assertEquals("/midaccept:", $this->object->getContent());
+    }
+
     public function testSetURL_MidParams_NotAll()
     {
         $this->object->process('/midaccept/123/');
