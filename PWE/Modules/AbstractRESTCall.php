@@ -41,10 +41,18 @@ abstract class AbstractRESTCall extends PWEModule implements Outputable
             } else {
                 $this->PWE->sendHTTPStatusCode(HTTP5xxException::RUNTIME_ERROR);
             }
+
+            $msg = $e->getMessage();
+            if (!($e instanceof HTTP4xxException) && !($e instanceof HTTP5xxException)) {
+                if (strrpos($msg, ':')) {
+                    $msg = substr($msg, strrpos($msg, ':') + 1);
+                }
+            }
+
             $data = array(
                 "code" => $e->getCode(),
                 "type" => get_class($e),
-                "message" => $e->getMessage(),
+                "message" => $msg,
             );
         }
 
