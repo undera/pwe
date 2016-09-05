@@ -77,7 +77,7 @@ if (php_sapi_name() == 'cli') {
         PWELogger::debug('Response headers: %s', headers_list());
     } catch (\Exception $e) {
         try {
-            if ($e->getCode() >= 500) {
+            if ($e->getCode() >= 500 || $e->getCode() <= 100) {
                 PWELogger::error('Exception occured at page %s: %s', $uri, $e);
             } elseif ($e->getCode() >= 400) {
                 PWELogger::info('Exception occured at page %s: %s', $uri, $e);
