@@ -1,12 +1,4 @@
-<?php /*
-  Project: PWE 1.2
-  Module: XML functionality
-  File: класс чтения/записи XML файлов в иерархический массив
-  Author: $Author: Andrey Pohilko$
-  Revision: $Revision: 9$
-  Note:
- */
-?><?php
+<?php
 
 namespace PWE\Utils;
 
@@ -37,16 +29,6 @@ class PWEXML extends PWEXMLFunctions implements Setupable
         }
     }
 
-    ////////////////////////////////////////////////////////
-    #                                                      #
-    # Перегонка XML-файла в иерархический ассоциативный    #
-    # массив                                               #
-    #                                                      #
-    # Вход:  путь к XML-файлу, переменная, куда записать   #
-    # результат                                            #
-    # Выход: успешно/неуспешно                             #
-    #                                                      #
-    ////////////////////////////////////////////////////////
     public function FileToArray($xmlFilename, &$arr)
     {
         if (!file_exists($xmlFilename)) {
@@ -61,6 +43,8 @@ class PWEXML extends PWEXMLFunctions implements Setupable
         flock($f, LOCK_UN);
         fclose($f);
 
+        $cache_file = null;
+        $md5_xml = null;
         if ($this->use_cache) {
             // 2. get md5 from XML
             $md5_xml = md5($xml_data);
@@ -89,8 +73,7 @@ class PWEXML extends PWEXMLFunctions implements Setupable
 
         PWELogger::debug("Parsing XML: %s", $xmlFilename);
         // go parse
-        $Parser = xml_parser_create(); // ссылка на новый парсер
-        // далее зададим опции для парсинга XML
+        $Parser = xml_parser_create();
         xml_parser_set_option($Parser, XML_OPTION_CASE_FOLDING, 0);
         xml_parser_set_option($Parser, XML_OPTION_SKIP_WHITE, 1);
 
@@ -105,7 +88,7 @@ class PWEXML extends PWEXMLFunctions implements Setupable
 
         $i = 0;
         $arr = array();
-        $this->parsed_size = sizeof($this->parsed_vals); // раньше стояло в цикле, но мы дико прокигрывали на этом в производительности
+        $this->parsed_size = sizeof($this->parsed_vals);
         $this->GetChildren($arr, $i, 1); //обратимся к Дзену!
         // build cache
         if ($this->use_cache) {
@@ -120,14 +103,6 @@ class PWEXML extends PWEXMLFunctions implements Setupable
         return true;
     }
 
-    ////////////////////////////////////////////////////////
-    #                                                      #
-    # Мааааленькая (как Блондинка) функция записи в ФАЙЛ   #
-    #                                                      #
-    # Вход:  тот самый массив                              #
-    # Выход: XML-файл на диске                             #
-    #                                                      #
-    ////////////////////////////////////////////////////////
     public function ArrayToFile(array &$a, $fname, $comment = false)
     {
         PWELogger::debug("Saving XML file: %s", $fname);
@@ -135,6 +110,7 @@ class PWEXML extends PWEXMLFunctions implements Setupable
             throw new InvalidArgumentException("Directory for saving not exists: " . dirname($fname));
         }
 
+        // FIXME: the flow of writes is bad, it resets the permissions
         $bak_dir = $this->use_cache ? $this->cache_dir : dirname($fname);
         $bak_file = $bak_dir . '/' . basename($fname) . '.' . posix_geteuid() . ".bak";
         if (is_file($bak_file)) {
@@ -158,8 +134,9 @@ class PWEXML extends PWEXMLFunctions implements Setupable
             $f = fopen($fname, 'w+');
             if ($f && flock($f, LOCK_EX)) { // открыли и заблокировались?
                 fputs($f, "<?xml version='1.0' encoding='UTF-8'?>");
-                if ($comment)
+                if ($comment) {
                     fputs($f, "\n\n<!-- $comment -->\n");
+                }
                 $this->generateNode($a, 0, $f); //обратимся к Дзену!
                 fflush($f);
                 flock($f, LOCK_UN);
@@ -172,7 +149,7 @@ class PWEXML extends PWEXMLFunctions implements Setupable
             $tmp_arr = array();
             $this->FileToArray($fname, $tmp_arr);
         } catch (Exception $e) {
-            PWELogger::error("Resulting xml file is broken: %s", $fname, $e);
+            PWELogger::error("Resulting xml file is broken %s: %s", $fname, $e);
             if (is_file($bak_file)) {
                 copy($bak_file, $fname);
             } else {
@@ -185,15 +162,6 @@ class PWEXML extends PWEXMLFunctions implements Setupable
         return true;
     }
 
-    //////////////////////////////////////////////////////.//
-    #                                                       #
-    # Перегонка массива иерарохуического назад в XML-строку #
-    # Примечание: первая срока с версией не включена        #
-    #                                                       #
-    # Вход:  тот самый массив                               #
-    # Выход: строка XML                                     #
-    #                                                       #
-    /////////////////////////////////////////////////////////
     private function generateNode(array &$struct, $level, &$fp)
     {
         // оптимизировал все вусмерть
@@ -247,22 +215,8 @@ class PWEXML extends PWEXMLFunctions implements Setupable
         fputs($fp, $l);
     }
 
-    ////////////////////////////////////////////////////////
-    #                                                      #
-    # Рекурсивная функция перегонки простого массива       #
-    # в иерарохуический                                    #
-    #                                                      #
-    # Вход:  простой массив,                               #
-    # текущий уровень, текущий элемент - оба для рекурсии  #
-    # Выход: кусок иерархического массива                  #
-    #                                                      #
-    ////////////////////////////////////////////////////////
     private function GetChildren(array &$res, &$i, $level)
     {
-        // 09.10.2005 17:57:22 целый день потратил на оптимизацию
-        // но не зря - есть надежный прирост в производительности
-        // все пришлось переделать в рекурсию памяти Асии Асхатовны Валеевой
-        // в конце концов без Дзена не обошлось на выход в астрал ушел целый день
         $parent = &$res;
         if ($level > 1)
             $res = &$res['!c'];
@@ -290,21 +244,7 @@ class PWEXML extends PWEXMLFunctions implements Setupable
         }
     }
 
-    /**
-     * рекурсивная функция формирования кэш-файла
-     * для иерархического массива, ускоряющего парсинг
-     * @param array $harray
-     * @param $index
-     * @param bool $filename
-     * @param bool|$md5_xml контрольная
-     * @param array|bool $path
-     * @param bool|$comment комментарий
-     * @internal param \PWE\Utils\комментарий $comment , который будет добавлен в начало файла кэша
-     * @internal param \PWE\Utils\контрольная $md5_xml сумма исходного ХМЛ-файла
-     * @return bool|string
-     */
-    private function ArrayToPHP(
-        array &$harray, $index, $filename = false, $md5_xml = false, $path = array(), $comment = false)
+    private function ArrayToPHP(array &$harray, $index, $filename = false, $md5_xml = false, $path = array(), $comment = false)
     {
         $result = '';
         // цикл по типам узлов
@@ -343,7 +283,6 @@ class PWEXML extends PWEXMLFunctions implements Setupable
             $result .= $index . "),\n";
         }
 
-        // сохраняем файлик
         if ($filename) {
             $f = fopen($filename, 'w+');
             if ($f) {
@@ -358,7 +297,6 @@ class PWEXML extends PWEXMLFunctions implements Setupable
             }
             return true;
         }
-        // возврат из рекурсивных функций
         return $result;
     }
 
@@ -369,7 +307,6 @@ class PWEXML extends PWEXMLFunctions implements Setupable
 
     private function parent_links(array &$harray, array &$parent)
     {
-        // цикл по типам узлов
         foreach ($harray as $ek => $ev) {
             foreach ($ev as $nk => $nv) {
                 // parent
@@ -390,5 +327,3 @@ class PWEXML extends PWEXMLFunctions implements Setupable
     }
 
 }
-
-// CLASS болду
