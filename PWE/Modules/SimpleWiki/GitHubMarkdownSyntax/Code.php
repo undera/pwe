@@ -11,14 +11,14 @@ class Code extends Block
     public $type = 'pre';
     protected $isOpen = false;
     /** Nom du langage de programmation */
-    private $_programmingLanguage = '';
+    protected $_programmingLanguage = '';
     /** This object shouldn't be cloned. */
     protected $_mustClone = false;
     /** Raw content of the code block. */
-    private $_currentContent = '';
+    protected $_currentContent = '';
     /** GeSHi object. */
-    static private $_geshi = null;
-    private $needsClosing = false;
+    static protected $_geshi = null;
+    protected $needsClosing = false;
 
     public static function isMyLine($string)
     {
