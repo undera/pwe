@@ -64,7 +64,7 @@ abstract class PWEAutoloader
     {
         $res = self::autoloadClassFromCache($name) || self::seekAll($name) || self::seekIncludes($name) || self::seekBacktraces($name);
         if (!$res || (!class_exists($name) && !interface_exists($name))) {
-            PWELogger::warn("Class not found: %s", $name);
+            PWELogger::info("Class not found: %s", $name);
             return false;
         }
         return true;
