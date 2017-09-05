@@ -9,7 +9,7 @@
             <tr>
                 {/if}
                 <td><a title="{$item.$aKey.description}"
-                       href="{$item.$aKey.link}/">{$item.$aKey.title|default:$item.$aKey.link}</a></td>
+                       href="{$item.$aKey.link}">{$item.$aKey.title|default:$item.$aKey.link}</a></td>
                 {/foreach}
             </tr>
         </table>
@@ -18,11 +18,11 @@
             {foreach from=$subpages item=item}
                 {if $item.$aKey.menu}
                     <li><a title="{$item.$aKey.description}"
-                           href="{$item.$aKey.link}/">{$item.$aKey.title|default:$item.$aKey.link}</a></li>
+                           href="{$item.$aKey.link}">{$item.$aKey.title|default:$item.$aKey.link}</a></li>
                 {/if}
             {/foreach}
         </ul>
     {/if}
 {else}
-    Раздел в состоянии разработки
+    This area is under construction
 {/if}

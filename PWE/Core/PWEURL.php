@@ -75,7 +75,7 @@ class PWEURL implements SmartyAssociative
         }
 
         if (end($this->URLArray) && !$this->hadTrailingSlash) {
-            if ($this->node['!i']['force_trailing_slash'] || !isset($this->node['!i']['force_trailing_slash'])) {
+            if ($this->isForcedTrailingSlash()) {
                 if (!strstr(end($this->URLArray), '.')) {
                     $url = $this->URL . '/';
                     if ($_GET) {
@@ -211,4 +211,20 @@ class PWEURL implements SmartyAssociative
         return $this->failure;
     }
 
+
+    /**
+     * @return bool
+     */
+    public function isHadTrailingSlash()
+    {
+        return $this->hadTrailingSlash;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isForcedTrailingSlash()
+    {
+        return $this->node['!i']['force_trailing_slash'] || !isset($this->node['!i']['force_trailing_slash']);
+    }
 }

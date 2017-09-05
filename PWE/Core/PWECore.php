@@ -460,10 +460,18 @@ class PWECore
 
         foreach ($eg_node['!c']['url'] as $v) {
             PWELogger::info('Jump To First Сhild: %s', $v['!a']['link']);
-            $jumpTo = $v['!a']['link'] . '/';
+            $jumpTo = $v['!a']['link'];
+
+            if ($this->URL->isForcedTrailingSlash()) {
+                $jumpTo .= '/';
+            } else {
+                $jumpTo = implode('/', $this->URL->getMatchedAsArray()) . '/' . $jumpTo;
+            }
+
             if (isset($_SERVER["QUERY_STRING"]) && strlen($_SERVER["QUERY_STRING"])) {
                 $jumpTo .= '?' . $_SERVER["QUERY_STRING"];
             }
+
             throw new HTTP3xxException($jumpTo, HTTP3xxException::REDIRECT);
         }
     }
