@@ -44,7 +44,7 @@ class RedirectAccepted extends PWEModule implements Outputable
         $uri = preg_replace('!([^:])/{2,}!', '\\1/', $uri);
 
         // переадресация
-        throw new HTTP3xxException($uri, HTTP3xxException::PERMANENT);
+        throw new HTTP3xxException($uri, HTTP3xxException::REDIRECT);
     }
 
 }
