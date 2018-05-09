@@ -17,7 +17,7 @@
     "doctrine/dbal": "~2.5",
     "smarty/smarty": "~3.1",
     "amaury/wikirenderer": "dev-master",
-    "geshi/geshi": "dev-master"
+    "geshi/geshi": "~1"
   },
   "autoload": {
     "psr-0": {

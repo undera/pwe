@@ -19,7 +19,7 @@ class Link extends TagXhtml
     {
         // management of single parameter
         if ($this->separatorCount == 0) {
-            throw new \RuntimeException("Not supported");
+            throw new \RuntimeException("Link syntax with single separator is not supported");
             $this->separatorCount = 1;
             $href = $this->wikiContentArr[0];
             list($href, $label, $targetBlank, $nofollow) = $this->config->processLink($href, $this->name);
