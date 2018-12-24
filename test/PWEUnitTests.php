@@ -20,7 +20,7 @@ PWELogger::setLevel(PWELogger::DEBUG);
 
 PWEAutoloader::addSourceRoot(__DIR__);
 PWEAutoloader::addSourceRoot(__DIR__ . '/..');
-PWEAutoloader::addSourceRoot(__DIR__ . '/../../vendor/');
+PWEAutoloader::addSourceRoot(__DIR__ . '/../vendor/');
 PWEAutoloader::addSourceRoot('/usr/share/php');
 PWEAutoloader::activate();
 

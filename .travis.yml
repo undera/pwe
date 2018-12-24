@@ -9,7 +9,7 @@ before_script:
     - travis_retry composer self-update
     - travis_retry composer install --no-interaction --prefer-source --dev
 
-script: phpunit --bootstrap test/PWEUnitTests.php --coverage-clover=coverage.xml test
+script: vendor/phpunit/phpunit/phpunit --bootstrap test/PWEUnitTests.php --coverage-clover=coverage.xml test
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
