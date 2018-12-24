@@ -8,6 +8,8 @@ use PWE\Utils\FilesystemHelper;
 
 error_reporting(E_ALL ^ E_NOTICE);
 
+require_once __DIR__."/../vendor/autoload.php";
+
 $src = __DIR__ . '/..';
 require_once $src . '/PWE/Core/PWELogger.php';
 require_once $src . '/PWE/Core/PWEAutoloader.php';
