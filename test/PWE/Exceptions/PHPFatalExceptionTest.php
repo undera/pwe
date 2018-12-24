@@ -46,7 +46,7 @@ class PHPFatalExceptionTest extends \PHPUnit_Framework_TestCase
     {
         try {
             /** @noinspection PhpParamsInspection */
-            PHPFatalException::errorHandler("-1", "Test"); # intended to be wrong
+            PHPFatalException::errorHandler("-1", "Test", "file", 59); # intended to be wrong
         } catch (PHPFatalException $e) {
             echo("Caught: " . $e->__toString());
         }

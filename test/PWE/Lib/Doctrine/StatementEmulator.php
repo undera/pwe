@@ -38,12 +38,12 @@ class StatementEmulator implements \IteratorAggregate, Statement
 
     }
 
-    public function fetch($fetchStyle = PDO::FETCH_BOTH)
+    public function fetch($fetchMode = null, $cursorOrientation = PDO::FETCH_ORI_NEXT, $cursorOffset = 0)
     {
 
     }
 
-    public function fetchAll($fetchStyle = PDO::FETCH_BOTH)
+    public function fetchAll($fetchMode = null, $fetchArgument = null, $ctorArgs = null)
     {
 
     }
