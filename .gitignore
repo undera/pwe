@@ -12,3 +12,4 @@ dirs
 debian/files
 .idea
 /vendor/
+*.iml
