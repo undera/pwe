@@ -22,4 +22,3 @@ class PWEXMLFunctionsTest extends \PHPUnit_Framework_TestCase
 
 }
 
-?>

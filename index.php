@@ -98,4 +98,3 @@ if (php_sapi_name() == 'cli') {
     }
     PWELogger::info('Done %s %s in %s', php_sapi_name(), $uri, (microtime(true) - $started));
 }
-?>

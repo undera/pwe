@@ -122,4 +122,3 @@ class PWEXMLTest extends \PHPUnit_Framework_TestCase
 
 }
 
-?>

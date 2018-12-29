@@ -12,7 +12,7 @@ class CMDLinePWECoreTest extends \PHPUnit_Framework_TestCase
 
     public function testGetNode()
     {
-        $this->object = new CMDLinePWECore(tempnam('/tmp', 'registry'));
+        $this->object = new CMDLinePWECore();
         $this->object->getNode();
     }
 
