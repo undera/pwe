@@ -63,6 +63,11 @@ class Code extends Block
         $start = '<pre class="' . $this->_programmingLanguage . '"';
         if (substr($result, 0, strlen($start)) == $start)
             $result = '<pre class="language-' . $this->_programmingLanguage . '"' . substr($result, strlen($start));
+
+        $result .= '<style type="text/css"><!--';
+        // Echo out the stylesheet for this code block
+        $result .= self::$_geshi->get_stylesheet();
+        $result .= '--></style>';
         return ($result);
     }
 
