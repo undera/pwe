@@ -18,7 +18,10 @@ class CodeTest extends \PHPUnit_Framework_TestCase
     public function testGetRenderedLine_anchored()
     {
         $res = $this->object->render("[[[python\nprint(1+varname)\n]]]");
-        $this->assertEquals('', $res);
+        $this->assertContains("<style>", $res);
+        $this->assertContains("print", $res);
+        $this->assertContains("<pre", $res);
+        $this->assertContains(".python", $res);
     }
 
 }
